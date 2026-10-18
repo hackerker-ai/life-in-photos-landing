@@ -1,0 +1,5 @@
+# Real family photos and their copies. Never commit these.
+assets/photos/
+face-swap/to-process/
+face-swap/swapped/
+face-swap/face-swap-kit.zip

@@ -1,0 +1,20 @@
+# Dependencies and build output
+node_modules/
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+.vercel/
+
+# Secrets: copy .env.example to .env.local
+.env
+.env.*
+!.env.example
+
+.DS_Store
+
+# Real family photos used while designing. They stay on the Mac mini and never go to git.
+prototypes/story-real/assets/photos/
+prototypes/story-real/face-swap/to-process/
+prototypes/story-real/face-swap/swapped/
+prototypes/story-real/face-swap/*.zip

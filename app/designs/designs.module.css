@@ -1,0 +1,490 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@400;500;600;700&family=Fraunces:ital,wght@0,500;0,600;0,700;0,800;1,500&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+.scope { --ink: #28271f; --muted: #68665b; --accent: #843d29; --line: #d8d1bf; --surface: #f5f1e6; color: var(--ink); background: var(--surface); font: 400 16px/1.6 'DM Sans', sans-serif; min-height: 100svh; overflow: clip; }
+.scope *, .scope *::before, .scope *::after { box-sizing: border-box; }
+.scope h1, .scope h2, .scope h3, .scope p, .scope figure { margin: 0; }
+.scope h1, .scope h2, .scope h3 { color: inherit; text-wrap: balance; }
+.scope h1, .scope h2 { font-weight: 400; letter-spacing: -.045em; }
+.scope h3 { font-size: 22px; line-height: 1.2; font-weight: 500; }
+.scope a { color: inherit; text-decoration: none; }
+.scope img { display: block; width: 100%; object-fit: cover; }
+.scope svg { width: 22px; height: 22px; flex-shrink: 0; }
+.scope a:focus-visible, .scope button:focus-visible, .scope input:focus-visible { outline: 3px solid currentColor; outline-offset: 5px; }
+.scope [id] { scroll-margin-top: 32px; }
+.scope ::selection { background: #e4b570; color: #242017; }
+.header { height: 104px; margin: 0 5%; display: flex; align-items: center; justify-content: space-between; gap: 24px; border-bottom: 1px solid var(--line); position: relative; z-index: 2; }
+.wordmark { display: inline-flex; align-items: center; gap: 10px; font-size: 24px; font-weight: 600; letter-spacing: -.06em; white-space: nowrap; }
+.wordmark svg { width: 27px; height: 27px; }
+.headerNote { font-size: 12px; color: var(--muted); }
+.navCta { display: inline-flex; align-items: center; gap: 18px; font-size: 13px; padding: 10px 0; }
+.eyebrow { font-size: 10px; line-height: 1.5; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; }
+.lead { font-size: 16px; line-height: 1.8; max-width: 450px; color: var(--muted); }
+.signup { width: 100%; max-width: 490px; }
+.scope :global(.waitlist-form) { margin: 0; width: 100%; max-width: none; }
+.scope :global(.form-row) { display: flex; gap: 8px; border: 0; background: none; padding: 0; border-radius: 0; }
+.scope :global(.form-row input) { min-width: 0; flex: 1 1 0%; width: 100%; height: 52px; padding: 0 15px; border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: 0; box-shadow: none; font: inherit; font-size: 13px; }
+.scope :global(.form-row input)::placeholder { color: var(--muted); opacity: 1; }
+.scope :global(.form-row button) { flex: 0 0 auto; min-height: 52px; padding: 0 20px; border: 1px solid var(--accent); border-radius: 0; color: #fff; background: var(--accent); font: inherit; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: opacity .2s; }
+.scope :global(.form-row button):hover { opacity: .84; }
+.scope :global(.form-row button):disabled { opacity: .55; cursor: progress; }
+.scope :global(.form-note) { margin: 10px 0 0; color: var(--muted); font-size: 10px; line-height: 1.6; }
+.scope :global(.form-message) { margin-top: 14px; font-size: 13px; color: var(--ink); }
+.scope :global(.form-message.error) { color: #ad2e24; }
+.scope :global(.honeypot), .scope :global(.sr-only) { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.safety { display: flex; align-items: center; gap: 7px; margin-top: 20px !important; font-size: 10px; color: var(--muted); }
+.safety svg { width: 16px; height: 16px; }
+.safetyLight { color: #d2dcd9; }
+.futureNote { display: block; font-size: 11px; line-height: 1.7; opacity: .72; margin-top: 18px; }
+.footer { background: none; padding: 36px 5% 110px; margin: 0; display: flex; justify-content: space-between; align-items: center; gap: 24px; border-top: 1px solid var(--line); color: var(--ink); }
+.footer > span, .footer > a { font-size: 11px; }
+.footer > a { display: inline-flex; align-items: center; gap: 12px; }
+.explorer { position: fixed; z-index: 50; bottom: 18px; left: 50%; transform: translateX(-50%); margin: 0; padding: 6px; display: flex; gap: 4px; align-items: center; width: max-content; max-width: calc(100vw - 24px); border-radius: 99px; border: 1px solid #dcdcd6; background: #fffdf9; box-shadow: 0 8px 30px #0002; color: #292b29; font: 500 12px/1 'DM Sans', sans-serif; }
+.explorer a { padding: 13px 14px; border-radius: 99px; color: #292b29; }
+.explorer a:hover { background: #eceee8; }
+.explorer a[aria-current] { background: #263b32; color: #fff; }
+.explorer .explorerBack { padding-left: 18px; }
+.explorerDivider { width: 1px; height: 18px; background: #d5d8d1; }
+.skip { position: fixed; left: 16px; top: -100px; padding: 12px; background: #fff; color: #222 !important; z-index: 100; }
+.skip:focus { top: 16px; }
+
+/* 01: a warm, carefully typeset family journal. */
+.journal { background: radial-gradient(ellipse at 8% 15%, #fffcf5 0, transparent 48%), #f5f1e6; }
+.journal .wordmark { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 30px; }
+.journalHero { display: grid; grid-template-columns: 1.1fr 1fr; gap: 5.5%; padding: 64px 5% 58px; max-width: 1600px; margin: 0 auto; }
+.journalCopy { align-self: center; padding-bottom: 20px; }
+.journal h1 { font: 400 clamp(64px, 7.5vw, 120px)/.89 'Cormorant Garamond', Georgia, serif; letter-spacing: -.055em; margin: 30px 0 28px; }
+.journal h1 em { white-space: nowrap; color: var(--accent); font-weight: 400; }
+.journalCopy .lead { max-width: 390px; font-size: 14px; margin-bottom: 28px; }
+.journalPortrait { position: relative; align-self: start; margin-top: 8px !important; }
+.journalPortrait > img { aspect-ratio: 4/5; object-position: 50% 40%; }
+.journalPortrait figcaption { display: flex; justify-content: space-between; padding-top: 13px; font-size: 10px; gap: 10px; }
+.journalPortrait figcaption > span:first-child { font-size: 9px; letter-spacing: .12em; }
+.journalPortrait figcaption > span:last-child { font: italic 18px 'Cormorant Garamond', serif; }
+.journalSeal { position: absolute; right: -28px; top: -32px; width: 116px; height: 116px; border-radius: 50%; background: #e6b25d; display: flex; align-items: center; justify-content: center; flex-direction: column; font-size: 9px; line-height: 1.5; text-align: center; letter-spacing: .12em; transform: rotate(12deg); }
+.journalSeal em { font: italic 17px 'Cormorant Garamond', serif; letter-spacing: 0; }
+.journalRule { margin: 0 5%; padding: 22px 0; border-block: 1px solid var(--line); display: flex; justify-content: space-between; font: italic 20px 'Cormorant Garamond', serif; }
+.journalProcess { padding: 100px 8%; display: grid; grid-template-columns: 1fr 1fr; gap: 10%; }
+.journal h2 { font: 400 clamp(42px, 4.5vw, 72px)/1.02 'Cormorant Garamond', Georgia, serif; letter-spacing: -.04em; }
+.journalProcess h2 { margin: 24px 0; }
+.journalProcess > div > p:last-child { color: var(--muted); font-size: 14px; max-width: 370px; }
+.journalSteps { list-style: none; margin: 0; padding: 0; }
+.journalSteps li { border-top: 1px solid var(--line); padding: 26px 0; display: flex; gap: 26px; }
+.journalSteps li > span { font: italic 30px 'Cormorant Garamond', serif; color: var(--accent); }
+.journalSteps h3 { font: 500 27px 'Cormorant Garamond', serif; margin-bottom: 9px; }
+.journalSteps p { font-size: 13px; color: var(--muted); max-width: 300px; }
+.journalVision { padding: 95px 5%; text-align: center; background: #e9e3d4; }
+.journalVision h2 { margin: 26px 0; }
+.journalVision > p:not(.eyebrow) { max-width: 480px; margin: 0 auto; font-size: 14px; color: var(--muted); }
+.journalEnd { padding: 100px 5%; text-align: center; }
+.journalEnd h2 { margin: 24px auto 32px; }
+.journalEnd .signup { margin: 0 auto; }
+
+/* 02: bright ink, painted paper, imperfect shapes. */
+.scrapbook { --surface: #fff8dc; --ink: #25358c; --accent: #c84431; --muted: #575a70; --line: #d7cfad; --logo-line: #fff8dc; background: radial-gradient(#d5b97740 .7px, transparent .7px) 0 0 / 6px 6px, var(--surface); }
+.scrapbook .header { border: 0; }
+.scrapbook .wordmark { font-family: 'Fraunces', Georgia, serif; font-size: 25px; }
+.scrapbook .navCta { border: 1px solid var(--ink); padding: 10px 20px; border-radius: 30px; }
+.scrapHero { position: relative; text-align: center; padding: 38px 5% 0; }
+.scrapTag { display: inline-block; padding: 6px 14px; border: 1px solid #d5c793; border-radius: 99px; font-size: 9px; letter-spacing: .1em; }
+.scrapHero h1 { font: 700 clamp(76px, 9.5vw, 148px)/.9 'Fraunces', Georgia, serif; letter-spacing: -.055em; margin: 22px auto; }
+.scrapHero h1 span { color: #c84431; position: relative; }
+.scrapHero h1 span::after { content: ''; position: absolute; height: 9px; left: 3%; right: 0; bottom: -5px; border-bottom: 4px solid #c84431; border-radius: 50%; transform: rotate(-3deg); }
+.scrapHero .lead { margin: 30px auto 24px; font-size: 14px; max-width: 450px; }
+.scrapHero .signup { margin: 0 auto; }
+.scrapHero .safety { justify-content: center; }
+.scrapbook :global(.form-row input) { background: #fffdf6; border: 1px solid #b3ac8a; border-radius: 6px; }
+.scrapbook :global(.form-row button) { border-radius: 6px; box-shadow: 3px 3px 0 #863123; }
+.scrapDoodle { position: absolute; top: 95px; right: 18%; font: 170px/.8 'Fraunces', serif; color: #d59a29; transform: rotate(-15deg); }
+.scrapPicture { max-width: 980px; margin: 28px auto 0 !important; position: relative; }
+.scrapPicture img { aspect-ratio: 1.8; object-fit: cover; border-radius: 48% 48% 0 0 / 20% 20% 0 0; mix-blend-mode: multiply; }
+.scrapPicture figcaption { position: absolute; bottom: 28px; right: -12px; transform: rotate(-7deg); background: #fff9e7; padding: 15px 22px; color: #a33828; box-shadow: 3px 4px 0 #33270830; font: italic 25px 'Fraunces', serif; }
+.scrapRibbon { background: #25358c; color: #fff8dc; padding: 22px 5%; display: flex; justify-content: space-around; align-items: center; gap: 20px; font: 500 24px 'Fraunces', serif; }
+.scrapRibbon b { color: #f1bf48; font-size: 40px; line-height: .5; }
+.scrapProcess { padding: 90px 6% 110px; text-align: center; }
+.scrapbook h2 { font: 600 clamp(40px, 4.8vw, 72px)/1.07 'Fraunces', Georgia, serif; letter-spacing: -.04em; }
+.scrapProcess h2 { margin: 18px auto 48px; }
+.scrapCards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; max-width: 1160px; margin: 0 auto; }
+.scrapCards article { text-align: left; border: 1px solid #d1bb8a; background: #f8cf71; padding: 32px; border-radius: 4px; transform: rotate(-2deg); box-shadow: 5px 5px 0 #3525110d; }
+.scrapCards article:nth-child(2) { background: #efb8a1; transform: rotate(2deg); }
+.scrapCards article:nth-child(3) { background: #c7d4b2; transform: rotate(-1deg); }
+.scrapNumber { display: grid; place-items: center; border: 1px solid currentColor; border-radius: 50%; width: 38px; height: 38px; font: 22px 'Fraunces', serif; margin-bottom: 34px; }
+.scrapCards h3 { font: 600 29px/1.1 'Fraunces', serif; margin-bottom: 18px; }
+.scrapCards p { font-size: 13px; color: #424862; }
+.cardFoot { display: block; border-top: 1px solid #33417940; padding-top: 20px; margin-top: 28px; font-size: 8px; letter-spacing: .07em; }
+.scrapVision { padding: 60px 12% 100px; display: flex; gap: 8%; align-items: center; }
+.scrapVision h2 { margin: 18px 0; font-size: clamp(36px, 4vw, 62px); }
+.scrapVision p:not(.eyebrow) { max-width: 460px; font-size: 14px; }
+.scrapStamp { flex: 0 0 180px; height: 180px; display: grid; place-content: center; text-align: center; border-radius: 43% 57% 55% 45%; background: #edbc44; font: 600 31px/1.1 'Fraunces', serif; transform: rotate(-13deg); }
+.scrapEnd { position: relative; padding: 85px 5%; background: #25358c; color: #fff8dc; text-align: center; }
+.scrapEnd h2 { margin: 20px auto 35px; }
+.scrapEnd .signup { margin: 0 auto; position: relative; z-index: 1; }
+.scrapEnd :global(.form-note) { color: #d7dcef; }
+.scrapEndStar { position: absolute; right: 11%; top: 80px; font: 200px 'Fraunces', serif; color: #edbc44; transform: rotate(10deg); }
+.scrapbook .footer { border: 0; }
+
+/* 03: a wide frame, low light and slow, quiet typography. */
+.cinema { --surface: #101e21; --ink: #f1eee4; --accent: #e5c8a2; --muted: #b2bebd; --line: #ffffff26; --logo-line: #152329; background: #101e21; }
+.cinema .wordmark { font-family: 'DM Sans', sans-serif; font-size: 22px; font-weight: 400; letter-spacing: -.06em; }
+.cinemaOpening { min-height: 850px; height: min(960px, 100svh); position: relative; background: #11282e; }
+.cinemaBackdrop { position: absolute; width: 100%; height: 100%; inset: 0; object-position: center; }
+.cinemaOpening::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg,#071c25d9 0%,#0d20266b 48%,transparent 78%),linear-gradient(0deg,#101e21,transparent 22%); pointer-events: none; }
+.cinema .header { z-index: 3; border-color: #ffffff40; }
+.cinema .headerNote { color: #d1d5cd; }
+.cinemaHero { position: relative; z-index: 2; padding: 66px 6% 65px; }
+.cinema h1 { font: 400 clamp(66px, 7vw, 110px)/.98 'Archivo', sans-serif; letter-spacing: -.065em; margin: 22px 0 26px; }
+.cinema h1 em { font: italic 400 1.25em/.85 'Cormorant Garamond', serif; letter-spacing: -.03em; color: #ebceaa; }
+.cinemaHero .lead { font-size: 14px; color: #d1d7d3; margin-bottom: 26px; }
+.cinema .signup { max-width: 455px; }
+.cinema :global(.form-row input) { border-color: #d3dad769; background: #11252a66; color: #fff; }
+.cinema :global(.form-row button) { color: #17292b; }
+.cinema :global(.form-message.error) { color: #ffc0ab; }
+.cinemaCaption { position: absolute; right: 6%; bottom: 55px; text-align: right; display: flex; flex-direction: column; gap: 15px; }
+.cinemaCaption span:first-child { font-size: 9px; letter-spacing: .17em; }
+.cinemaCaption span:last-child { font: italic 23px/1.3 'Cormorant Garamond', serif; }
+.cinemaIntro { padding: 110px 5% 70px; text-align: center; }
+.cinema h2 { font: 400 clamp(42px,5vw,76px)/1.1 'Cormorant Garamond', Georgia, serif; letter-spacing: -.025em; }
+.cinemaIntro h2 { margin: 32px 0; }
+.cinemaIntro h2 em { color: #e5c8a2; }
+.cinemaIntro > p:last-child { margin: 0 auto; max-width: 430px; font-size: 13px; color: var(--muted); }
+.cinemaFrames { display: grid; grid-template-columns: .8fr 1.2fr 1fr; gap: 28px; padding: 20px 6% 90px; align-items: center; }
+.cinemaFrames img { aspect-ratio: 3/4; filter: saturate(.62); }
+.cinemaFrames figure:nth-child(2) img { aspect-ratio: 1; }
+.cinemaFrames figure:nth-child(3) img { aspect-ratio: 4/5; object-position: 82% center; }
+.cinemaFrames figcaption { margin-top: 14px; color: #c2c7bf; font-size: 11px; }
+.cinemaFrames figcaption span { display: inline-block; margin-right: 18px; color: #e5c8a2; font-size: 9px; }
+.cinemaProcess { margin: 0 6%; border-block: 1px solid var(--line); padding: 45px 0 65px; }
+.cinemaProcess > div { display: grid; grid-template-columns: repeat(3,1fr); gap: 70px; margin-top: 46px; }
+.cinemaProcess article > span { font-size: 9px; color: #e5c8a2; letter-spacing: .14em; }
+.cinemaProcess h3 { font: 400 27px/1.3 'Archivo', sans-serif; margin: 20px 0 16px; letter-spacing: -.04em; }
+.cinemaProcess article p { color: var(--muted); font-size: 13px; max-width: 260px; }
+.cinemaEnd { padding: 110px 5% 70px; background: radial-gradient(ellipse at 50% 100%,#334a49 0,transparent 70%); text-align: center; }
+.cinemaEnd h2 { margin: 24px auto 34px; }
+.cinemaEnd .signup { margin: 0 auto; }
+.cinemaVision { max-width: 475px; margin: 90px auto 0; }
+.cinemaVision > span { font: italic 23px 'Cormorant Garamond', serif; color: #e5c8a2; }
+.cinemaVision p { color: var(--muted); font-size: 11px; margin-top: 15px; }
+
+/* 04: spacious modern gallery, bright blue and typographic order. */
+.gallery { --surface: #f7f8f5; --ink: #20241f; --muted: #62695e; --accent: #234cdf; --line: #d5dad2; font-family: 'Manrope', sans-serif; }
+.gallery .header { height: 88px; }
+.gallery .wordmark { font-size: 22px; font-weight: 800; }
+.gallery .navCta { border-radius: 30px; padding: 9px 18px; border: 1px solid var(--ink); font-size: 11px; }
+.galleryHero { padding: 58px 5% 0; background: radial-gradient(ellipse at 80% 0,#e3eafc70, transparent 40%); }
+.galleryHeading { display: grid; grid-template-columns: 1.7fr 1fr; gap: 7%; align-items: end; margin-bottom: 48px; }
+.gallery h1 { font: 600 clamp(52px,6.5vw,104px)/1.03 'Manrope', sans-serif; letter-spacing: -.07em; }
+.gallery h1 span { color: var(--accent); }
+.galleryHeading .lead { font-size: 13px; margin: 15px 0 20px; max-width: 330px; }
+.galleryTextLink { display: inline-flex; gap: 15px; align-items: center; font-size: 11px; color: var(--accent) !important; }
+.galleryBoard { border: 1px solid var(--line); padding: 18px 18px 0; background: #ebeee7; }
+.galleryRail { display: flex; justify-content: space-between; font-size: 8px; letter-spacing: .12em; margin-bottom: 17px; }
+.galleryPhotoGrid { display: grid; grid-template-columns: 1fr 1.45fr .8fr; gap: 18px; align-items: center; }
+.gallerySide img { aspect-ratio: .95; }
+.gallerySide:last-child img { aspect-ratio: .75; object-position: 84% center; }
+.gallerySide figcaption { font-size: 9px; margin-top: 10px; }
+.galleryFeature { background: var(--accent); padding: 10px; color: #fff; }
+.galleryFeature img { aspect-ratio: 1.28; object-position: 50% 38%; }
+.galleryPhotoLabel { display: flex; padding: 16px 6px 6px; justify-content: space-between; align-items: center; gap: 16px; }
+.galleryPhotoLabel > span:first-child { font-size: 36px; line-height: 1; font-weight: 500; letter-spacing: -.08em; }
+.galleryPhotoLabel > span:nth-child(2) { margin-right: auto; font-size: 10px; line-height: 1.5; }
+.galleryPhotoLabel b { font-size: 27px; font-weight: 300; }
+.galleryBoardBottom { display: flex; justify-content: space-between; gap: 16px; padding: 17px 0; align-items: baseline; }
+.galleryBoardBottom p { font-size: 15px; font-weight: 600; letter-spacing: -.03em; }
+.galleryBoardBottom > span { font-size: 9px; color: var(--muted); }
+.gallerySignup { display: grid; grid-template-columns: 1fr 1fr; gap: 7%; padding: 36px 0; border-bottom: 1px solid var(--line); align-items: center; }
+.gallerySignup > div:first-child { font-size: 9px; letter-spacing: .09em; }
+.galleryDot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #45613c; margin-right: 8px; }
+.gallerySignup > div:first-child p { margin-top: 8px; font-size: 21px; letter-spacing: -.045em; }
+.gallery .signup { max-width: 520px; }
+.gallery :global(.form-row input) { border-radius: 5px; background: #fff; }
+.gallery :global(.form-row button) { border-radius: 5px; }
+.galleryProcess { padding: 100px 5%; display: grid; grid-template-columns: 1fr 1.5fr; gap: 7%; }
+.gallery h2 { font: 600 clamp(37px,4.2vw,64px)/1.1 'Manrope', sans-serif; letter-spacing: -.055em; }
+.gallerySectionTitle h2 { margin-top: 22px; }
+.galleryRows article { display: grid; grid-template-columns: 35px 1fr 1fr; gap: 25px; padding: 30px 0; border-top: 1px solid var(--line); }
+.galleryRows article > span { font-size: 12px; color: var(--accent); }
+.galleryRows h3 { font-size: 18px; line-height: 1.35; letter-spacing: -.04em; font-weight: 600; }
+.galleryRows p { font-size: 12px; line-height: 1.8; color: var(--muted); }
+.galleryVision { padding: 70px 10%; background: #e6eaff; }
+.galleryVision > div { display: grid; grid-template-columns: 1fr 1fr; gap: 15%; align-items: center; margin-top: 30px; }
+.galleryVision h2 { font-size: clamp(50px,6vw,88px); }
+.galleryVision h2 span { color: var(--accent); }
+.galleryVision > div > div p { font-size: 14px; margin-bottom: 20px; }
+.galleryVision > div > div p:first-child { font-size: 24px; font-weight: 500; line-height: 1.5; letter-spacing: -.03em; }
+.galleryEnd { padding: 85px 5%; background: var(--accent); color: #fff; display: grid; grid-template-columns: 1fr 1fr; gap: 10%; align-items: center; }
+.galleryEnd > div > p { margin-bottom: 25px; font-size: 13px; }
+.galleryEnd :global(.form-row button) { background: #202b4b; border-color: #202b4b; }
+.galleryEnd :global(.form-note) { color: #d2dbff; }
+.galleryEnd :global(.form-message) { color: #fff; }
+.galleryEnd .safety { color: #d2dbff; }
+
+/* Comparison page: the preview compositions are deliberately different too. */
+.index { --surface: #f5f5f0; --ink: #252d28; --accent: #2f4d3e; font-family: 'DM Sans', sans-serif; padding: 0 5%; }
+.indexHeader { display: flex; justify-content: space-between; align-items: center; padding: 34px 0; border-bottom: 1px solid var(--line); gap: 24px; }
+.indexHeader > span { font-size: 9px; letter-spacing: .1em; }
+.indexIntro { padding: 70px 0 55px; position: relative; }
+.indexIntro h1 { font: 400 clamp(55px,6.2vw,90px)/.99 'Cormorant Garamond', Georgia, serif; letter-spacing: -.045em; margin: 22px 0; }
+.indexIntro h1 em { color: #647357; }
+.indexIntro > p:last-child { max-width: 430px; font-size: 14px; color: var(--muted); }
+.designGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 55px 32px; }
+.designCard { min-width: 0; }
+.designPreview { display: block; position: relative; aspect-ratio: 1.48; overflow: hidden; isolation: isolate; transition: transform .3s ease,box-shadow .3s ease; }
+.designPreview:hover { transform: translateY(-5px); box-shadow: 0 16px 35px #19291e18; }
+.previewBrand { position: absolute; top: 7%; left: 6%; z-index: 2; font-size: 11px; font-weight: 600; letter-spacing: -.045em; }
+.previewHeadline { position: absolute; z-index: 2; }
+.previewOpen { position: absolute; left: 6%; bottom: 7%; z-index: 2; display: inline-flex; gap: 15px; align-items: center; font-size: 9px; border-bottom: 1px solid currentColor; padding-bottom: 5px; }
+.previewOpen svg { width: 15px; height: 15px; }
+.journalPreview { background: #ede6d7; color: #7b3928 !important; }
+.journalPreview img { position: absolute; width: 46%; height: 78%; right: 5%; bottom: 7%; }
+.journalPreview .previewHeadline { width: 55%; left: 6%; top: 29%; font: 400 clamp(24px,3.7vw,57px)/.97 'Cormorant Garamond', serif; letter-spacing: -.05em; }
+.scrapbookPreview { background: #fff3c5; color: #25358c !important; }
+.scrapbookPreview img { position: absolute; width: 62%; height: 64%; right: -1%; bottom: 0; mix-blend-mode: multiply; border-radius: 50% 30% 0 0; }
+.scrapbookPreview .previewHeadline { left: 6%; top: 24%; width: 65%; font: 700 clamp(26px,4vw,60px)/.97 'Fraunces', serif; letter-spacing: -.04em; }
+.cinemaPreview { background: #101e21; color: #fffbec !important; }
+.cinemaPreview img { position: absolute; width: 100%; height: 100%; inset: 0; }
+.cinemaPreview::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg,#071c25bb,transparent); }
+.cinemaPreview .previewHeadline { left: 6%; top: 30%; width: 56%; font: 400 clamp(24px,3.8vw,57px)/1.04 'Archivo', sans-serif; letter-spacing: -.055em; }
+.galleryPreview { background: #e9eef1; color: #234cdf !important; }
+.galleryPreview img { position: absolute; right: 5%; bottom: 7%; width: 41%; height: 58%; border: 8px solid #234cdf; }
+.galleryPreview .previewHeadline { left: 6%; top: 25%; width: 64%; font: 600 clamp(23px,3.4vw,51px)/1.08 'Manrope', sans-serif; letter-spacing: -.07em; }
+.designCardTitle { display: flex; align-items: center; justify-content: space-between; margin-top: 23px; gap: 20px; }
+.designCardTitle .eyebrow { font-size: 8px; letter-spacing: .08em; color: var(--muted); }
+.designCardTitle h2 { font: 500 28px/1.3 'Cormorant Garamond', Georgia, serif; letter-spacing: -.025em; margin-top: 7px; }
+.designArrow { width: 42px; height: 42px; display: grid; place-items: center; border: 1px solid #c9d0c5; border-radius: 50%; }
+.designArrow:hover { background: #e5e9e0; }
+.designCard > p { max-width: 460px; font-size: 12px; color: var(--muted); margin-top: 10px; }
+.indexNotes { display: grid; grid-template-columns: 1fr 1fr; gap: 15%; margin-top: 85px; border-top: 1px solid var(--line); padding: 55px 0 75px; }
+.indexNotes h2 { font: 400 39px/1.05 'Cormorant Garamond', Georgia, serif; margin: 18px 0; }
+.indexNotes p:not(.eyebrow) { font-size: 12px; color: var(--muted); }
+.indexNotes > div > a { padding: 15px 0; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 11px; }
+.indexNotes .indexDisclaimer { margin-top: 20px; font-size: 10px; }
+.indexFooter { padding: 25px 0 40px; margin: 0; border-top: 1px solid var(--line); background: none; color: var(--muted); display: flex; justify-content: space-between; gap: 24px; font-size: 10px; }
+
+@keyframes enter { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: no-preference) { .journalCopy, .scrapHero h1, .cinemaHero h1, .galleryHeading, .indexIntro { animation: enter .75s ease both; } .journalPortrait, .scrapPicture, .galleryBoard { animation: enter .95s .12s ease both; } }
+@media (min-width: 1700px) { .scope:not(.cinema) .header, .scope:not(.cinema) .footer { padding-inline: calc((100vw - 1530px)/2); margin-inline: 0; } .galleryHero, .galleryProcess { padding-inline: max(5%, calc((100vw - 1500px)/2)); } .index { padding-inline: max(5%, calc((100vw - 1450px)/2)); } }
+@media (max-width: 1000px) {
+  .headerNote { display: none; }
+  .journalHero { gap: 4%; padding-top: 50px; }
+  .journal h1 { font-size: 8vw; }
+  .journalSeal { right: -15px; width: 92px; height: 92px; top: -25px; font-size: 8px; }
+  .journalSeal em { font-size: 14px; }
+  .journalProcess { padding: 75px 6%; gap: 7%; }
+  .scope :global(.form-row button) { padding-inline: 14px; }
+  .scrapDoodle { right: 12%; font-size: 130px; }
+  .scrapCards { gap: 18px; }
+  .scrapCards article { padding: 25px; }
+  .scrapCards h3 { font-size: 25px; }
+  .scrapEndStar { right: 6%; font-size: 130px; }
+  .cinemaProcess > div { gap: 35px; }
+  .galleryHeading { grid-template-columns: 1.5fr 1fr; gap: 5%; }
+  .galleryProcess { grid-template-columns: 1fr; gap: 45px; }
+  .galleryRows article { grid-template-columns: 50px 1fr 1fr; }
+}
+@media (max-width: 700px) {
+  .scope { font-size: 14px; }
+  .header { height: 80px; margin-inline: 6%; gap: 15px; }
+  .wordmark, .gallery .wordmark, .cinema .wordmark { font-size: 20px; }
+  .journal .wordmark, .scrapbook .wordmark { font-size: 24px; }
+  .wordmark svg { width: 23px; height: 23px; }
+  .navCta { font-size: 10px; gap: 8px; }
+  .navCta svg { width: 17px; }
+  .eyebrow { font-size: 8px; letter-spacing: .11em; }
+  .scope :global(.form-row input), .scope :global(.form-row button) { min-height: 49px; height: 49px; font-size: 11px; }
+  .scope :global(.form-row button) { padding-inline: 13px; }
+  .scope :global(.form-row input) { padding-inline: 12px; }
+  .scope :global(.form-note) { font-size: 9px; }
+  .footer { padding: 28px 6% 100px; flex-wrap: wrap; gap: 18px; }
+  .footer > span { margin-left: auto; font-size: 9px; }
+  .footer > a { width: 100%; font-size: 10px; }
+  .explorer { bottom: 12px; }
+  .explorer a { padding: 12px 13px; }
+  .journalHero { grid-template-columns: 1fr; gap: 35px; padding: 44px 7% 35px; }
+  .journalCopy { padding-bottom: 0; }
+  .journal h1 { font-size: clamp(67px, 14vw, 100px); line-height: .91; margin: 23px 0; }
+  .journalCopy .lead { font-size: 13px; max-width: 380px; }
+  .journalPortrait { margin-top: 14px !important; }
+  .journalPortrait > img { aspect-ratio: 1.05; object-position: 50% 38%; }
+  .journalSeal { right: -14px; }
+  .journalRule { margin-inline: 7%; flex-direction: column; gap: 8px; font-size: 19px; }
+  .journalProcess { grid-template-columns: 1fr; gap: 40px; padding: 65px 7%; }
+  .journal h2 { font-size: 46px; }
+  .journalSteps li { padding: 23px 0; }
+  .journalVision, .journalEnd { padding: 65px 7%; }
+  .journalVision > p:not(.eyebrow) { font-size: 13px; }
+  .scrapbook .navCta { padding: 8px 12px; border-radius: 25px; }
+  .scrapbook .navCta svg { display: none; }
+  .scrapHero { padding: 30px 6% 0; }
+  .scrapHero h1 { font-size: clamp(73px,16vw,112px); margin: 28px auto; }
+  .scrapTag { font-size: 8px; }
+  .scrapHero .lead { font-size: 12px; margin-top: 22px; }
+  .scrapHero .lead br { display: none; }
+  .scrapDoodle { top: 62px; right: 5%; font-size: 85px; }
+  .scrapPicture { margin-top: 22px !important; margin-inline: -5% !important; }
+  .scrapPicture img { aspect-ratio: 1.35; }
+  .scrapPicture figcaption { bottom: 15px; right: 6px; padding: 9px 13px; font-size: 18px; }
+  .scrapRibbon { padding: 18px 6%; font-size: 15px; gap: 12px; }
+  .scrapRibbon span:last-child, .scrapRibbon b:last-of-type { display: none; }
+  .scrapProcess { padding: 60px 8%; }
+  .scrapbook h2 { font-size: 39px; }
+  .scrapProcess h2 { margin-bottom: 35px; }
+  .scrapCards { grid-template-columns: 1fr; gap: 24px; max-width: 440px; }
+  .scrapCards article { padding: 26px; }
+  .scrapNumber { float: right; margin: 0 0 15px 20px; }
+  .scrapCards h3 { font-size: 28px; }
+  .scrapVision { padding: 30px 8% 70px; flex-direction: column; align-items: start; gap: 26px; }
+  .scrapStamp { flex-basis: auto; width: 100px; height: 100px; font-size: 21px; }
+  .scrapEnd { padding: 65px 7%; }
+  .scrapEndStar { font-size: 90px; right: 1%; top: 24px; opacity: .65; }
+  .cinemaOpening { min-height: 780px; height: auto; }
+  .cinemaBackdrop { object-position: 70% center; }
+  .cinemaOpening::after { background: linear-gradient(90deg,#071c25d9,#0d20263b),linear-gradient(0deg,#101e21 0%,transparent 50%); }
+  .cinemaHero { padding: 65px 7% 140px; }
+  .cinema h1 { font-size: clamp(62px,13vw,88px); margin: 24px 0 28px; }
+  .cinemaHero .lead { font-size: 12px; max-width: 310px; }
+  .cinemaHero .lead br { display: none; }
+  .cinemaCaption { right: 7%; bottom: 40px; gap: 8px; }
+  .cinemaCaption span:first-child { font-size: 7px; }
+  .cinemaCaption span:last-child { font-size: 19px; }
+  .cinemaIntro { padding: 65px 7% 35px; }
+  .cinema h2 { font-size: 40px; }
+  .cinemaIntro > p:last-child { font-size: 12px; }
+  .cinemaFrames { padding: 20px 7% 55px; gap: 12px; grid-template-columns: 1fr 1fr; }
+  .cinemaFrames figure:nth-child(3) { grid-column: 1 / -1; margin-top: 14px; }
+  .cinemaFrames figure:nth-child(3) img { aspect-ratio: 1.8; }
+  .cinemaFrames figure:nth-child(2) img { aspect-ratio: 3/4; }
+  .cinemaFrames figcaption { font-size: 9px; }
+  .cinemaFrames figcaption span { margin-right: 8px; font-size: 8px; }
+  .cinemaProcess { padding: 35px 0; margin-inline: 7%; }
+  .cinemaProcess > div { grid-template-columns: 1fr; gap: 35px; margin-top: 35px; }
+  .cinemaProcess h3 { font-size: 25px; margin: 12px 0; }
+  .cinemaProcess article p { max-width: 340px; font-size: 12px; }
+  .cinemaEnd { padding: 65px 7% 50px; }
+  .cinemaVision { margin-top: 65px; }
+  .galleryHero { padding: 40px 6% 0; }
+  .galleryHeading { grid-template-columns: 1fr; gap: 26px; margin-bottom: 32px; }
+  .gallery h1 { font-size: clamp(47px,10.6vw,73px); }
+  .galleryHeading .lead { max-width: 390px; font-size: 12px; margin: 10px 0 12px; }
+  .galleryBoard { padding: 11px 11px 0; }
+  .galleryRail { font-size: 7px; margin-bottom: 11px; }
+  .galleryPhotoGrid { grid-template-columns: .8fr 1.4fr; gap: 10px; }
+  .gallerySide:last-child { display: none; }
+  .gallerySide img { aspect-ratio: .72; }
+  .gallerySide figcaption { font-size: 7px; }
+  .galleryFeature { padding: 6px; }
+  .galleryFeature img { aspect-ratio: .88; object-position: 46% center; }
+  .galleryPhotoLabel { padding: 9px 3px 3px; gap: 8px; }
+  .galleryPhotoLabel > span:first-child { font-size: 25px; }
+  .galleryPhotoLabel > span:nth-child(2) { font-size: 7px; }
+  .galleryPhotoLabel b { font-size: 19px; }
+  .galleryBoardBottom { padding: 12px 0; flex-direction: column; gap: 1px; }
+  .galleryBoardBottom p { font-size: 12px; }
+  .galleryBoardBottom > span { font-size: 8px; }
+  .gallerySignup { grid-template-columns: 1fr; gap: 22px; padding: 28px 0 32px; }
+  .galleryProcess { padding: 65px 7%; gap: 30px; }
+  .gallery h2 { font-size: 40px; }
+  .galleryRows article { grid-template-columns: 25px 1fr; gap: 12px; padding: 24px 0; }
+  .galleryRows h3 { font-size: 20px; }
+  .galleryRows h3 br { display: none; }
+  .galleryRows p { grid-column: 2; font-size: 12px; }
+  .galleryVision { padding: 55px 7%; }
+  .galleryVision > div { grid-template-columns: 1fr; gap: 30px; }
+  .galleryVision h2 { font-size: 60px; }
+  .galleryVision > div > div p:first-child { font-size: 21px; }
+  .galleryEnd { padding: 60px 7%; grid-template-columns: 1fr; gap: 28px; }
+  .index { padding-inline: 6%; }
+  .indexHeader { padding: 24px 0; }
+  .indexHeader > span { font-size: 7px; max-width: 105px; text-align: right; }
+  .indexIntro { padding: 45px 0 35px; }
+  .indexIntro h1 { font-size: 54px; }
+  .indexIntro > p:last-child { font-size: 12px; }
+  .designGrid { grid-template-columns: 1fr; gap: 36px; }
+  .designPreview { aspect-ratio: 1.4; }
+  .journalPreview .previewHeadline { font-size: 10vw; }
+  .scrapbookPreview .previewHeadline { font-size: 10.5vw; }
+  .cinemaPreview .previewHeadline { font-size: 9vw; }
+  .galleryPreview .previewHeadline { font-size: 9vw; }
+  .designCardTitle { margin-top: 16px; }
+  .designCardTitle h2 { font-size: 27px; }
+  .designCardTitle .eyebrow { font-size: 7px; }
+  .indexNotes { grid-template-columns: 1fr; gap: 36px; margin-top: 55px; padding: 35px 0 50px; }
+  .indexFooter { flex-direction: column; gap: 12px; font-size: 9px; }
+}
+
+/* Product-led revision: preserve each visual voice while making the app the hero. */
+.journalAppStage { position: relative; min-height: 575px; display: grid; place-items: center; padding: 20px 0 22px 55px; background: radial-gradient(ellipse at 50% 50%, #e6d7b9 0, transparent 68%); }
+.journalMemory { position: absolute; left: -22px; top: 115px; width: 170px; padding: 9px 9px 18px; background: #fffcf1; transform: rotate(-11deg); box-shadow: 0 8px 24px #3b2d1d20; }
+.journalMemory img { aspect-ratio: .8; }
+.journalMemory span { display: block; margin-top: 9px; font: italic 13px 'Cormorant Garamond', serif; }
+.journalPortrait figcaption { position: relative; margin-top: 12px; }
+.scrapHero { display: grid; grid-template-columns: 1fr 1fr; column-gap: 6%; align-items: start; text-align: left; padding: 55px 6% 65px; }
+.scrapHero > p, .scrapHero > h1, .scrapHero > div { grid-column: 1; }
+.scrapHero > .scrapTag { justify-self: start; }
+.scrapHero h1 { font-size: clamp(72px,8.4vw,125px); margin: 25px 0; }
+.scrapHero .lead { margin: 12px 0 25px; font-size: 14px; }
+.scrapHero .signup { margin: 0; }
+.scrapHero .safety { justify-content: flex-start; }
+.scrapHero > .scrapDoodle { display: none; }
+.scrapHero .scrapPicture { grid-column: 2; grid-row: 1 / span 5; width: 100%; margin: 0 !important; align-self: center; padding: 16px 0 26px; }
+.scrapAppArt { position: absolute; inset: 45px -40px 35px; display: flex; align-items: center; transform: rotate(5deg); }
+.scrapAppArt img { aspect-ratio: 1.1; object-fit: cover; border-radius: 48% 48% 42% 44%; opacity: .9; }
+.scrapPicture figcaption { right: -5px; bottom: 36px; z-index: 3; font-size: 18px; }
+.cinemaHero { min-height: 700px; padding-top: 58px; padding-right: 47%; }
+.cinemaHero .lead { max-width: 440px; }
+.cinemaAppStage { position: absolute; top: 55px; right: 12%; width: 296px; }
+.cinemaCaption { bottom: 20px; right: 6%; }
+.galleryProductFlow { display: grid; grid-template-columns: 1fr 1.3fr 1fr; gap: 6%; align-items: center; padding: 18px 3% 25px; }
+.galleryInput h3, .galleryOutput h3 { font: 600 23px/1.2 'Manrope', sans-serif; letter-spacing: -.045em; margin: 17px 0 12px; }
+.galleryInput p, .galleryOutput p { font-size: 11px; color: var(--muted); max-width: 240px; }
+.gallerySampleGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 20px; transform: rotate(-4deg); background: #fff; padding: 8px; box-shadow: 0 10px 15px #23382412; }
+.gallerySampleGrid img { aspect-ratio: .88; object-fit: cover; }
+.gallerySampleGrid img:nth-child(2) { object-position: 60% center; }
+.gallerySampleGrid img:nth-child(3) { object-position: 30% center; }
+.galleryOutput article { padding: 23px 0; border-top: 1px solid var(--line); }
+.galleryOutput > a { color: var(--accent); display: inline-flex; align-items: center; gap: 10px; font-size: 10px; margin-top: 20px; }
+.journalPreview > img { width: 26%; height: 48%; right: 22%; bottom: 12%; transform: rotate(-9deg); }
+.scrapbookPreview > img { width: 52%; height: 64%; right: -4%; }
+.galleryPreview > img { width: 24%; height: 42%; right: 23%; bottom: 12%; border: 4px solid #234cdf; transform: rotate(-8deg); }
+@media (max-width: 1000px) {
+ .journalAppStage { padding-left: 25px; }
+ .journalMemory { width: 130px; left: -10px; }
+ .cinemaAppStage { right: 6%; }
+ .cinemaHero { padding-right: 44%; }
+ .cinema h1 { font-size: 7.4vw; }
+ .galleryProductFlow { gap: 4%; grid-template-columns: .85fr 1.3fr .85fr; padding-inline: 0; }
+ .galleryInput h3, .galleryOutput h3 { font-size: 20px; }
+}
+@media (max-width: 700px) {
+ .journalAppStage { min-height: 560px; padding: 5px 0 15px 10px; }
+ .journalMemory { width: 115px; left: -12px; top: 145px; }
+ .journalMemory span { font-size: 10px; }
+ .journalPortrait figcaption { font-size: 8px; }
+ .journalPortrait figcaption > span:last-child { font-size: 15px; }
+ .scrapHero { display: block; text-align: center; padding: 30px 7% 35px; }
+ .scrapHero h1 { font-size: clamp(73px,16vw,110px); }
+ .scrapHero .lead { margin: 20px auto 24px; font-size: 12px; }
+ .scrapHero .signup { margin: 0 auto; }
+ .scrapHero .safety { justify-content: center; }
+ .scrapHero .scrapPicture { margin: 35px 0 0 !important; padding-bottom: 36px; }
+ .scrapAppArt { inset: 80px -35px 40px; }
+ .scrapPicture figcaption { font-size: 16px; right: -4px; bottom: 46px; }
+ .cinemaOpening { height: auto; min-height: 0; }
+ .cinemaHero { min-height: 0; padding: 48px 7% 50px; }
+ .cinema h1 { font-size: clamp(62px,13vw,88px); }
+ .cinemaAppStage { position: relative; width: min(100%,285px); top: auto; right: auto; margin: 46px auto 0; }
+ .cinemaCaption { display: none; }
+ .cinemaBackdrop { object-position: 72% top; }
+ .cinemaOpening::after { background: linear-gradient(90deg,#071c25c9,#0d20264b),linear-gradient(0deg,#101e21 12%,#101e2199 50%,transparent); }
+ .galleryProductFlow { display: flex; flex-direction: column; gap: 32px; padding: 20px 8px; }
+ .galleryInput { width: 100%; display: grid; grid-template-columns: 90px 1fr; column-gap: 15px; align-items: center; }
+ .galleryInput > .eyebrow { grid-column: 1 / -1; margin-bottom: 15px; }
+ .gallerySampleGrid { grid-column: 1; grid-row: 2 / 4; margin: 0; padding: 4px; gap: 3px; }
+ .gallerySampleGrid img { aspect-ratio: 1; }
+ .galleryInput h3 { grid-column: 2; margin: 0 0 8px; font-size: 18px; }
+ .galleryInput h3 br { display: none; }
+ .galleryInput p { grid-column: 2; font-size: 10px; }
+ .galleryOutput { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+ .galleryOutput article { padding: 18px 0 0; }
+ .galleryOutput h3 { font-size: 18px; margin-top: 12px; }
+ .galleryOutput p { font-size: 10px; }
+ .galleryOutput > a { grid-column: 1 / -1; margin-top: 0; }
+}

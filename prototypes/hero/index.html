@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Life in Photos · hero prototype</title>
+<meta name="robots" content="noindex">
+<style>
+@font-face { font-family: "Nunito"; font-weight: 800; font-display: swap; src: url(../../public/fonts/nunito-latin-800-normal.woff2) format("woff2"); }
+@font-face { font-family: "Nunito"; font-weight: 900; font-display: swap; src: url(../../public/fonts/nunito-latin-900-normal.woff2) format("woff2"); }
+@font-face { font-family: "Figtree"; font-weight: 400; font-display: swap; src: url(../../public/fonts/figtree-latin-400-normal.woff2) format("woff2"); }
+@font-face { font-family: "Figtree"; font-weight: 600; font-display: swap; src: url(../../public/fonts/figtree-latin-600-normal.woff2) format("woff2"); }
+
+:root {
+  /* Tokens from the M1 design handoff. */
+  --paper: #FAF7F1;
+  --card: #FFFFFF;
+  --ink: #292418;
+  --on-ink: #F3E8C4;
+  --body: #4A4232;
+  --secondary: #6B5F45;
+  --nori: #538D91;
+  --nori-text: #36686D;
+  --ribbon: #F1E3BE;
+
+  --rounded: "Nunito", ui-rounded, system-ui, sans-serif;
+  --sans: "Figtree", -apple-system, system-ui, sans-serif;
+
+  /* One sprite cell is 308 x 420; every friend shares the same cell so their true sizes hold. */
+  --ch: 160px;
+  --cw: calc(var(--ch) * 308 / 420);
+  --phone-w: 204px;  /* centre phone */
+  --side-w: 172px;   /* the phones either side of it */
+  --gap: 14px;
+  --head: 64px;      /* room above the phones for the friends */
+  --drop: 30px;      /* how much lower each phone sits than the one nearer the centre */
+  --stage-h: 400px;  /* the stage crops the phones at its bottom edge */
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); overflow-x: hidden; }
+
+.nav { display: flex; align-items: center; padding: 16px 20px; max-width: 1240px; margin: 0 auto; }
+.lockup { display: flex; align-items: center; gap: 8px; color: var(--ink); text-decoration: none; }
+.lockup span { font-family: var(--rounded); font-weight: 800; font-size: 20px; letter-spacing: -0.025em; line-height: 1; }
+
+.hero { padding: 16px 20px 0; text-align: center; }
+.app-icon { display: block; width: 60px; height: 60px; margin: 0 auto; border-radius: 22.5%; box-shadow: 0 1px 2px rgba(41,36,24,0.14), 0 8px 18px rgba(41,36,24,0.12); }
+h1 { margin: 18px auto 0; max-width: 20em; font-family: var(--rounded); font-weight: 900; font-size: clamp(32px, 8.6vw, 56px); line-height: 1.05; letter-spacing: -0.03em; text-wrap: balance; }
+.sub { margin: 12px auto 0; font-size: 16px; line-height: 1.4; color: var(--body); text-wrap: balance; }
+
+.cta-row { margin-top: 20px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.cta { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 30px; border: 0; border-radius: 26px; background: var(--ink); color: var(--on-ink); font: 600 17px var(--sans); cursor: pointer; transition: transform 0.15s ease; }
+.cta:active { transform: scale(0.97); }
+.cta:focus-visible, .friend:focus-visible, .beta input:focus-visible, .beta button:focus-visible { outline: 3px solid var(--nori); outline-offset: 3px; }
+.cta-note { margin: 0; font-size: 13px; font-weight: 600; color: var(--secondary); }
+.beta { display: none; margin-top: 4px; width: min(100%, 380px); }
+.beta.open { display: block; }
+.beta p { margin: 0 0 10px; font-size: 14px; line-height: 1.4; color: var(--body); }
+.beta form { display: flex; gap: 8px; }
+.beta input { flex: 1; min-width: 0; height: 48px; padding: 0 16px; border: 1px solid #DCD2BD; border-radius: 24px; background: var(--card); font: 400 16px var(--sans); color: var(--ink); }
+.beta button { height: 48px; padding: 0 18px; border: 0; border-radius: 24px; background: var(--ink); color: var(--on-ink); font: 600 15px var(--sans); cursor: pointer; }
+.beta .status { margin: 10px 0 0; font-size: 13px; color: var(--nori-text); min-height: 1.4em; }
+
+/* Stage: a mirrored row of phones, one ribbon behind them, one friend peeking over each of the three middle phones. */
+.stage { position: relative; isolation: isolate; height: var(--stage-h); margin: 22px -20px 0; overflow: hidden; --px: 0; --py: 0; }
+.layer { translate: calc(var(--px) * var(--d, 0) * 20px) calc(var(--py) * var(--d, 0) * 16px); }
+
+.ribbon { position: absolute; z-index: 0; left: 50%; bottom: 0; width: max(100%, 900px); height: 82%; translate: -50% 0; }
+.ribbon path { fill: none; stroke: var(--ribbon); stroke-width: 60; stroke-linecap: round; stroke-dasharray: 1; }
+
+.spot { position: absolute; }
+.spot.centre { z-index: 3; left: 50%; top: var(--head); width: var(--phone-w); margin-left: calc(var(--phone-w) / -2); }
+.spot.side { z-index: 2; top: calc(var(--head) + var(--drop)); width: var(--side-w); }
+.spot.side.left { right: calc(50% + var(--phone-w) / 2 + var(--gap)); }
+.spot.side.right { left: calc(50% + var(--phone-w) / 2 + var(--gap)); }
+.spot.edge { display: none; z-index: 1; top: calc(var(--head) + var(--drop) * 2); width: var(--side-w); }
+.spot.edge.left { right: calc(50% + var(--phone-w) / 2 + var(--side-w) + var(--gap) * 2); }
+.spot.edge.right { left: calc(50% + var(--phone-w) / 2 + var(--side-w) + var(--gap) * 2); }
+
+.phone { position: relative; z-index: 1; padding: 4%; border-radius: 17% / 8%; background: #1F1B14; box-shadow: 0 2px 4px rgba(41,36,24,0.14), 0 22px 44px rgba(41,36,24,0.16); }
+.phone img { display: block; width: 100%; height: auto; border-radius: 14% / 6.5%; }
+.phone::before { content: ""; position: absolute; z-index: 1; top: 3.4%; left: 50%; width: 30%; height: 3%; margin-left: -15%; border-radius: 99px; background: #1F1B14; }
+
+.friend { position: absolute; z-index: 0; left: var(--at, 50%); padding: 0; border: 0; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation; border-radius: 40%; }
+.friend .cell { position: absolute; left: 50%; bottom: calc(var(--ch) * -0.0417); width: var(--cw); height: var(--ch); margin-left: calc(var(--cw) / -2); pointer-events: none; transform-origin: 50% 95.83%; }
+.friend .sprite { display: block; width: 100%; height: 100%; background-repeat: no-repeat; background-size: calc(var(--cw) * 19) var(--ch); background-position: calc(var(--cw) * -1 * var(--i, 0)) 0; transform-origin: 50% 95.83%; }
+/* bottom: how far each friend's feet sit below the phone's top edge, so about two thirds of it shows. */
+.friend[data-who="flip"] { width: calc(var(--cw) * 0.82); height: calc(var(--ch) * 0.567); margin-left: calc(var(--cw) * -0.41); bottom: calc(100% - var(--ch) * 0.2); }
+.friend[data-who="nori"] { width: calc(var(--cw) * 0.77); height: calc(var(--ch) * 0.633); margin-left: calc(var(--cw) * -0.385); bottom: calc(100% - var(--ch) * 0.24); }
+.friend[data-who="momo"] { width: calc(var(--cw) * 0.8); height: calc(var(--ch) * 0.447); margin-left: calc(var(--cw) * -0.4); bottom: calc(100% - var(--ch) * 0.12); }
+.friend[data-who="momo"] .sprite { background-image: url(../../public/characters/momo_sheet.webp); }
+.friend[data-who="flip"] .sprite { background-image: url(../../public/characters/flip_sheet.webp); }
+.friend[data-who="nori"] .sprite { background-image: url(../../public/characters/nori_sheet.webp); }
+/* On a phone screen the side phones are half off screen, so their friends stand on the visible half. */
+.spot.side.left { --at: 74%; }
+.spot.side.right { --at: 26%; }
+
+.next { background: var(--card); padding: 64px 20px 88px; text-align: center; }
+.next h2 { margin: 0 auto; font-family: var(--rounded); font-weight: 900; font-size: clamp(26px, 6vw, 40px); line-height: 1.08; letter-spacing: -0.025em; }
+.next p { margin: 12px auto 0; max-width: 34em; font-size: 14px; line-height: 1.5; color: var(--secondary); }
+
+/* Load-in: centre phone, then its neighbours outward, the ribbon draws, then the friends peek up. The button works from the first frame. */
+@keyframes rise { from { opacity: 0; transform: translateY(44px); } to { opacity: 1; transform: none; } }
+@keyframes peek { from { transform: translateY(74%); } 70% { transform: translateY(-4%); } to { transform: none; } }
+@keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+.in { animation: var(--a, rise) var(--t, 0.75s) cubic-bezier(0.2, 0.8, 0.2, 1) both; animation-delay: var(--w, 0s); }
+.ribbon path { animation: draw 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.3s both; }
+
+@media (min-width: 720px) {
+  :root { --ch: 230px; --phone-w: 286px; --side-w: 236px; --gap: 30px; --head: 92px; --drop: 44px; --stage-h: 520px; }
+  .nav { padding: 22px 40px; }
+  .lockup span { font-size: 22px; }
+  .hero { padding-top: 12px; }
+  .app-icon { width: 68px; height: 68px; }
+  .sub { font-size: 18px; }
+  .stage { margin-top: 26px; }
+  .ribbon path { stroke-width: 50; }
+  .spot.side.left, .spot.side.right { --at: 50%; }
+  .spot.edge { display: block; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .in, .ribbon path { animation: none; }
+  .layer { translate: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <a class="lockup" href="#" aria-label="Life in Photos">
+    <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" transform="rotate(-8 12 12)" d="M6.6 2.5h10.8a2.6 2.6 0 0 1 2.6 2.6v13.8a2.6 2.6 0 0 1-2.6 2.6H6.6A2.6 2.6 0 0 1 4 18.9V5.1a2.6 2.6 0 0 1 2.6-2.6zM7.3 4.8a1 1 0 0 0-1 1v9.6a1 1 0 0 0 1 1h9.4a1 1 0 0 0 1-1V5.8a1 1 0 0 0-1-1z"/></svg>
+    <span>life in photos</span>
+  </a>
+</header>
+
+<main>
+  <section class="hero">
+    <img class="app-icon" src="../../public/brand/app-icon.png" width="256" height="256" alt="Life in Photos app icon">
+    <h1>Find the photos you forgot you loved.</h1>
+    <p class="sub">Ten moments. Five minutes. On your iPhone.</p>
+
+    <div class="cta-row">
+      <button class="cta" id="cta" type="button" aria-expanded="false" aria-controls="beta">Find your moments</button>
+      <p class="cta-note">Beta on TestFlight</p>
+      <div class="beta" id="beta">
+        <p>TestFlight opens soon. Leave your email and we'll send the invite.</p>
+        <form id="beta-form" novalidate>
+          <input type="email" name="email" placeholder="name@example.com" aria-label="Email address" autocomplete="email" required>
+          <button type="submit">Send invite</button>
+        </form>
+        <p class="status" id="beta-status" role="status"></p>
+      </div>
+    </div>
+
+    <div class="stage" id="stage">
+      <svg class="ribbon layer" style="--d: -0.5" viewBox="0 0 1440 440" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+        <path pathLength="1" d="M-60 250 C 160 250, 300 400, 500 320 S 620 70, 740 150 S 860 400, 1040 320 S 1300 180, 1500 240"/>
+      </svg>
+
+      <div class="spot edge left layer" style="--d: 0.9"><div class="phone in" style="--w: 0.35s"><img src="../../public/screens/later.png" width="780" height="1688" alt="" loading="lazy"></div></div>
+      <div class="spot edge right layer" style="--d: 0.9"><div class="phone in" style="--w: 0.35s"><img src="../../public/screens/kept.png" width="780" height="1688" alt="" loading="lazy"></div></div>
+
+      <div class="spot side left layer" style="--d: 0.45">
+        <button class="friend" data-who="nori" aria-label="Nori. Tap to play."><span class="cell in" style="--a: peek; --w: 1.2s; --t: 0.6s"><span class="sprite"></span></span></button>
+        <div class="phone in" style="--w: 0.2s"><img src="../../public/screens/session.png" width="780" height="1688" alt="Reviewing one moment in the app, with Keep, Later and Skip buttons."></div>
+      </div>
+      <div class="spot side right layer" style="--d: 0.45">
+        <button class="friend" data-who="momo" aria-label="Momo. Tap to play."><span class="cell in" style="--a: peek; --w: 1.35s; --t: 0.6s"><span class="sprite"></span></span></button>
+        <div class="phone in" style="--w: 0.2s"><img src="../../public/screens/moments.png" width="780" height="1688" alt="The Moments wall in the app, showing kept moments as Polaroids."></div>
+      </div>
+
+      <div class="spot centre">
+        <button class="friend" data-who="flip" aria-label="Flip. Tap to play."><span class="cell in" style="--a: peek; --w: 1.05s; --t: 0.6s"><span class="sprite"></span></span></button>
+        <div class="phone in" style="--w: 0.05s"><img src="../../public/screens/find-home.png" width="780" height="1688" alt="The Find screen in the app. Today's 10 are ready, about 5 minutes, your Photos library stays untouched."></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="next">
+    <h2>Next section goes here</h2>
+    <p>Hero prototype. Character art here is a stand-in until the larger poses are made.</p>
+  </section>
+</main>
+
+<script src="moves.js"></script>
+<script>
+(() => {
+  const kit = window.FRIEND_KIT;
+  const frameMs = 1000 / kit.fps;
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  class Friend {
+    constructor(button) {
+      this.button = button;
+      this.who = button.dataset.who;
+      this.sprite = button.querySelector(".sprite");
+      this.poses = kit.poses[this.who];
+      this.moves = kit.moves[this.who];
+      this.tapMoves = Object.keys(this.moves).filter((name) => name !== "idle" && !this.moves[name].secret);
+      this.secretMove = Object.keys(this.moves).find((name) => this.moves[name].secret);
+      this.run = 0;
+      this.playing = false;
+      this.lastMove = null;
+      this.taps = [];
+      this.look = 0;
+      button.addEventListener("click", () => this.tap());
+    }
+
+    show(step) {
+      const pose = step.pose.slice(this.who.length + 1);
+      const flip = step.mirror ? -1 : 1;
+      this.sprite.style.setProperty("--i", this.poses.indexOf(pose));
+      this.sprite.style.transform =
+        `translateY(${(step.dy ?? 0) * 100}%) rotate(${step.rot ?? 0}deg) scale(${(step.sx ?? 1) * flip}, ${step.sy ?? 1})`;
+    }
+
+    rest() {
+      if (this.look === 0) this.show({ pose: `${this.who}_front` });
+      else this.show({ pose: `${this.who}_q_front`, mirror: this.look < 0 });
+    }
+
+    async play(steps) {
+      const run = ++this.run;
+      this.playing = true;
+      // Reduce Motion: one calm pose change, no hops.
+      const list = reduceMotion.matches ? [{ pose: steps[Math.floor(steps.length / 2)].pose, frames: 6 }] : steps;
+      for (const step of list) {
+        if (run !== this.run) return;
+        this.show(reduceMotion.matches ? { pose: step.pose } : step);
+        await sleep(step.frames * frameMs);
+      }
+      if (run !== this.run) return;
+      this.playing = false;
+      this.rest();
+    }
+
+    playMove(name) {
+      this.lastMove = name;
+      return this.play(this.moves[name].steps);
+    }
+
+    tap() {
+      const now = performance.now();
+      this.taps = this.taps.filter((time) => now - time < 700).concat(now);
+      // Three quick taps play the secret move, as in the app.
+      if (this.taps.length >= 3 && this.secretMove) {
+        this.taps = [];
+        this.playMove(this.secretMove);
+        return;
+      }
+      if (this.playing) return;
+      const options = this.tapMoves.filter((name) => name !== this.lastMove);
+      this.playMove(options[Math.floor(Math.random() * options.length)]);
+    }
+
+    async idleLoop() {
+      for (;;) {
+        await sleep(2400 + Math.random() * 3600);
+        if (this.playing || this.look !== 0 || document.hidden || reduceMotion.matches) continue;
+        const loops = this.moves.idle;
+        await this.play(loops[Math.floor(Math.random() * loops.length)]);
+      }
+    }
+  }
+
+  const friends = Object.fromEntries(
+    [...document.querySelectorAll(".friend")].map((button) => [button.dataset.who, new Friend(button)])
+  );
+  Object.values(friends).forEach((friend) => { friend.rest(); friend.idleLoop(); });
+
+  // Each friend greets once after it has peeked up.
+  const arrivals = { flip: ["wink", 1750], nori: ["nod", 1950], momo: ["wave", 2150] };
+  if (!reduceMotion.matches) {
+    for (const [who, [move, delay]] of Object.entries(arrivals)) setTimeout(() => friends[who].playMove(move), delay);
+  }
+
+  // Depth shift: the cursor drives it on desktop, scroll drives it on touch screens. The centre phone never moves.
+  const stage = document.getElementById("stage");
+  const finePointer = matchMedia("(hover: hover) and (pointer: fine)");
+  const target = { x: 0, y: 0 };
+  const current = { x: 0, y: 0 };
+  let ticking = false;
+
+  function tick() {
+    current.x += (target.x - current.x) * 0.12;
+    current.y += (target.y - current.y) * 0.12;
+    stage.style.setProperty("--px", current.x.toFixed(4));
+    stage.style.setProperty("--py", current.y.toFixed(4));
+    ticking = Math.abs(target.x - current.x) + Math.abs(target.y - current.y) > 0.001;
+    if (ticking) requestAnimationFrame(tick);
+  }
+  function aim(x, y) {
+    target.x = x;
+    target.y = y;
+    if (!ticking && !reduceMotion.matches) { ticking = true; requestAnimationFrame(tick); }
+  }
+
+  window.addEventListener("pointermove", (event) => {
+    if (!finePointer.matches) return;
+    aim((event.clientX / innerWidth) * 2 - 1, (event.clientY / innerHeight) * 2 - 1);
+    // Friends turn toward the cursor by swapping to their three-quarter pose.
+    for (const friend of Object.values(friends)) {
+      const box = friend.button.getBoundingClientRect();
+      const offset = event.clientX - (box.left + box.width / 2);
+      const look = Math.abs(offset) < 170 ? 0 : Math.sign(offset);
+      if (look !== friend.look) { friend.look = look; if (!friend.playing) friend.rest(); }
+    }
+  });
+  window.addEventListener("scroll", () => {
+    if (finePointer.matches) return;
+    aim(0, -Math.min(scrollY / 320, 1.4));
+  }, { passive: true });
+
+  // Call to action. No TestFlight link yet, so it opens the email fallback.
+  const cta = document.getElementById("cta");
+  const beta = document.getElementById("beta");
+  cta.addEventListener("click", () => {
+    beta.classList.add("open");
+    cta.setAttribute("aria-expanded", "true");
+    beta.querySelector("input").focus();
+  });
+  document.getElementById("beta-form").addEventListener("submit", (event) => {
+    event.preventDefault();
+    const status = document.getElementById("beta-status");
+    const input = event.target.elements.email;
+    if (!input.checkValidity()) { status.textContent = "Enter a valid email address."; return; }
+    status.textContent = "Prototype only. Nothing was sent.";
+    friends.momo.playMove("happy_hop");
+    friends.flip.playMove("boing");
+    friends.nori.playMove("sway");
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+#!/usr/bin/env bash
+# control-landing — launch/doctor/drive/cleanup for the Life in Photos landing page.
+# Never kill by process name. Never delete evidence directories.
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "$0")/../../../.." && pwd)"
+APP="$ROOT"
+HOST="${VERIFY_LANDING_HOST:-127.0.0.1}"
+PORT="${VERIFY_LANDING_PORT:-4317}"
+PIDFILE="${VERIFY_LANDING_PIDFILE:-/tmp/verify-landing-$PORT.pid}"
+LOGFILE="${VERIFY_LANDING_LOG:-/tmp/verify-landing-$PORT.log}"
+BASE="http://$HOST:$PORT"
+
+die() { echo "control-landing: $*" >&2; exit 1; }
+
+cmd_launch() {
+  [[ -d "$APP" ]] || die "missing $APP"
+  if [[ -f "$PIDFILE" ]] && kill -0 "$(cat "$PIDFILE")" 2>/dev/null; then
+    die "already running pid=$(cat "$PIDFILE") on $BASE (cleanup first or pick another VERIFY_LANDING_PORT)"
+  fi
+  if [[ ! -d "$APP/node_modules" ]]; then
+    (cd "$APP" && npm install)
+  fi
+  : >"$LOGFILE"
+  # New session so cleanup can signal the whole Next process group
+  # (npx spawns next-server as a child).
+  (
+    cd "$APP"
+    exec setsid npx next dev --hostname "$HOST" --port "$PORT"
+  ) >"$LOGFILE" 2>&1 < /dev/null &
+  echo $! >"$PIDFILE"
+  local i
+  for i in $(seq 1 60); do
+    if curl -sf "$BASE/" >/dev/null 2>&1; then
+      echo "ready $BASE pid=$(cat "$PIDFILE")"
+      return 0
+    fi
+    sleep 0.5
+  done
+  die "server did not become ready on $BASE; see $LOGFILE"
+}
+
+cmd_doctor() {
+  [[ -f "$PIDFILE" ]] || die "no pidfile $PIDFILE"
+  local pid
+  pid="$(cat "$PIDFILE")"
+  kill -0 "$pid" 2>/dev/null || die "pid $pid from $PIDFILE is not running"
+  local tmp
+  tmp="$(mktemp)"
+  local code
+  code="$(curl -sS -o "$tmp" -w "%{http_code}" "$BASE/")" || die "GET $BASE/ failed"
+  [[ "$code" == "200" ]] || die "GET $BASE/ HTTP $code"
+  grep -q "Find the moments" "$tmp" || die "homepage missing hero copy 'Find the moments'"
+  grep -q "Join the waitlist" "$tmp" || die "homepage missing Join the waitlist CTA"
+  grep -q "Life in Photos | Find the moments worth keeping" "$tmp" || die "unexpected <title>"
+  rm -f "$tmp"
+  echo "verdict=ok pid=$pid url=$BASE title=ok cta=ok"
+}
+
+cmd_get_home() {
+  local out=""
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --out) out="$2"; shift 2 ;;
+      *) die "unknown get-home flag $1" ;;
+    esac
+  done
+  if [[ -n "$out" ]]; then
+    mkdir -p "$(dirname "$out")"
+    curl -sS -D "${out}.headers" -o "$out" "$BASE/"
+    echo "wrote $out"
+  else
+    curl -sS -D - "$BASE/"
+  fi
+}
+
+cmd_post_waitlist() {
+  local email="" website="" out=""
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --email) email="$2"; shift 2 ;;
+      --website) website="$2"; shift 2 ;;
+      --out) out="$2"; shift 2 ;;
+      *) die "unknown post-waitlist flag $1" ;;
+    esac
+  done
+  [[ -n "$email" ]] || die "post-waitlist --email is required"
+  local payload
+  if [[ -n "$website" ]]; then
+    payload="$(python3 -c 'import json,sys; print(json.dumps({"email":sys.argv[1],"website":sys.argv[2]}))' "$email" "$website")"
+  else
+    payload="$(python3 -c 'import json,sys; print(json.dumps({"email":sys.argv[1]}))' "$email")"
+  fi
+  local body headers
+  body="$(mktemp)"
+  headers="$(mktemp)"
+  local code
+  code="$(curl -sS -D "$headers" -o "$body" -w "%{http_code}" \
+    -H "Content-Type: application/json" \
+    -d "$payload" \
+    "$BASE/api/waitlist")"
+  echo "http_status=$code"
+  cat "$body"
+  echo
+  if [[ -n "$out" ]]; then
+    mkdir -p "$(dirname "$out")"
+    {
+      echo "http_status=$code"
+      echo "payload=$payload"
+      echo "--- headers ---"
+      cat "$headers"
+      echo "--- body ---"
+      cat "$body"
+    } >"$out"
+    echo "wrote $out"
+  fi
+  rm -f "$body" "$headers"
+}
+
+cmd_cleanup() {
+  if [[ ! -f "$PIDFILE" ]]; then
+    echo "cleanup: no pidfile; nothing stopped"
+    return 0
+  fi
+  local pid
+  pid="$(cat "$PIDFILE")"
+  if kill -0 "$pid" 2>/dev/null; then
+    local pgid
+    pgid="$(ps -o pgid= -p "$pid" | tr -d ' ')"
+    if [[ -n "$pgid" ]]; then
+      kill -- "-$pgid" 2>/dev/null || kill "$pid" 2>/dev/null || true
+    else
+      kill "$pid" 2>/dev/null || true
+    fi
+    local i
+    for i in $(seq 1 20); do
+      kill -0 "$pid" 2>/dev/null || break
+      sleep 0.2
+    done
+    if kill -0 "$pid" 2>/dev/null; then
+      if [[ -n "$pgid" ]]; then
+        kill -9 -- "-$pgid" 2>/dev/null || true
+      fi
+      kill -9 "$pid" 2>/dev/null || true
+    fi
+    echo "stopped pid=$pid pgid=${pgid:-unknown}"
+  else
+    echo "cleanup: pid $pid already gone"
+  fi
+  rm -f "$PIDFILE"
+}
+
+usage() {
+  cat <<'EOF'
+Usage: control-landing <launch|doctor|get-home|post-waitlist|cleanup>
+  get-home [--out FILE]
+  post-waitlist --email ADDR [--website URL] [--out FILE]
+EOF
+}
+
+cmd="${1:-}"
+shift || true
+case "$cmd" in
+  launch) cmd_launch ;;
+  doctor) cmd_doctor ;;
+  get-home) cmd_get_home "$@" ;;
+  post-waitlist) cmd_post_waitlist "$@" ;;
+  cleanup) cmd_cleanup ;;
+  *) usage; exit 2 ;;
+esac

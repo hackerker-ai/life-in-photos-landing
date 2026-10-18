@@ -1,0 +1,766 @@
+<title>Life in Photos real photos</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Figtree:wght@400;600&family=Nunito:wght@800;900&display=swap">
+<style>
+/* Layout: one story told by scrolling. A river of camera-roll thumbnails flows into the phone and
+   comes out as Polaroids; a pinned scene sorts 3,482 photos into ten moments; the visitor keeps a
+   few; those land on the wall beside the invitation. One look by choice: the brand's warm paper. */
+:root {
+  color-scheme: light;
+  --sun: #F4D160;
+  --paper: #FAF7F1;
+  --card: #FFFFFF;
+  --dull: #E2DDD0;
+  --ink: #292418;
+  --body: #4A4232;
+  --muted: #6B5F45;
+  --line: #E0D6BF;
+  --teal: #4E8589;
+  --teal-deep: #36686D;
+  --teal-tint: #D8E8E5;
+  --teal-arch: #BCD8D3;
+  --blush: #F5DDD5;
+  --blush-arch: #ECC7BC;
+  --butter: #FAF0CC;
+  --walnut: #211D16;
+  --on-ink: #F3E8C4;
+  --shot: #E9E5DB;
+  --shot-line: #C6BEAD;
+  --shade: rgba(41, 36, 24, 0.14);
+  --display: "Nunito", ui-rounded, "Arial Rounded MT Bold", system-ui, sans-serif;
+  --text: "Figtree", -apple-system, "Segoe UI", system-ui, sans-serif;
+  --hand: "Caveat", "Bradley Hand", "Segoe Print", cursive;
+  --gutter: clamp(16px, 4vw, 56px);
+  --bar-h: 64px;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: var(--bar-h); }
+body { margin: 0; overflow-x: clip; background: var(--paper); color: var(--ink); font-family: var(--text); font-size: 1rem; line-height: 1.5; }
+h1, h2, h3, p, figure { margin: 0; }
+.wrap { max-width: 1160px; margin-inline: auto; padding-inline: var(--gutter); }
+.display { font-family: var(--display); font-weight: 900; letter-spacing: -0.03em; line-height: 1.04; text-wrap: balance; }
+h2.display { font-size: clamp(2rem, 2.6vw + 1.3rem, 3.6rem); }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 54px; padding: 0 30px; border: 0; border-radius: 27px; background: var(--ink); color: var(--on-ink); font: 600 1.06rem var(--text); text-decoration: none; cursor: pointer; transition: background-color 0.2s, color 0.2s, box-shadow 0.2s, translate 0.2s cubic-bezier(0.2, 0.8, 0.2, 1); }
+/* Hover: the button turns Nori's teal and lifts off the page; a press pushes it back down. */
+@media (hover: hover) {
+  .btn:hover { background: var(--teal-deep); color: #FFFFFF; translate: 0 -2px; box-shadow: 0 10px 22px rgba(41, 36, 24, 0.26); }
+  .btn.ghost:hover { border-color: var(--teal-deep); }
+}
+.btn:active { translate: 0 1px; box-shadow: 0 2px 6px rgba(41, 36, 24, 0.22); }
+.btn.small { min-height: 44px; padding: 0 15px; font-size: 0.88rem; white-space: nowrap; }
+:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; border-radius: 6px; }
+.curve { display: block; width: 100%; height: clamp(36px, 6vw, 90px); margin-bottom: -1px; }
+
+/* Friends: stop-motion sprites. One cell is 308 x 420; --ch is the cell height. */
+.friend { position: absolute; width: calc(var(--ch) * 0.42); height: calc(var(--ch) * var(--fig)); padding: 0; border: 0; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+.friend i { position: absolute; left: 50%; bottom: calc(var(--ch) * -0.0417); width: calc(var(--ch) * 0.7333); height: var(--ch); margin-left: calc(var(--ch) * -0.3667); background: var(--sheet) calc(var(--ch) * -0.7333 * var(--i, 0)) 0 / calc(var(--ch) * 0.7333 * 19) var(--ch) no-repeat; transform-origin: 50% 95.83%; pointer-events: none; }
+.friend[data-who="momo"] { --sheet: url(assets/momo_sheet.webp); --fig: 0.447; }
+.friend[data-who="flip"] { --sheet: url(assets/flip_sheet.webp); --fig: 0.567; }
+.friend[data-who="nori"] { --sheet: url(assets/nori_sheet.webp); --fig: 0.633; }
+
+/* Polaroids */
+.pol { margin: 0; padding: 6% 6% 0; background: var(--card); border-radius: 4px; box-shadow: 0 1px 2px rgba(41, 36, 24, 0.1), 0 14px 30px var(--shade); }
+.pol img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; }
+.pol figcaption { padding: 0.3em 0.1em 0.45em; font: 600 1.35rem/1.05 var(--hand); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* 1. Hero */
+.hero { background: var(--sun); }
+/* One header that stays at the top. It shares the hero's yellow at rest and turns to frosted paper once the page scrolls. */
+.bar { position: sticky; top: 0; z-index: 30; padding-top: env(safe-area-inset-top, 0px); background: var(--sun); transition: background-color 0.25s, box-shadow 0.25s; }
+.bar.stuck { background: color-mix(in oklab, var(--paper) 86%, transparent); -webkit-backdrop-filter: blur(12px) saturate(1.2); backdrop-filter: blur(12px) saturate(1.2); box-shadow: 0 1px 0 var(--line); }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: var(--bar-h); }
+.lockup { color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: 9px; font: 800 1.35rem/1 var(--display); letter-spacing: -0.025em; }
+.hero-copy { display: flex; flex-direction: column; align-items: center; gap: 16px; padding-block: clamp(14px, 3vw, 36px) 0; text-align: center; }
+h1 { max-width: 11.4em; font-size: clamp(2.3rem, 4.6vw + 1.15rem, 4.5rem); }
+.lede { max-width: 30em; font-size: clamp(1rem, 0.4vw + 0.95rem, 1.2rem); color: var(--body); text-wrap: balance; }
+.river { position: relative; container-type: inline-size; aspect-ratio: 390 / 500; overflow: hidden; margin-top: 6px; --ch: 34cqw; --px: 28.2cqw; --pt: 38.5cqw; --pw: 43.6cqw; }
+.river > svg.map { position: absolute; inset: 0; width: 100%; height: 100%; }
+.river .wide { display: none; }
+.bed { fill: none; stroke: var(--teal); stroke-linecap: round; }
+.phone { position: absolute; z-index: 2; left: var(--px); top: var(--pt); width: var(--pw); padding: calc(var(--pw) * 0.04); border-radius: calc(var(--pw) * 0.16); background: #1F1B14; box-shadow: 0 2px 4px rgba(41, 36, 24, 0.16), 0 26px 50px rgba(41, 36, 24, 0.24); }
+.phone img { display: block; width: 100%; height: auto; border-radius: calc(var(--pw) * 0.125); }
+.phone::before { content: ""; position: absolute; top: 3.4%; left: 35%; width: 30%; height: 3%; border-radius: 99px; background: #1F1B14; }
+.river .friend { z-index: 3; }
+#heroFlip { z-index: 1; left: calc(var(--px) + var(--pw) / 2 - var(--ch) * 0.21); bottom: calc(100% - var(--pt) - var(--ch) * 0.2); }
+#heroMomo { left: 3cqw; bottom: 5cqw; }
+#heroNori { right: 3cqw; bottom: 5cqw; }
+.tag { display: none; position: absolute; z-index: 3; font: 600 1.6rem/1 var(--hand); color: var(--ink); white-space: nowrap; }
+#tagIn { rotate: -7deg; }
+#tagOut { rotate: 5deg; }
+.river .hill { position: absolute; z-index: 4; left: 0; bottom: -1px; width: 100%; height: clamp(34px, 7cqw, 100px); }
+@media (min-width: 760px) {
+  .river { aspect-ratio: 1440 / 600; --ch: 15.5cqw; --px: 39.6cqw; --pt: 6.7cqw; --pw: 20.8cqw; }
+  .river .wide { display: block; }
+  .river .narrow { display: none; }
+  #heroNori { right: auto; left: 7cqw; bottom: 4.5cqw; }
+  #heroMomo { left: 74cqw; bottom: 4.5cqw; }
+  .tag { display: block; font-size: clamp(1.2rem, 2.3cqw, 2.1rem); }
+  #tagIn { left: 5cqw; top: 15.5cqw; }
+  #tagOut { right: 3.5cqw; top: 31cqw; }
+}
+
+/* 2. The dig: a pinned scene that sorts the roll as you scroll */
+.dig { position: relative; height: 380vh; }
+.dig-pin { position: sticky; top: var(--bar-h); display: flex; flex-direction: column; height: calc(100vh - var(--bar-h)); height: calc(100svh - var(--bar-h)); overflow: hidden; background: color-mix(in oklab, var(--dull), var(--paper) calc(var(--m, 0) * 100%)); }
+.dig-head { padding: clamp(14px, 3.4vh, 40px) var(--gutter) 0; text-align: center; }
+.dig-count { font: 900 clamp(3rem, 11vw, 7rem)/0.95 var(--display); letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+.dig-count small { font-size: 0.3em; letter-spacing: -0.01em; }
+.dig-lines { position: relative; height: 3.1em; margin: 8px auto 0; padding: 0; max-width: 24em; list-style: none; font-size: clamp(1.05rem, 0.8vw + 0.95rem, 1.5rem); line-height: 1.3; color: var(--body); }
+.dig-lines li { position: absolute; inset: 0; opacity: 0; transition: opacity 0.3s; text-wrap: balance; }
+.dig-lines li.on { opacity: 1; }
+.dig-field { position: relative; flex: 1; min-height: 0; margin: 6px var(--gutter) 0; }
+.dig-foot { padding: 8px var(--gutter) clamp(12px, 3vh, 30px); text-align: center; font-size: 0.95rem; color: var(--muted); opacity: var(--m, 0); }
+.t { position: absolute; left: 0; top: 0; overflow: hidden; border-radius: 16%; background: var(--shot); will-change: transform; }
+.t img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.t.shot { background: linear-gradient(var(--shot-line), var(--shot-line)) 18% 30% / 52% 9% no-repeat, linear-gradient(var(--shot-line), var(--shot-line)) 18% 52% / 34% 9% no-repeat, var(--shot); }
+.t.dup::after { content: ""; position: absolute; inset: 0; background: rgba(226, 221, 208, 0.35); }
+.frame { position: absolute; left: 0; top: 0; background: var(--card); border-radius: 4px; box-shadow: 0 1px 2px rgba(41, 36, 24, 0.1), 0 10px 24px var(--shade); opacity: 0; }
+.frame span { position: absolute; left: 7%; right: 4%; bottom: 4%; font-family: var(--hand); font-weight: 600; line-height: 1; white-space: nowrap; overflow: hidden; }
+.dig.still, .dig.forced { height: auto; }
+.dig.forced .dig-pin { position: relative; }
+.dig.still .dig-pin { position: static; height: auto; }
+.dig.still .dig-field { flex: none; height: min(640px, 150vw); }
+.dig.still .dig-lines { height: auto; }
+.dig.still .dig-lines li { position: static; opacity: 1; }
+
+/* 3. Your turn */
+.play { padding-block: clamp(48px, 7vw, 110px) clamp(56px, 8vw, 120px); }
+.play-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; align-items: center; }
+.play-copy { display: flex; flex-direction: column; gap: 16px; }
+.play-copy p { max-width: 26em; font-size: clamp(1.02rem, 0.4vw + 0.95rem, 1.2rem); color: var(--body); }
+.crew { position: relative; height: calc(var(--ch) * 0.68); --ch: clamp(130px, 17vw, 210px); }
+.crew .friend:nth-child(1) { left: 0; bottom: 0; }
+.crew .friend:nth-child(2) { left: calc(var(--ch) * 0.5); bottom: 0; }
+.crew .friend:nth-child(3) { left: calc(var(--ch) * 1.02); bottom: 0; }
+.deck { width: 100%; max-width: 420px; margin-inline: auto; }
+.card { display: flex; flex-direction: column; gap: 12px; padding: 20px 18px 18px; border-radius: 30px; background: var(--card); box-shadow: 0 2px 4px rgba(41, 36, 24, 0.08), 0 26px 60px var(--shade); transition: transform 0.45s cubic-bezier(0.3, 0.7, 0.2, 1), opacity 0.4s; }
+.card.keep { transform: translateY(46%) scale(0.28) rotate(-7deg); opacity: 0; }
+.card.later { transform: translateX(64%) rotate(9deg); opacity: 0; }
+.card.skip { transform: translateX(-64%) rotate(-9deg); opacity: 0; }
+.ticks { display: flex; align-items: center; gap: 5px; font-size: 0.8rem; font-weight: 600; color: var(--muted); }
+.ticks b { width: 11px; height: 13px; border: 2px solid var(--ink); border-radius: 2px; }
+.ticks b.done { background: var(--ink); }
+.ticks span { margin-left: 6px; }
+.card h3 { font: 600 2.05rem/1.02 var(--hand); }
+.meta { font-size: 0.82rem; font-weight: 600; color: var(--muted); }
+.why { padding: 11px 14px; border: 1px solid var(--line); border-radius: 14px; font-size: 0.96rem; line-height: 1.42; color: var(--body); }
+.mosaic { display: grid; grid-template-columns: 1.35fr 1fr 1fr; grid-template-rows: 78px 78px; gap: 4px; }
+.mosaic img { display: block; width: 100%; height: 100%; min-height: 0; object-fit: cover; }
+.mosaic img:first-child { grid-row: span 2; }
+.acts { display: grid; grid-template-columns: 1.25fr 1fr 1fr; gap: 8px; margin-top: 4px; }
+.acts button { min-height: 50px; border: 1px solid transparent; border-radius: 25px; font: 600 1rem var(--text); cursor: pointer; }
+.acts [data-act="keep"] { background: var(--ink); color: var(--on-ink); }
+.acts [data-act="later"] { background: var(--card); border-color: var(--line); color: var(--ink); }
+.acts [data-act="skip"] { background: #F2EBDD; color: var(--ink); }
+.card.end { align-items: flex-start; gap: 14px; padding: 28px 24px; }
+.card.end p { color: var(--body); }
+.card.end .row { display: flex; flex-wrap: wrap; gap: 10px; }
+.btn.ghost { background: none; border: 1.5px solid var(--ink); color: var(--ink); }
+.tray { display: flex; align-items: center; gap: 10px; min-height: 66px; margin-top: 16px; padding-inline: 8px; font-size: 0.86rem; font-weight: 600; color: var(--muted); }
+.tray .pol { width: 46px; padding: 3px 3px 9px; border-radius: 2px; box-shadow: 0 4px 10px var(--shade); animation: land 0.5s cubic-bezier(0.2, 1.4, 0.4, 1) both; }
+.tray .pol figcaption { display: none; }
+.tray .pol:nth-of-type(odd) { rotate: -5deg; }
+.tray .pol:nth-of-type(even) { rotate: 4deg; }
+@keyframes land { from { transform: translateY(-46px) scale(1.5); opacity: 0; } }
+@media (min-width: 900px) {
+  .play-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 420px); gap: 72px; }
+  .crew { margin-top: 16px; }
+}
+
+/* 4. Trust, 5. Voices, 6. Questions */
+.trust { padding-bottom: clamp(56px, 8vw, 110px); }
+.trust-card { position: relative; display: flex; flex-wrap: wrap; align-items: flex-end; gap: clamp(8px, 3vw, 40px); overflow: hidden; padding: clamp(32px, 6vw, 84px) clamp(22px, 6vw, 84px) 0; border-radius: clamp(28px, 3.4vw, 48px); background: var(--teal-tint); }
+.trust-copy { flex: 999 1 400px; min-width: 0; padding-bottom: clamp(32px, 6vw, 84px); }
+.checks { display: flex; flex-direction: column; max-width: 520px; margin: clamp(20px, 2.6vw, 34px) 0 0; padding: 0; list-style: none; font-size: clamp(1.08rem, 0.4vw + 1rem, 1.3rem); font-weight: 600; line-height: 1.35; }
+.checks li { display: flex; align-items: center; gap: 14px; padding: 15px 0; }
+.checks li + li { border-top: 1px solid #B9D3CF; }
+.checks svg { flex: none; }
+.arch { position: relative; flex: 1 1 260px; max-width: 380px; height: var(--ah); margin-inline: auto; border-radius: 999px 999px 0 0; --ah: clamp(280px, 30vw, 420px); --ch: calc(var(--ah) * 1.22); }
+.arch .friend { left: calc(50% - var(--ch) * 0.21); bottom: 0; }
+.trust .arch { background: var(--teal-arch); }
+.voices { background: var(--butter); padding-block: clamp(48px, 7vw, 100px) clamp(64px, 9vw, 128px); text-align: center; }
+.notes { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 26px 0; margin-top: clamp(36px, 5vw, 60px); }
+.notes .pol { flex: 0 1 320px; min-width: 0; padding: 14px 14px 0; text-align: left; }
+.notes .pol:nth-child(1) { rotate: -3.5deg; margin-top: 20px; }
+.notes .pol:nth-child(2) { position: relative; z-index: 1; rotate: 1.5deg; margin-inline: -16px; }
+.notes .pol:nth-child(3) { rotate: -2deg; margin-top: 34px; }
+.notes blockquote { display: flex; align-items: center; min-height: 210px; margin: 0; padding: 24px; font: 600 1.85rem/1.16 var(--hand); }
+.notes figcaption { padding: 12px 4px 16px; font: 600 0.92rem/1.3 var(--text); color: var(--body); white-space: normal; }
+.faq { position: relative; overflow: hidden; background: var(--blush); }
+.faq-grid { display: flex; flex-wrap: wrap-reverse; align-items: flex-start; gap: clamp(8px, 5vw, 72px); padding-top: clamp(40px, 6vw, 96px); }
+.faq .arch { background: var(--blush-arch); flex-basis: 320px; }
+.faq-list { flex: 999 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 10px; padding-bottom: clamp(64px, 9vw, 128px); }
+.faq-list h2 { margin-bottom: clamp(12px, 2vw, 24px); }
+/* Side by side, Flip's arch floats level with the questions instead of sinking to the bottom edge. Stacked, it still rises from the bottom. */
+@media (min-width: 860px) {
+  .faq-grid { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); align-items: center; padding-block: clamp(64px, 8vw, 112px); }
+  .faq .arch { width: 100%; max-width: 340px; margin-inline: 0; border-radius: 200px 200px 32px 32px; }
+  .faq-list { padding-bottom: 0; }
+}
+details { padding: 0 clamp(16px, 2vw, 26px); border-radius: 22px; background: #FFFDFB; }
+summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 19px 0; list-style: none; cursor: pointer; font: 800 1.2rem/1.25 var(--display); letter-spacing: -0.015em; }
+summary::-webkit-details-marker { display: none; }
+summary svg { flex: none; transition: rotate 0.2s; }
+details[open] summary svg { rotate: 45deg; }
+details p { max-width: 34em; padding-bottom: 22px; color: var(--body); }
+
+/* 7. The wall and the invitation */
+.invite { background: var(--sun); padding-block: clamp(40px, 6vw, 88px) clamp(56px, 8vw, 110px); }
+.invite-grid { display: flex; flex-wrap: wrap-reverse; align-items: center; justify-content: space-between; gap: clamp(8px, 4vw, 56px); }
+.invite-copy { flex: 1 1 400px; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 22px; }
+.invite h2 { max-width: 10em; font-size: clamp(2.2rem, 3.4vw + 1.2rem, 4.2rem); line-height: 1.02; }
+.wall { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 12px; }
+.wall .pol, .wall .empty { width: clamp(92px, 10vw, 128px); }
+.wall .pol { padding: 7px 7px 0; }
+.wall .pol:nth-child(odd) { rotate: -3deg; }
+.wall .pol:nth-child(even) { rotate: 2.5deg; }
+.wall .pol figcaption { font-size: 1.02rem; }
+.wall .empty { display: flex; align-items: center; justify-content: center; aspect-ratio: 1 / 1.2; border: 2px dashed rgba(41, 36, 24, 0.4); border-radius: 4px; font: 600 1.3rem var(--hand); color: var(--body); }
+.wall-note { font: 600 1.5rem/1.1 var(--hand); }
+.invite form { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 440px; }
+.invite label { font-size: 1rem; color: var(--body); }
+.invite .field { display: flex; gap: 8px; }
+.invite input { flex: 1; min-width: 0; height: 52px; padding: 0 18px; border: 1px solid #B99A2E; border-radius: 26px; background: #FFFDF6; font: 400 1rem var(--text); color: var(--ink); }
+.invite .status { min-height: 1.5em; font-size: 0.92rem; font-weight: 600; color: var(--teal-deep); }
+.trio { flex: 0 1 auto; width: clamp(240px, 38vw, 500px); max-width: 100%; height: auto; aspect-ratio: 1; rotate: -4deg; filter: drop-shadow(0 28px 30px rgba(41, 36, 24, 0.3)); }
+footer { overflow: hidden; background: var(--walnut); color: var(--on-ink); }
+.foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 28px; padding-block: clamp(28px, 4vw, 56px) 0; font-size: 0.95rem; }
+.foot span { color: #BDAE8C; }
+.wordmark { padding-bottom: 0.06em; text-align: center; font: 900 clamp(3rem, 15.2vw, 13.75rem)/1.1 var(--display); letter-spacing: -0.04em; white-space: nowrap; }
+
+/* The top-right button shows only once the hero button has scrolled away, and hides again at the invitation. */
+.bar-cta { opacity: 0; visibility: hidden; transform: translateY(-6px); transition: opacity 0.25s, transform 0.25s, visibility 0s 0.25s; }
+.bar-cta.on { opacity: 1; visibility: visible; transform: none; transition: opacity 0.25s, transform 0.25s; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .bar, .bar-cta, .bar-cta.on { transition: none; transform: none; }
+  .btn:hover, .btn:active { translate: none; }
+  .card, .dig-lines li, summary svg { transition: none; }
+  .tray .pol { animation: none; }
+}
+</style>
+
+<header class="bar" id="bar">
+  <div class="top wrap">
+    <a class="lockup" href="#top" aria-label="Life in Photos, back to top">
+      <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" transform="rotate(-8 12 12)" d="M6.6 2.5h10.8a2.6 2.6 0 0 1 2.6 2.6v13.8a2.6 2.6 0 0 1-2.6 2.6H6.6A2.6 2.6 0 0 1 4 18.9V5.1a2.6 2.6 0 0 1 2.6-2.6zM7.3 4.8a1 1 0 0 0-1 1v9.6a1 1 0 0 0 1 1h9.4a1 1 0 0 0 1-1V5.8a1 1 0 0 0-1-1z"/></svg>
+      life in photos
+    </a>
+    <a class="btn small bar-cta" id="barCta" href="#invite">Find your moments</a>
+  </div>
+</header>
+
+<div class="hero" id="top">
+  <div class="wrap hero-copy">
+    <h1 class="display">Find the photos you forgot you loved.</h1>
+    <p class="lede">An iPhone app for the moments buried in your camera roll.</p>
+    <a class="btn" href="#invite">Find your moments</a>
+  </div>
+  <div class="river" id="river">
+    <svg class="map wide" viewBox="0 0 1440 600" data-tile="34" data-count="26" aria-hidden="true">
+      <path class="bed in" stroke-width="62" d="M-80 120C120 20 330 90 330 260c0 160 140 210 210 120 30-40 60-50 120-50"/>
+      <path class="bed out" stroke-width="62" d="M790 330c110 0 140-180 260-180 130 0 120 180 230 200 100 20 140-70 260-100"/>
+      <g class="flow"></g>
+    </svg>
+    <svg class="map narrow" viewBox="0 0 390 500" data-tile="20" data-count="18" aria-hidden="true">
+      <path class="bed in" stroke-width="34" d="M-30 70C60 10 170 30 190 90c15 50 140-10 155 70 13 70-45 90-83 90"/>
+      <path class="bed out" stroke-width="34" d="M130 330c-60 0-80 50-170 62"/>
+      <g class="flow"></g>
+    </svg>
+    <p class="tag" id="tagIn">3,482 photos in</p>
+    <p class="tag" id="tagOut">ten moments out</p>
+    <button class="friend" id="heroFlip" data-who="flip" aria-label="Flip. Tap to play."><i></i></button>
+    <div class="phone"><img src="assets/find-home.png" width="780" height="1688" alt="The Life in Photos app on an iPhone. The Find screen says: Today's 10 are ready. About 5 minutes. Your Photos library stays untouched."></div>
+    <button class="friend" id="heroNori" data-who="nori" aria-label="Nori. Tap to play."><i></i></button>
+    <button class="friend" id="heroMomo" data-who="momo" aria-label="Momo. Tap to play."><i></i></button>
+    <svg class="hill" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 100V40c380 70 980-50 1440 16v44z" style="fill: var(--dull)"/></svg>
+  </div>
+</div>
+
+<section class="dig" id="dig" aria-label="How a camera roll becomes ten moments">
+  <div class="dig-pin">
+    <div class="dig-head">
+      <p class="dig-count"><span id="digNum">3,482</span> <small id="digUnit">photos</small></p>
+      <ol class="dig-lines">
+        <li class="on">Say your camera roll holds 3,482 photos.</li>
+        <li>Life in Photos looks past the screenshots and the photos of stuff.</li>
+        <li>It folds eleven takes of one candle into one.</li>
+        <li>It gathers the photos that belong together.</li>
+        <li>Today's ten moments are ready.</li>
+      </ol>
+    </div>
+    <div class="dig-field" id="digField"></div>
+    <p class="dig-foot">The rest wait their turn. Nothing is deleted.</p>
+  </div>
+</section>
+
+<section class="play" id="play">
+  <div class="wrap play-grid">
+    <div class="play-copy">
+      <h2 class="display">Now you try. Here are three of ours.</h2>
+      <p>This is the whole app in miniature. A moment comes up, you decide, and the next one arrives.</p>
+      <div class="crew">
+        <button class="friend" id="playNori" data-who="nori" aria-label="Nori. Tap to play."><i></i></button>
+        <button class="friend" id="playMomo" data-who="momo" aria-label="Momo. Tap to play."><i></i></button>
+        <button class="friend" id="playFlip" data-who="flip" aria-label="Flip. Tap to play."><i></i></button>
+      </div>
+    </div>
+    <div>
+      <div class="deck" id="deck" aria-live="polite"></div>
+      <div class="deck tray" id="tray" aria-label="Moments you kept"><span>Kept</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="trust">
+  <div class="wrap">
+    <div class="trust-card">
+      <div class="trust-copy">
+        <h2 class="display">Your Photos library stays untouched.</h2>
+        <ul class="checks">
+          <li><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#36686D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Keep, Later and Skip only change what's in this app.</li>
+          <li><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#36686D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Nothing is deleted or moved in Photos.</li>
+          <li><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#36686D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>You look at every moment before you decide.</li>
+        </ul>
+      </div>
+      <div class="arch"><button class="friend" data-who="nori" data-pose="hum" aria-label="Nori. Tap to play."><i></i></button></div>
+    </div>
+  </div>
+</section>
+
+<svg class="curve" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true"><path d="M0 90V26c420-44 1020 78 1440-4v68z" style="fill: var(--butter)"/></svg>
+<section class="voices">
+  <div class="wrap">
+    <h2 class="display">From parents in the beta</h2>
+    <div class="notes">
+      <figure class="pol"><blockquote style="background: var(--blush)">[Quote from a beta parent, one or two sentences in their own words.]</blockquote><figcaption>[Name, parent of two]</figcaption></figure>
+      <figure class="pol"><blockquote style="background: #F5E6B3">[Quote from a beta parent, one or two sentences in their own words.]</blockquote><figcaption>[Name, parent of three]</figcaption></figure>
+      <figure class="pol"><blockquote style="background: var(--teal-tint)">[Quote from a beta parent, one or two sentences in their own words.]</blockquote><figcaption>[Name, parent of one]</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<svg class="curve" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true" style="background: var(--butter)"><path d="M0 92V30c400 70 1040-54 1440 4v58z" style="fill: var(--blush)"/></svg>
+<section class="faq" id="faq">
+  <div class="wrap faq-grid">
+    <div class="arch"><button class="friend" data-who="flip" data-pose="tilt" aria-label="Flip. Tap to play."><i></i></button></div>
+    <div class="faq-list">
+      <h2 class="display">Common questions</h2>
+      <details open><summary>Will it delete my photos?<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>No. Keep, Later and Skip only change what's in this app. Nothing in your Photos library is deleted or moved.</p></details>
+      <details><summary>How long does it take?<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>About five minutes. Each session is ten moments, and you can stop partway and come back.</p></details>
+      <details><summary>What happens to a moment I skip?<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>It leaves your list in the app. The photos themselves stay exactly where they were in Photos. If you can't decide, Later holds the moment for you.</p></details>
+      <details><summary>Which iPhones does it work on?<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>iPhones running iOS 26 or later. The beta is installed through TestFlight.</p></details>
+      <details><summary>Do my photos leave my phone?<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>[PRIVACY ANSWER. Say exactly what is processed on the phone and what is sent elsewhere, once that is verified.]</p></details>
+      <details><summary>What does it cost?<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>[PRICE DURING THE BETA AND AFTER IT]</p></details>
+    </div>
+  </div>
+</section>
+
+<svg class="curve" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true" style="background: var(--blush)"><path d="M0 92V40c460-60 940 70 1440-10v62z" style="fill: var(--sun)"/></svg>
+<section class="invite" id="invite">
+  <div class="wrap invite-grid">
+    <div class="invite-copy">
+      <h2 class="display">Your family's moments are already in there.</h2>
+      <div class="wall" id="wall" aria-label="A wall of kept moments"></div>
+      <p class="wall-note" id="wallNote">Three of ours. Yours go in the empty ones.</p>
+      <form id="inviteForm" novalidate>
+        <label for="inviteEmail">TestFlight opens soon. Leave your email and we'll send the invite.</label>
+        <div class="field">
+          <input id="inviteEmail" type="email" placeholder="name@example.com" autocomplete="email" required>
+          <button class="btn" type="submit">Send invite</button>
+        </div>
+        <p class="status" id="inviteStatus" role="status"></p>
+      </form>
+    </div>
+    <img class="trio" src="assets/trio-cutout.png" width="920" height="920" alt="Nori, Momo and Flip, three painted wood friends, holding a Polaroid frame together">
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <span>In beta for iPhone.</span>
+    <span>[PRIVACY POLICY LINK] &nbsp; [CONTACT EMAIL]</span>
+  </div>
+  <div class="wordmark" aria-hidden="true">life in photos</div>
+</footer>
+
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const ease = (t) => 1 - Math.pow(1 - t, 3);
+  let seed = 20261013;
+  const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  /* Ten real moments from our own library. keep: the three photos the moment shows (output only).
+     takes: other photos from the same day, near-identical, blurry or accidental, which are all the camera roll ever shows (input only). */
+  const GROUPS = [
+    { name: "Kings Canyon lake", keep: [11914, 11900, 11986], takes: [11947, 11840, 11897, 11998, 12001, 11910] },
+    { name: "Sequoia trail", keep: [11983, 11819, 11863], takes: [11941, 11804, 11981, 11891, 11890] },
+    { name: "Hokkaido snow", keep: [15113, 15176, 15107], takes: [15111, 15162, 15179] },
+    { name: "Tamsui riverside", keep: [15620, 15617, 15667], takes: [15630, 15608, 15627, 15664, 15680, 15676, 15679, 15598, 15622, 15611, 15599, 15619] },
+    { name: "Shoufeng", keep: [20269, 20346, 20299], takes: [20279, 20330, 20328, 20231, 20248, 20209, 20296, 20369, 20260, 20370, 20259, 20258] },
+    { name: "Hualien daylilies", keep: [24360, 24342, 24275], takes: [24283, 24339, 24323, 24425, 24455, 24221, 24477, 24433, 24444, 24223, 24222, 24441] },
+    { name: "Abby turns one", keep: [25998, 26008, 26022], takes: [26043, 26090, 26027, 26063, 26028, 26044, 26000, 26095, 26037, 26094, 26092, 26091, 26089, 26053] },
+    { name: "Beimen salt fields", keep: [26711, 26718, 26734], takes: [26756, 26764, 26791, 26751, 26748, 26745, 26744, 26777] },
+    { name: "Taipei winter", keep: [27064, 27058, 27083], takes: [27043, 27046, 27001, 27026, 27077, 27028, 27031, 27081, 27070, 27053, 27051, 27079] },
+    { name: "Summer 2019", keep: [28887, 28862, 28824], takes: [28803, 28820, 28802, 28890, 28829, 28846] }
+  ];
+  const POOL = GROUPS.flatMap((g) => g.takes);
+  /* The pile the app looks past: screenshots, product shots, flyers and other photos of stuff, kept tiny and soft so nothing is readable. */
+  const JUNK = [12681, 18593, 1861, 18873, 1965, 21654, 2466, 2536, 2567, 28388, 31834, 32901, 33338, 34510, 35332, 35542, 3762, 426, 4427, 4796, 4829, 4860, 4950, 4985, 5422, 6967, 7906, 838];
+  /* Accidental shots from those days (the ground, a plate, the sky). They fall away with the clutter. */
+  const ACCIDENTS = [11840, 11897, 11804, 24433, 27026];
+  let junkTurn = 0;
+  const junk = () => JUNK[junkTurn++ % JUNK.length];
+  const photo = (id, size = "s") => `<img src="assets/photos/${size}/${id}.jpg" alt="" decoding="async">`;
+
+  /* ---- Friends: stop-motion sprite player. A step is pose:frames[:lift], ~ mirrors it. ---- */
+  const COMMON = "front q_front side q_back back running leaping landing lookback curious proud ";
+  const POSES = {
+    momo: COMMON + "crouch takeoff catch squish_landing blink giggle wave_1 wave_2",
+    flip: COMMON + "spring_crouch takeoff mid_flip boing_landing blink wink tilt dizzy",
+    nori: COMMON + "lean nod small_crouch little_hop half_blink blink hum wave"
+  };
+  const MOVES = {
+    momo: {
+      hop: "front:1 crouch:2 takeoff:1 catch:2:-.03 takeoff:1:-.01 squish_landing:2 proud:3 front:1",
+      wave: "front:1 wave_1:2 wave_2:2 wave_1:2 wave_2:2 wave_1:1 front:1",
+      giggle: "front:1 giggle:2 ~giggle:2 giggle:2 ~giggle:2 front:1",
+      idle: ["blink:1 front:1", "q_front:3 front:1"],
+      secret: "front:1 q_front:1 side:1 q_back:1 back:1 ~q_back:1 ~side:1 ~q_front:1 front:1 crouch:1 catch:3:-.05 squish_landing:2 proud:3 front:1"
+    },
+    flip: {
+      boing: "front:1 spring_crouch:2 takeoff:1:-.02 takeoff:2:-.1 takeoff:1:-.04 boing_landing:2 front:1",
+      tilt: "front:1 tilt:7 front:1",
+      wink: "front:1 wink:5 front:1",
+      idle: ["blink:1 front:1", "q_front:3 front:1 ~q_front:3 front:1"],
+      secret: "front:1 q_front:1 side:1 q_back:1 back:1 ~q_back:1 ~side:1 ~q_front:1 dizzy:8 front:1"
+    },
+    nori: {
+      nod: "front:1 nod:3 front:2 nod:3 front:1",
+      sway: "front:1 lean:4 front:2 ~lean:4 front:1",
+      wave: "front:1 wave:8 front:1",
+      idle: ["half_blink:1 blink:2 half_blink:1 front:1"],
+      secret: "front:2 q_front:2 side:2 q_back:2 back:2 ~q_back:2 ~side:2 ~q_front:2 front:1 proud:5 front:1"
+    }
+  };
+  class Friend {
+    constructor(el) {
+      this.el = el;
+      this.sprite = el.firstElementChild;
+      this.poses = POSES[el.dataset.who].split(" ");
+      this.moves = MOVES[el.dataset.who];
+      this.rest = el.dataset.pose || "front";
+      this.run = 0;
+      this.busy = false;
+      this.taps = [];
+      el.addEventListener("click", () => this.tap());
+      this.show(this.rest);
+      if (!calm) this.idle();
+    }
+    show(step) {
+      const [pose, , lift = 0] = step.replace("~", "").split(":");
+      this.sprite.style.setProperty("--i", this.poses.indexOf(pose));
+      this.sprite.style.transform = `translateY(${lift * 100}%) scaleX(${step[0] === "~" ? -1 : 1})`;
+    }
+    async play(sequence) {
+      const run = ++this.run;
+      const steps = sequence.split(" ");
+      this.busy = true;
+      if (calm) { this.show(steps[steps.length >> 1]); await sleep(700); }
+      else for (const step of steps) {
+        if (run !== this.run) return;
+        this.show(step);
+        await sleep((+step.split(":")[1] || 1) * 83);
+      }
+      if (run !== this.run) return;
+      this.busy = false;
+      this.show(this.rest);
+    }
+    act(name) { return this.play(this.moves[name]); }
+    tap() {
+      const now = performance.now();
+      this.taps = this.taps.filter((t) => now - t < 700).concat(now);
+      if (this.taps.length >= 3) { this.taps = []; this.act("secret"); return; }
+      if (this.busy) return;
+      const names = Object.keys(this.moves).filter((n) => n !== "idle" && n !== "secret" && n !== this.last);
+      this.last = names[Math.floor(Math.random() * names.length)];
+      this.act(this.last);
+    }
+    async idle() {
+      for (;;) {
+        await sleep(2600 + Math.random() * 4200);
+        if (this.busy || document.hidden || this.rest !== "front") continue;
+        const loops = this.moves.idle;
+        await this.play(loops[Math.floor(Math.random() * loops.length)]);
+      }
+    }
+  }
+  const crew = {};
+  $$(".friend").forEach((el) => { const friend = new Friend(el); if (el.id) crew[el.id] = friend; });
+
+  /* ---- 1. The river: thumbnails ride the ribbon into the phone, Polaroids ride out ---- */
+  const SHOTS = ["#EAE6DC", "#DDD7CA", "#D2CBBB"];
+  const PHOTOS = ["#B9CC92", "#E6B7A6", "#F0D49A", "#B4C2E0", "#9FC0B8", "#CFE0B4"];
+  function sample(path, n = 260) {
+    const length = path.getTotalLength();
+    return Array.from({ length: n + 1 }, (_, i) => { const p = path.getPointAtLength((length * i) / n); return [p.x, p.y]; });
+  }
+  function along(points, t) {
+    const f = clamp(t) * (points.length - 1);
+    const i = Math.min(points.length - 2, Math.floor(f));
+    const [ax, ay] = points[i], [bx, by] = points[i + 1];
+    return [ax + (bx - ax) * (f - i), ay + (by - ay) * (f - i), Math.atan2(by - ay, bx - ax) * 57.3];
+  }
+  function makeRiver(svg) {
+    const NS = svg.namespaceURI;
+    const lanes = { in: sample($(".in", svg)), out: sample($(".out", svg)) };
+    const size = +svg.dataset.tile, count = +svg.dataset.count, layer = $(".flow", svg);
+    const items = [];
+    const clip = "tile-" + svg.classList[1];
+    layer.insertAdjacentHTML("beforebegin", `<clipPath id="${clip}" clipPathUnits="objectBoundingBox"><rect width="1" height="1" rx="0.18"/></clipPath>`);
+    const add = (markup, item) => { const g = document.createElementNS(NS, "g"); g.innerHTML = markup; layer.appendChild(g); items.push({ g, ...item }); };
+    for (let i = 0; i < count; i++) {
+      const shot = rand() < 0.6;
+      const fill = (shot ? SHOTS : PHOTOS)[Math.floor(rand() * (shot ? 3 : 6))];
+      const picture = shot ? `<image href="assets/photos/x/${junk()}.jpg" x="${-size / 2}" y="${-size / 2}" width="${size}" height="${size}" preserveAspectRatio="xMidYMid slice" clip-path="url(#${clip})"/>` : `<image href="assets/photos/s/${POOL[i % POOL.length]}.jpg" x="${-size / 2}" y="${-size / 2}" width="${size}" height="${size}" preserveAspectRatio="xMidYMid slice" clip-path="url(#${clip})"/>`;
+      add(`<rect x="${-size / 2}" y="${-size / 2}" width="${size}" height="${size}" rx="${size * 0.18}" fill="${fill}"/>${picture}<rect x="${-size / 2}" y="${-size / 2}" width="${size}" height="${size}" rx="${size * 0.18}" fill="none" stroke="#fff" stroke-width="${size * 0.09}"/>`, { lane: lanes.in, offset: i / count, period: 30, spin: 1, tilt: 0 });
+    }
+    const w = size * 2.1, h = w * 1.2;
+    for (let i = 0; i < 4; i++) {
+      add(`<rect x="${-w / 2}" y="${-h / 2 + 3}" width="${w}" height="${h}" rx="${w * 0.04}" fill="rgba(41,36,24,.16)"/><rect x="${-w / 2}" y="${-h / 2}" width="${w}" height="${h}" rx="${w * 0.04}" fill="#fff"/><image href="assets/photos/s/${[7502, 15113, 24360, 25998][i]}.jpg" x="${-w * 0.43}" y="${-h / 2 + w * 0.07}" width="${w * 0.86}" height="${w * 0.86}" preserveAspectRatio="xMidYMid slice"/>`, { lane: lanes.out, offset: i / 4, period: 22, spin: 0, tilt: i % 2 ? 7 : -6 });
+    }
+    return (seconds) => {
+      for (const item of items) {
+        const [x, y, angle] = along(item.lane, (item.offset + seconds / item.period) % 1);
+        item.g.setAttribute("transform", `translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${(angle * item.spin + item.tilt).toFixed(1)})`);
+      }
+    };
+  }
+  const rivers = {};
+  const isWide = matchMedia("(min-width: 760px)");
+  const river = () => { const key = isWide.matches ? "wide" : "narrow"; return (rivers[key] ||= makeRiver($(".map." + key))); };
+  let riverOn = true;
+  new IntersectionObserver(([entry]) => { riverOn = entry.isIntersecting; }).observe($("#river"));
+  const flow = (now) => {
+    if (riverOn) river()(now / 1000 + 7);
+    if (!calm) requestAnimationFrame(flow);
+  };
+  river()(7);
+  isWide.addEventListener("change", () => river()(7));
+  if (!calm) requestAnimationFrame(flow);
+
+  /* ---- 2. The dig: scroll sorts the roll into ten moments ---- */
+  const dig = $("#dig"), pin = $(".dig-pin"), field = $("#digField");
+  const digNum = $("#digNum"), digUnit = $("#digUnit"), digLines = $$(".dig-lines li");
+  const STOPS = [[0, 3482], [0.12, 3482], [0.36, 2104], [0.58, 968], [0.84, 10], [1, 10]];
+  let tiles = [], frames = [], fieldW = 0, fieldH = 0, painted = -1;
+  const query = new URLSearchParams(location.search);
+  const forced = query.has("p") ? +query.get("p") : null;
+  if (forced !== null) dig.classList.add("forced");
+  else if (calm || innerHeight > 1700) dig.classList.add("still");
+  const still = () => dig.classList.contains("still");
+
+  function buildDig() {
+    field.textContent = "";
+    tiles = []; frames = []; painted = -1;
+    const W = (fieldW = field.clientWidth), H = (fieldH = field.clientHeight);
+    const wide = W > 700;
+    // Every tile is a different photo, so the grid holds at most as many tiles as there are photos.
+    const shuffle = (list) => { for (let i = list.length - 1; i > 0; i--) { const j = Math.floor(rand() * (i + 1)); [list[i], list[j]] = [list[j], list[i]]; } return list; };
+    const extras = shuffle([
+      ...JUNK.map((id) => ({ src: `x/${id}`, fall: true })),
+      ...ACCIDENTS.map((id) => ({ src: `s/${id}`, fall: true })),
+      ...GROUPS.flatMap((g, group) => g.takes.filter((id) => !ACCIDENTS.includes(id)).map((id) => ({ src: `s/${id}`, group })))
+    ]);
+    const total = 30 + extras.length;
+    let cell = clamp(Math.floor(Math.sqrt((W * H) / total)), wide ? 48 : 34, wide ? 96 : 64);
+    while (Math.floor(W / cell) * Math.floor(H / cell) > total) cell++;
+    const cols = Math.floor(W / cell), rows = Math.floor(H / cell);
+    const ox = (W - cols * cell) / 2, oy = (H - rows * cell) / 2, size = cell - Math.max(4, Math.round(cell * 0.09));
+    const order = shuffle(Array.from({ length: cols * rows }, (_, i) => i));
+    const keepers = order.slice(0, 30);
+    let next = 0;
+    const spot = (i) => [ox + (i % cols) * cell + 3, oy + Math.floor(i / cols) * cell + 3];
+
+    // Where the ten Polaroids sit, and the three photo slots inside each one.
+    const layout = wide ? [5, 5] : [2, 3, 3, 2];
+    const colW = Math.min(W / Math.max(...layout), wide ? 220 : 150), rowH = H / layout.length;
+    const pw = Math.min(colW * 0.88, (rowH * 0.9) / 1.08), ph = pw * 1.08;
+    const pad = pw * 0.065, cw = pw - pad * 2, chh = cw * 0.86, gap = pw * 0.02;
+    const slots = [];
+    layout.forEach((n, r) => {
+      for (let j = 0; j < n; j++) {
+        const x = W / 2 + (j - (n - 1) / 2) * Math.min(colW, pw * 1.16) - pw / 2;
+        const y = H / 2 + (r - (layout.length - 1) / 2) * Math.min(rowH, ph * 1.12) - ph / 2;
+        slots.push([
+          [x + pad, y + pad, cw * 0.62, chh],
+          [x + pad + cw * 0.62 + gap, y + pad, cw * 0.38 - gap, (chh - gap) / 2],
+          [x + pad + cw * 0.62 + gap, y + pad + (chh + gap) / 2, cw * 0.38 - gap, (chh - gap) / 2]
+        ]);
+        const frame = document.createElement("div");
+        frame.className = "frame";
+        frame.style.cssText = `width:${pw}px;height:${ph}px;transform:translate(${x}px,${y}px)`;
+        frame.innerHTML = `<span style="font-size:${Math.max(11, pw * 0.125)}px">${GROUPS[slots.length - 1].name}</span>`;
+        field.appendChild(frame);
+        frames.push(frame);
+      }
+    });
+
+    for (let i = 0; i < cols * rows; i++) {
+      const [x, y] = spot(i);
+      const k = keepers.indexOf(i);
+      const el = document.createElement("i");
+      let tile;
+      if (k >= 0) {
+        const group = Math.floor(k / 3), part = k % 3;
+        el.className = "t keep";
+        el.innerHTML = photo(GROUPS[group].keep[part], "m");
+        tile = { type: 2, slot: slots[group][part] };
+      } else {
+        const extra = extras[next++];
+        el.innerHTML = `<img src="assets/photos/${extra.src}.jpg" alt="" decoding="async">`;
+        if (extra.fall) {
+          el.className = "t shot";
+          tile = { type: 0, drift: rand() - 0.5 };
+        } else {
+          const [tx, ty] = spot(keepers[extra.group * 3]);
+          el.className = "t dup";
+          tile = { type: 1, tx, ty };
+        }
+      }
+      el.style.width = el.style.height = size + "px";
+      field.appendChild(el);
+      tiles.push({ el, x, y, size, lag: rand(), q: -1, ...tile });
+    }
+    paintDig(still() ? 1 : digProgress());
+  }
+
+  function digProgress() {
+    if (forced !== null) return forced;
+    const box = dig.getBoundingClientRect();
+    const bar = $("#bar").offsetHeight;
+    return clamp((bar - box.top) / Math.max(1, box.height - innerHeight + bar));
+  }
+  function paintDig(p) {
+    if (Math.abs(p - painted) < 0.0004) return;
+    painted = p;
+    pin.style.setProperty("--m", ease(clamp((p - 0.4) / 0.5)).toFixed(3));
+    for (const t of tiles) {
+      const s = t.el.style;
+      if (t.type === 0) {
+        const q = clamp((p - 0.12 - t.lag * 0.15) / 0.09);
+        if (q === t.q) continue; t.q = q;
+        s.transform = `translate(${t.x + t.drift * 60 * q}px,${t.y + q * q * (fieldH - t.y + 60)}px) rotate(${t.drift * 80 * q}deg)`;
+        s.opacity = 1 - q * q;
+      } else if (t.type === 1) {
+        const q = ease(clamp((p - 0.36 - t.lag * 0.13) / 0.09));
+        if (q === t.q) continue; t.q = q;
+        s.transform = `translate(${t.x + (t.tx - t.x) * q}px,${t.y + (t.ty - t.y) * q}px) scale(${1 - q})`;
+        s.opacity = q > 0.97 ? 0 : 1;
+      } else {
+        const q = ease(clamp((p - 0.58 - t.lag * 0.08) / 0.16));
+        if (q === t.q) continue; t.q = q;
+        const [sx, sy, sw, sh] = t.slot;
+        s.transform = `translate(${t.x + (sx - t.x) * q}px,${t.y + (sy - t.y) * q}px)`;
+        s.width = t.size + (sw - t.size) * q + "px";
+        s.height = t.size + (sh - t.size) * q + "px";
+        s.borderRadius = 16 - 13 * q + "%";
+        s.zIndex = 2;
+      }
+    }
+    frames.forEach((frame, i) => { frame.style.opacity = ease(clamp((p - 0.68 - i * 0.008) / 0.1)); });
+    let n = 10;
+    for (let i = 1; i < STOPS.length; i++) {
+      if (p <= STOPS[i][0]) { const [a, va] = STOPS[i - 1], [b, vb] = STOPS[i]; n = Math.round(va + (vb - va) * ((p - a) / (b - a))); break; }
+    }
+    digNum.textContent = n.toLocaleString("en-US");
+    digUnit.textContent = n <= 10 ? "moments" : "photos";
+    const line = p < 0.12 ? 0 : p < 0.36 ? 1 : p < 0.58 ? 2 : p < 0.84 ? 3 : 4;
+    digLines.forEach((li, i) => li.classList.toggle("on", i === line));
+  }
+  let queued = false;
+  addEventListener("scroll", () => {
+    if (queued || still()) return;
+    queued = true;
+    requestAnimationFrame(() => { queued = false; paintDig(digProgress()); });
+  }, { passive: true });
+  addEventListener("resize", () => { if (Math.abs(field.clientWidth - fieldW) > 30) buildDig(); });
+  buildDig();
+
+  /* ---- 3. Your turn: three moments, Keep, Later or Skip ---- */
+  const MOMENTS = [
+    { name: "Kings Canyon", cover: 11914, photos: [11914, 11986, 11900, 11983, 11819], title: "A late summer day in Sequoia and Kings Canyon", meta: "200 photos, Sunday, September 15, 2024", why: "We drove up into Sequoia and Kings Canyon. Abby got a shoulder ride up the trail, Abby and Cody squeezed onto the red chairs by the lake, and the giant trees made all of us look tiny." },
+    { name: "Shoufeng", cover: 20269, photos: [20269, 20346, 20299, 20300, 20392], title: "A winter afternoon in Shoufeng, Hualien", meta: "133 photos, Sunday, January 8, 2023", why: "We spent a slow afternoon by the pond in Shoufeng. Abby twirled around in her purple dress, Cody stayed snug in Mom's arms, and we shared a little cake with a strawberry on top." },
+    { name: "Hualien daylilies", cover: 24360, photos: [24360, 24342, 24275, 24471, 24481], title: "Daylily season in Yuli and Fuli", meta: "60 photos, Sunday, September 6, 2020", why: "We drove into the hills to see the daylilies. Abby rode in the carrier the whole way, the fields were orange as far as we could see, and the clouds rolled in just as we left." }
+  ];
+  const deck = $("#deck"), tray = $("#tray"), wall = $("#wall"), wallNote = $("#wallNote");
+  let turn = 0, locked = false, kept = [], later = 0;
+  const polaroid = (m) => `<figure class="pol">${photo(m.cover, "m")}<figcaption>${m.name}</figcaption></figure>`;
+  function dealCard() {
+    if (turn < MOMENTS.length) {
+      const m = MOMENTS[turn];
+      const ticks = MOMENTS.map((_, i) => `<b${i < turn ? ' class="done"' : ""}></b>`).join("");
+      deck.innerHTML = `<article class="card"><div class="ticks">${ticks}<span>${turn + 1} of ${MOMENTS.length}</span></div><h3>${m.title}</h3><p class="meta">${m.meta}</p><p class="why">${m.why}</p><div class="mosaic">${m.photos.map((id) => photo(id, "m")).join("")}</div><div class="acts"><button type="button" data-act="keep">Keep</button><button type="button" data-act="later">Later</button><button type="button" data-act="skip">Skip</button></div></article>`;
+    } else {
+      const tally = [kept.length && `kept ${kept.length}`, later && `saved ${later} for later`].filter(Boolean).join(" and ") || "skipped all three";
+      deck.innerHTML = `<article class="card end"><h3>That's the ritual.</h3><p>You ${tally}. In the app it's ten moments from your own camera roll, in about five minutes.</p><div class="row"><a class="btn" href="#invite">Find your moments</a><button class="btn ghost" type="button" data-act="again">Play again</button></div></article>`;
+    }
+  }
+  function hangWall() {
+    const shown = kept.length ? kept : MOMENTS;
+    wall.innerHTML = shown.map(polaroid).join("") + '<div class="empty">yours</div>'.repeat(Math.max(1, 5 - shown.length));
+    wallNote.textContent = kept.length ? `You kept ${kept.length === 1 ? "this one" : "these"} just now. Yours go in the empty ones.` : "Three of ours. Yours go in the empty ones.";
+  }
+  async function choose(act) {
+    if (locked) return;
+    if (act === "again") { turn = 0; kept = []; later = 0; $$(".pol", tray).forEach((p) => p.remove()); dealCard(); hangWall(); return; }
+    locked = true;
+    const m = MOMENTS[turn];
+    $(".card", deck).classList.add(act);
+    if (act === "keep") { kept.push(m); crew.playMomo.act("hop"); }
+    if (act === "later") { later++; crew.playNori.act("nod"); }
+    if (act === "skip") crew.playFlip.act("tilt");
+    await sleep(calm ? 0 : 420);
+    if (act === "keep") { tray.insertAdjacentHTML("beforeend", polaroid(m)); hangWall(); }
+    turn++;
+    dealCard();
+    locked = false;
+  }
+  deck.addEventListener("click", (event) => { const button = event.target.closest("[data-act]"); if (button) choose(button.dataset.act); });
+  dealCard();
+  hangWall();
+
+  /* ---- Header: frosted once the page scrolls; its button shows only while neither the hero button nor the invitation is on screen ---- */
+  const bar = $("#bar"), barCta = $("#barCta");
+  const heroCta = $(".hero-copy .btn"), invite = $("#invite");
+  let ctaQueued = false;
+  const syncCta = () => {
+    ctaQueued = false;
+    const heroGone = heroCta.getBoundingClientRect().bottom < bar.offsetHeight;
+    const atInvite = invite.getBoundingClientRect().top < innerHeight * 0.8;
+    bar.classList.toggle("stuck", scrollY > 4);
+    barCta.classList.toggle("on", heroGone && !atInvite);
+  };
+  addEventListener("scroll", () => { if (!ctaQueued) { ctaQueued = true; requestAnimationFrame(syncCta); } }, { passive: true });
+  syncCta();
+
+  /* ---- 7. Invitation: a design preview, so the form sends nothing ---- */
+  $("#inviteForm").addEventListener("submit", (event) => {
+    event.preventDefault();
+    const input = $("#inviteEmail"), status = $("#inviteStatus");
+    if (!input.checkValidity()) { status.textContent = "Enter a valid email address."; return; }
+    status.textContent = "This is a design preview, so nothing was sent.";
+  });
+
+  /* Preview helpers for local screenshots: ?solo=dig&p=0.5 shows one section at a set progress,
+     ?from=play hides everything above it, ?demo=kls plays the three cards. */
+  const blocks = [...document.body.children].filter((el) => !/^(SCRIPT|STYLE|LINK|TITLE)$/.test(el.tagName) && el.getAttribute("width") !== "0");
+  if (query.has("solo")) blocks.forEach((el) => { if (el.id !== query.get("solo")) el.hidden = true; });
+  if (query.has("from")) for (const el of blocks) { if (el.id === query.get("from")) break; el.hidden = true; }
+  if (query.has("demo")) (async () => { for (const c of query.get("demo")) { await choose({ k: "keep", l: "later", s: "skip" }[c]); await sleep(60); } })();
+})();
+</script>
