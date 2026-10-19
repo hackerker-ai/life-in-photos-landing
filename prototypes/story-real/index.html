@@ -132,10 +132,15 @@ h1 { max-width: 11.4em; font-size: clamp(2.3rem, 4.6vw + 1.15rem, 4.5rem); }
 .crew .friend:nth-child(2) { left: calc(var(--ch) * 0.5); bottom: 0; }
 .crew .friend:nth-child(3) { left: calc(var(--ch) * 1.02); bottom: 0; }
 .deck { width: 100%; max-width: 420px; margin-inline: auto; }
-.card { display: flex; flex-direction: column; gap: 12px; padding: 20px 18px 18px; border-radius: 30px; background: var(--card); box-shadow: 0 2px 4px rgba(41, 36, 24, 0.08), 0 26px 60px var(--shade); transition: transform 0.45s cubic-bezier(0.3, 0.7, 0.2, 1), opacity 0.4s; }
-.card.keep { transform: translateY(46%) scale(0.28) rotate(-7deg); opacity: 0; }
+.card { display: flex; flex-direction: column; gap: 12px; padding: 20px 18px 18px; border-radius: 30px; background: var(--card); box-shadow: 0 2px 4px rgba(41, 36, 24, 0.08), 0 26px 60px var(--shade); transition: transform 0.25s cubic-bezier(0.4, 0, 1, 1), opacity 0.25s; }
+/* A decided card leaves faster than the next one arrives. Keep lifts the cover photo out to the tray, so the rest of the card just fades where it stands. */
+.card.in { animation: deal 0.32s cubic-bezier(0.16, 1, 0.3, 1) backwards; }
+.card.keep { opacity: 0; transition-duration: 0.2s; }
 .card.later { transform: translateX(64%) rotate(9deg); opacity: 0; }
 .card.skip { transform: translateX(-64%) rotate(-9deg); opacity: 0; }
+.mosaic img.lifted { visibility: hidden; }
+@keyframes deal { from { opacity: 0; transform: translateY(18px); } }
+@keyframes fade { from { opacity: 0; } }
 .ticks { display: flex; align-items: center; gap: 5px; font-size: 0.8rem; font-weight: 600; color: var(--muted); }
 .ticks b { width: 11px; height: 13px; border: 2px solid var(--ink); border-radius: 2px; }
 .ticks b.done { background: var(--ink); }
@@ -156,11 +161,11 @@ h1 { max-width: 11.4em; font-size: clamp(2.3rem, 4.6vw + 1.15rem, 4.5rem); }
 .card.end .row { display: flex; flex-wrap: wrap; gap: 10px; }
 .btn.ghost { background: none; border: 1.5px solid var(--ink); color: var(--ink); }
 .tray { display: flex; align-items: center; gap: 10px; min-height: 66px; margin-top: 16px; padding-inline: 8px; font-size: 0.86rem; font-weight: 600; color: var(--muted); }
-.tray .pol { width: 46px; padding: 3px 3px 9px; border-radius: 2px; box-shadow: 0 4px 10px var(--shade); animation: land 0.5s cubic-bezier(0.2, 1.4, 0.4, 1) both; }
+.tray .pol { width: 46px; padding: 3px 3px 9px; border-radius: 2px; box-shadow: 0 4px 10px var(--shade); }
 .tray .pol figcaption { display: none; }
 .tray .pol:nth-of-type(odd) { rotate: -5deg; }
 .tray .pol:nth-of-type(even) { rotate: 4deg; }
-@keyframes land { from { transform: translateY(-46px) scale(1.5); opacity: 0; } }
+.tray .pol.flying { position: relative; z-index: 5; }
 @media (min-width: 900px) {
   .play-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 420px); gap: 72px; }
   .crew { margin-top: 16px; }
@@ -215,6 +220,16 @@ details p { max-width: 34em; padding-bottom: 22px; color: var(--body); }
 .wall .pol:nth-child(even) { rotate: 2.5deg; }
 .wall .pol figcaption { font-size: 1.02rem; }
 .wall .empty { display: flex; align-items: center; justify-content: center; aspect-ratio: 1 / 1.2; border: 2px dashed rgba(41, 36, 24, 0.4); border-radius: 4px; font: 600 1.3rem var(--hand); color: var(--body); }
+/* Moments kept in the demo wait off the wall until it comes into view, then get pressed on one by one, lifted close and settling flat. */
+.wall .pol.waiting { opacity: 0; }
+.wall .pol.pin { animation: pin 0.55s cubic-bezier(0.16, 1, 0.3, 1) var(--delay, 0s) backwards; }
+@keyframes pin { from { opacity: 0; transform: translateY(-16px) scale(1.12); box-shadow: 0 2px 4px rgba(41, 36, 24, 0.06), 0 40px 46px rgba(41, 36, 24, 0.2); } }
+/* The visitor's own Polaroid: it fills the first empty frame and develops like an instant photo. */
+.wall .mine .dev { position: relative; display: grid; place-items: center; aspect-ratio: 1; overflow: hidden; background: var(--butter); color: var(--teal-deep); }
+.wall .mine .dev svg { width: 44%; height: auto; }
+.wall .mine .dev::after { content: ""; position: absolute; inset: 0; background: #2E2A22; opacity: 0; }
+.wall .mine.develop .dev::after { animation: develop 0.8s cubic-bezier(0.3, 0, 0.2, 1) 0.15s backwards; }
+@keyframes develop { from { opacity: 1; } }
 .wall-note { font: 600 1.5rem/1.1 var(--hand); }
 .invite form { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 440px; }
 .invite label { font-size: 1rem; color: var(--body); }
@@ -235,8 +250,12 @@ footer { overflow: hidden; background: var(--walnut); color: var(--on-ink); }
   html { scroll-behavior: auto; }
   .bar, .bar-cta, .bar-cta.on { transition: none; transform: none; }
   .btn:hover, .btn:active { translate: none; }
-  .card, .dig-lines li, summary svg { transition: none; }
-  .tray .pol { animation: none; }
+  .dig-lines li, summary svg { transition: none; }
+  /* Cards and Polaroids still show each change, as a short fade with no travel. */
+  .card { transition: opacity 0.15s; }
+  .card.later, .card.skip { transform: none; }
+  .card.in, .wall .pol.pin { animation: fade 0.15s linear backwards; }
+  .wall .mine.develop .dev::after { animation-duration: 0.3s; animation-delay: 0s; }
 }
 </style>
 
@@ -698,36 +717,68 @@ footer { overflow: hidden; background: var(--walnut); color: var(--on-ink); }
     { name: "Hualien daylilies", cover: 24360, photos: [24360, 24342, 24275, 24471, 24481], title: "Daylily season in Yuli and Fuli", meta: "60 photos, Sunday, September 6, 2020", why: "We drove into the hills to see the daylilies. Abby rode in the carrier the whole way, the fields were orange as far as we could see, and the clouds rolled in just as we left." }
   ];
   const deck = $("#deck"), tray = $("#tray"), wall = $("#wall"), wallNote = $("#wallNote");
-  let turn = 0, locked = false, kept = [], later = 0;
+  let turn = 0, locked = false, kept = [], later = 0, signedUp = false, wallInView = false;
+  const pinned = new Set();
   const polaroid = (m) => `<figure class="pol">${photo(m.cover, "m")}<figcaption>${m.name}</figcaption></figure>`;
-  function dealCard() {
+  const mine = `<figure class="pol mine"><div class="dev"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" transform="rotate(-8 12 12)" d="M6.6 2.5h10.8a2.6 2.6 0 0 1 2.6 2.6v13.8a2.6 2.6 0 0 1-2.6 2.6H6.6A2.6 2.6 0 0 1 4 18.9V5.1a2.6 2.6 0 0 1 2.6-2.6zM7.3 4.8a1 1 0 0 0-1 1v9.6a1 1 0 0 0 1 1h9.4a1 1 0 0 0 1-1V5.8a1 1 0 0 0-1-1z"/></svg></div><figcaption>you're in</figcaption></figure>`;
+  function dealCard(fresh = false) {
     if (turn < MOMENTS.length) {
       const m = MOMENTS[turn];
       const ticks = MOMENTS.map((_, i) => `<b${i < turn ? ' class="done"' : ""}></b>`).join("");
-      deck.innerHTML = `<article class="card"><div class="ticks">${ticks}<span>${turn + 1} of ${MOMENTS.length}</span></div><h3>${m.title}</h3><p class="meta">${m.meta}</p><p class="why">${m.why}</p><div class="mosaic">${m.photos.map((id) => photo(id, "m")).join("")}</div><div class="acts"><button type="button" data-act="keep">Keep</button><button type="button" data-act="later">Later</button><button type="button" data-act="skip">Skip</button></div></article>`;
+      deck.innerHTML = `<article class="card${fresh ? " in" : ""}"><div class="ticks">${ticks}<span>${turn + 1} of ${MOMENTS.length}</span></div><h3>${m.title}</h3><p class="meta">${m.meta}</p><p class="why">${m.why}</p><div class="mosaic">${m.photos.map((id) => photo(id, "m")).join("")}</div><div class="acts"><button type="button" data-act="keep">Keep</button><button type="button" data-act="later">Later</button><button type="button" data-act="skip">Skip</button></div></article>`;
     } else {
       const tally = [kept.length && `kept ${kept.length}`, later && `saved ${later} for later`].filter(Boolean).join(" and ") || "skipped all three";
-      deck.innerHTML = `<article class="card end"><h3>That's the ritual.</h3><p>You ${tally}. In the app it's ten moments from your own camera roll, in about five minutes.</p><div class="row"><a class="btn" href="#invite">Find your moments</a><button class="btn ghost" type="button" data-act="again">Play again</button></div></article>`;
+      deck.innerHTML = `<article class="card end${fresh ? " in" : ""}"><h3>That's the ritual.</h3><p>You ${tally}. In the app it's ten moments from your own camera roll, in about five minutes.</p><div class="row"><a class="btn" href="#invite">Find your moments</a><button class="btn ghost" type="button" data-act="again">Play again</button></div></article>`;
     }
   }
   function hangWall() {
     const shown = kept.length ? kept : MOMENTS;
-    wall.innerHTML = shown.map(polaroid).join("") + '<div class="empty">yours</div>'.repeat(Math.max(1, 5 - shown.length));
+    const empties = Math.max(1, 5 - shown.length) - (signedUp ? 1 : 0);
+    wall.innerHTML = shown.map(polaroid).join("") + (signedUp ? mine : "") + '<div class="empty">yours</div>'.repeat(Math.max(0, empties));
     wallNote.textContent = kept.length ? `You kept ${kept.length === 1 ? "this one" : "these"} just now. Yours go in the empty ones.` : "Three of ours. Yours go in the empty ones.";
+    // A moment kept since the visitor last saw the wall waits to be pinned on.
+    $$(".pol:not(.mine)", wall).forEach((pol, i) => { if (kept[i] && !pinned.has(kept[i])) pol.classList.add("waiting"); });
+    pinWaiting();
+  }
+  function pinWaiting() {
+    if (!wallInView) return;
+    $$(".pol.waiting", wall).forEach((pol, i) => {
+      pol.style.setProperty("--delay", `${Math.min(i * 0.12, 0.3)}s`);
+      pol.classList.replace("waiting", "pin");
+    });
+    kept.forEach((m) => pinned.add(m));
+  }
+  new IntersectionObserver(([entry]) => { wallInView = entry.isIntersecting; pinWaiting(); }, { threshold: 0.5 }).observe(wall);
+
+  /* Keep: the cover photo lifts out of the card and shrinks into its place in the tray, already a Polaroid (FLIP). */
+  function flyToTray(card, m) {
+    tray.insertAdjacentHTML("beforeend", polaroid(m));
+    const pol = tray.lastElementChild;
+    if (calm) { pol.animate({ opacity: [0, 1] }, { duration: 150 }); return; }
+    const cover = $(".mosaic img", card), image = $("img", pol);
+    const from = cover.getBoundingClientRect(), to = image.getBoundingClientRect(), box = pol.getBoundingClientRect();
+    const cx = to.left + to.width / 2, cy = to.top + to.height / 2;
+    cover.classList.add("lifted");
+    pol.classList.add("flying");
+    pol.style.transformOrigin = `${cx - box.left}px ${cy - box.top}px`;
+    const rest = getComputedStyle(pol).rotate;
+    pol.animate([
+      { transform: `translate(${from.left + from.width / 2 - cx}px, ${from.top + from.height / 2 - cy}px) scale(${from.width / to.width})`, rotate: "0deg" },
+      { transform: "none", rotate: rest }
+    ], { duration: 480, easing: "cubic-bezier(0.16, 1, 0.3, 1)" }).finished.then(() => { pol.classList.remove("flying"); pol.style.transformOrigin = ""; });
   }
   async function choose(act) {
     if (locked) return;
-    if (act === "again") { turn = 0; kept = []; later = 0; $$(".pol", tray).forEach((p) => p.remove()); dealCard(); hangWall(); return; }
+    if (act === "again") { turn = 0; kept = []; later = 0; pinned.clear(); $$(".pol", tray).forEach((p) => p.remove()); dealCard(true); hangWall(); return; }
     locked = true;
-    const m = MOMENTS[turn];
-    $(".card", deck).classList.add(act);
-    if (act === "keep") { kept.push(m); crew.playMomo.act("hop"); }
+    const m = MOMENTS[turn], card = $(".card", deck);
+    card.classList.add(act);
+    if (act === "keep") { kept.push(m); crew.playMomo.act("hop"); flyToTray(card, m); hangWall(); }
     if (act === "later") { later++; crew.playNori.act("nod"); }
     if (act === "skip") crew.playFlip.act("tilt");
-    await sleep(calm ? 0 : 420);
-    if (act === "keep") { tray.insertAdjacentHTML("beforeend", polaroid(m)); hangWall(); }
+    await sleep(calm ? 150 : 250);
     turn++;
-    dealCard();
+    dealCard(true);
     locked = false;
   }
   deck.addEventListener("click", (event) => { const button = event.target.closest("[data-act]"); if (button) choose(button.dataset.act); });
@@ -754,6 +805,11 @@ footer { overflow: hidden; background: var(--walnut); color: var(--on-ink); }
     const input = $("#inviteEmail"), status = $("#inviteStatus");
     if (!input.checkValidity()) { status.textContent = "Enter a valid email address."; return; }
     status.textContent = "This is a design preview, so nothing was sent.";
+    if (signedUp) return;
+    // The visitor's own Polaroid fills the first empty frame on the wall.
+    signedUp = true;
+    $(".empty", wall).outerHTML = mine;
+    $(".mine", wall).classList.add("pin", "develop");
   });
 
   /* Preview helpers for local screenshots: ?solo=dig&p=0.5 shows one section at a set progress,
