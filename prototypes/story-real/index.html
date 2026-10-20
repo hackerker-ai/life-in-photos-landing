@@ -156,10 +156,25 @@ h1 { max-width: 11.4em; font-size: clamp(2.3rem, 4.6vw + 1.15rem, 4.5rem); }
 .acts [data-act="keep"] { background: var(--ink); color: var(--on-ink); }
 .acts [data-act="later"] { background: var(--card); border-color: var(--line); color: var(--ink); }
 .acts [data-act="skip"] { background: #F2EBDD; color: var(--ink); }
+.acts-why { display: grid; grid-template-columns: 1.25fr 1fr 1fr; gap: 8px; margin-top: -4px; text-align: center; font-size: 0.78rem; font-weight: 600; line-height: 1.25; color: var(--muted); }
 .card.end { align-items: flex-start; gap: 14px; padding: 28px 24px; }
 .card.end p { color: var(--body); }
 .card.end .row { display: flex; flex-wrap: wrap; gap: 10px; }
 .btn.ghost { background: none; border: 1.5px solid var(--ink); color: var(--ink); }
+/* Until the first tap the tray holds the hint; Kept appears only once something is kept. */
+.nudge { display: flex; flex-direction: column; align-items: center; gap: 2px; width: 100%; }
+.curl { width: 58px; height: 60px; margin-top: -10px; color: var(--teal-deep); }
+.play.hint .curl { animation: bob 1.3s ease-in-out infinite; }
+@keyframes bob { 50% { transform: translateY(-7px); } }
+.bubble { padding: 8px 18px 10px; border-radius: 99px; background: var(--sun); box-shadow: 0 6px 14px var(--shade); font: 600 1.6rem/1 var(--hand); color: var(--ink); rotate: -1.5deg; }
+.play.hint .bubble { animation: nudge-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both; }
+@keyframes nudge-in { from { opacity: 0; transform: translateY(8px) scale(0.94); } }
+.tray:has(.nudge) { justify-content: center; margin-top: 6px; }
+/* The three choices glow in turn while the hint is up, so it is clear they are the visitor's to tap. */
+.play.hint .acts button { animation: glow 2.7s ease-out infinite; }
+.play.hint .acts button:nth-child(2) { animation-delay: 0.3s; }
+.play.hint .acts button:nth-child(3) { animation-delay: 0.6s; }
+@keyframes glow { 0% { box-shadow: 0 0 0 0 rgba(78, 133, 137, 0.55); } 30%, 100% { box-shadow: 0 0 0 10px rgba(78, 133, 137, 0); } }
 .tray { display: flex; align-items: center; gap: 10px; min-height: 66px; margin-top: 16px; padding-inline: 8px; font-size: 0.86rem; font-weight: 600; color: var(--muted); }
 .tray .pol { width: 46px; padding: 3px 3px 9px; border-radius: 2px; box-shadow: 0 4px 10px var(--shade); }
 .tray .pol figcaption { display: none; }
@@ -380,6 +395,7 @@ footer { overflow: hidden; background: var(--walnut); color: var(--on-ink); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .bar, .bar-cta, .bar-cta.on { transition: none; transform: none; }
+  .play.hint .acts button, .play.hint .curl, .play.hint .bubble { animation: none; }
   .btn:hover, .btn:active { translate: none; }
   .dig-lines li, summary svg { transition: none; }
   /* Cards and Polaroids still show each change, as a short fade with no travel. */
@@ -457,7 +473,7 @@ footer { overflow: hidden; background: var(--walnut); color: var(--on-ink); }
     </div>
     <div>
       <div class="deck" id="deck" aria-live="polite"></div>
-      <div class="deck tray" id="tray" aria-label="Moments you kept"><span>Kept</span></div>
+      <div class="deck tray" id="tray" aria-label="Moments you kept"><div class="nudge" id="nudge"><svg class="curl" width="44" height="46" viewBox="0 0 44 46" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 44C5 35 8 24 18 26c9 2 8 13 0 12-8-1-4-20 6-33"/><path d="M16.5 7.8L24 5l-1.3 7.9"/></svg><p class="bubble">Your turn! Tap one to decide.</p></div><span id="trayLabel" hidden>Kept</span></div>
     </div>
   </div>
 </section>
@@ -933,7 +949,7 @@ footer { overflow: hidden; background: var(--walnut); color: var(--on-ink); }
     if (turn < MOMENTS.length) {
       const m = MOMENTS[turn];
       const ticks = MOMENTS.map((_, i) => `<b${i < turn ? ' class="done"' : ""}></b>`).join("");
-      deck.innerHTML = `<article class="card${fresh ? " in" : ""}"><div class="ticks">${ticks}<span>${turn + 1} of ${MOMENTS.length}</span></div><h3>${m.title}</h3><p class="meta">${m.meta}</p><p class="why">${m.why}</p><div class="mosaic">${m.photos.map((id) => photo(id, "m")).join("")}</div><div class="acts"><button type="button" data-act="keep">Keep</button><button type="button" data-act="later">Later</button><button type="button" data-act="skip">Skip</button></div></article>`;
+      deck.innerHTML = `<article class="card${fresh ? " in" : ""}"><div class="ticks">${ticks}<span>${turn + 1} of ${MOMENTS.length}</span></div><h3>${m.title}</h3><p class="meta">${m.meta}</p><p class="why">${m.why}</p><div class="mosaic">${m.photos.map((id) => photo(id, "m")).join("")}</div><div class="acts"><button type="button" data-act="keep">Keep</button><button type="button" data-act="later">Later</button><button type="button" data-act="skip">Skip</button></div><div class="acts-why"><span>Save to Moments</span><span>Decide another time</span><span>Not this moment</span></div></article>`;
     } else {
       const tally = [kept.length && `kept ${kept.length}`, later && `saved ${later} for later`].filter(Boolean).join(" and ") || "skipped all three";
       deck.innerHTML = `<article class="card end${fresh ? " in" : ""}"><h3>That's the ritual.</h3><p>You ${tally}. In the app it's ten moments from your own camera roll, in about five minutes.</p><div class="row"><a class="btn" href="#invite">Find your moments</a><button class="btn ghost" type="button" data-act="again">Play again</button></div></article>`;
@@ -977,8 +993,10 @@ footer { overflow: hidden; background: var(--walnut); color: var(--on-ink); }
   }
   async function choose(act) {
     if (locked) return;
-    if (act === "again") { turn = 0; kept = []; later = 0; pinned.clear(); $$(".pol", tray).forEach((p) => p.remove()); dealCard(true); hangWall(); return; }
+    if (act === "again") { turn = 0; kept = []; later = 0; pinned.clear(); $$(".pol", tray).forEach((p) => p.remove()); trayLabel.hidden = true; dealCard(true); hangWall(); return; }
     locked = true;
+    if (hinting) { hinting = false; playSection.classList.remove("hint"); $("#nudge")?.remove(); }
+    if (act === "keep") trayLabel.hidden = false;
     const m = MOMENTS[turn], card = $(".card", deck);
     card.classList.add(act);
     if (act === "keep") { kept.push(m); crew.playMomo.act("hop"); flyToTray(card, m); hangWall(); }
@@ -990,6 +1008,13 @@ footer { overflow: hidden; background: var(--walnut); color: var(--on-ink); }
     locked = false;
   }
   deck.addEventListener("click", (event) => { const button = event.target.closest("[data-act]"); if (button) choose(button.dataset.act); });
+  // The hint: while nobody has tapped yet and the card is in view, the buttons glow in turn; Nori waves the first time it shows.
+  const trayLabel = $("#trayLabel"), playSection = $("#play");
+  let hinting = true, waved = false;
+  new IntersectionObserver(([entry]) => {
+    playSection.classList.toggle("hint", hinting && entry.isIntersecting);
+    if (hinting && entry.isIntersecting && !waved && !calm) { waved = true; crew.playNori.act("wave"); }
+  }, { threshold: 0.6 }).observe(deck);
   dealCard();
   hangWall();
 
