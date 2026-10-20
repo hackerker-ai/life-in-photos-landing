@@ -26,7 +26,7 @@ Ten ready moments at a time, already gathered and written up, instead of a clean
 - Each moment gets a title and notes by default, written by an AI model from a few small previews; the visitor can edit what comes back.
 - Place names come from Apple's reverse geocoding of photo locations, so the page must not say that only the notes step leaves the phone.
 - Privacy (titles are on by default, confirmed by the owner): "Your photos stay on your phone and in your own iCloud. To write each moment's title and note, a few small previews, with location and camera data removed, are sent to an AI model. We don't run servers that keep your photos."
-- Undecided: pricing during and after the beta.
+- Pricing is decided after the beta. Every beta tester gets an exclusive discount offer.
 
 ## Brand Commitments
 
