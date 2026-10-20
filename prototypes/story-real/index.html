@@ -171,6 +171,137 @@ h1 { max-width: 11.4em; font-size: clamp(2.3rem, 4.6vw + 1.15rem, 4.5rem); }
   .crew { margin-top: 16px; }
 }
 
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* 3b. How it works: three screens from the app mockup, one line under each, all in one view.
+   On phones the three sit in a row you swipe, so the section never gets long. */
+.how { padding-block: clamp(24px, 3vw, 40px) clamp(56px, 8vw, 104px); }
+.how-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px 40px; }
+.how-head h2 { max-width: 12em; font-size: clamp(2rem, 1.8vw + 1.3rem, 3.1rem); }
+.how-head p { max-width: 22em; font-size: clamp(1.02rem, 0.4vw + 0.95rem, 1.2rem); color: var(--body); }
+.how-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 3vw, 40px); margin: clamp(24px, 3vw, 40px) 0 0; padding: 0; list-style: none; }
+.how-step { display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; }
+.how-cap h3 { font: 600 clamp(1.7rem, 1vw + 1.4rem, 2.2rem)/1 var(--hand); }
+.how-cap p { max-width: 19em; margin-top: 6px; color: var(--body); text-wrap: pretty; }
+.how .device { text-align: left; }
+.device { padding: 9px; border-radius: 42px; background: #1F1B14; box-shadow: 0 2px 4px rgba(41, 36, 24, 0.16), 0 26px 50px rgba(41, 36, 24, 0.24); }
+.screen { position: relative; display: flex; flex-direction: column; width: 390px; height: 844px; overflow: hidden; padding: 56px 20px 22px; border-radius: 52px; background: var(--paper); color: var(--ink); }
+.screen::before { content: ""; position: absolute; top: 14px; left: 50%; width: 120px; height: 34px; translate: -50% 0; border-radius: 99px; background: #1F1B14; }
+.s-top { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; padding-top: 6px; }
+.s-top svg { position: absolute; left: 4px; top: 12px; }
+.s-ticks { display: flex; gap: 6px; }
+.s-ticks b { width: 15px; height: 17px; border: 2px solid #C6BEAD; border-radius: 3px; }
+.s-ticks b.done { border-color: var(--ink); background: var(--ink); }
+.s-ticks b.done:nth-child(2) { border-color: #B79A3A; background: #B79A3A; }
+.s-ticks b.now { border-color: var(--ink); border-width: 2.5px; }
+.s-count { font-size: 14px; color: var(--muted); }
+.s-meta { margin-top: 8px; font-size: 13px; font-weight: 600; color: var(--muted); }
+.s-col { display: flex; flex: 1; flex-direction: column; gap: 6px; }
+.s-mosaic img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.s-acts { display: grid; grid-template-columns: 1.1fr 1fr 1fr; gap: 10px; margin-top: auto; padding-inline: 20px; }
+.s-acts span { display: grid; place-items: center; height: 52px; border-radius: 26px; font-size: 17px; font-weight: 600; }
+.s-acts span:nth-child(1) { background: var(--ink); color: var(--on-ink); }
+.s-acts span:nth-child(2) { border: 1.5px solid #CFC8BA; background: var(--card); }
+.s-acts span:nth-child(3) { background: #F2EBDD; color: var(--muted); }
+.f-lockup { display: flex; align-items: center; gap: 10px; padding: 8px 4px 0; font: 800 23px/1 var(--display); letter-spacing: -0.025em; }
+.f-date { display: flex; align-items: center; gap: 10px; margin-top: 12px; padding-left: 4px; font-size: 12.5px; font-weight: 600; letter-spacing: 0.1em; color: var(--muted); }
+.f-date::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #B79A3A; }
+.f-deck { position: relative; width: 236px; height: 300px; margin: 30px auto 0; }
+.mo-grid { display: grid; grid-template-columns: 1.5fr 1fr; grid-template-rows: 1fr 1fr; gap: 3px; }
+.mo-grid img { display: block; width: 100%; height: 100%; min-height: 0; aspect-ratio: auto; object-fit: cover; }
+.mo-grid img:first-child { grid-row: span 2; }
+.f-card .mo-grid { gap: 4px; aspect-ratio: 1 / 0.9; }
+.f-card span { display: block; padding: 10px 4px; font: 600 23px/1.05 var(--hand); }
+.f-card.c0 { z-index: 3; transform: rotate(-1.5deg); }
+.f-card.c1 { z-index: 2; transform: rotate(6deg) translate(16px, -2px); }
+.f-card.c2 { z-index: 1; transform: rotate(-7deg) translate(-18px, 0); }
+.f-card.c1 > *, .f-card.c2 > * { visibility: hidden; }
+.f-ready { margin-top: 40px; text-align: center; font: 900 25px/1.1 var(--display); letter-spacing: -0.02em; }
+.f-sub { margin-top: 8px; text-align: center; font-size: 14px; line-height: 1.35; color: var(--body); }
+.f-start { display: grid; place-items: center; height: 56px; margin-top: 18px; border-radius: 28px; background: var(--ink); color: var(--on-ink); font-size: 17px; font-weight: 600; }
+.f-later { display: flex; align-items: center; justify-content: space-between; height: 56px; margin-top: 14px; padding: 0 18px; border: 1.5px solid var(--line); border-radius: 18px; background: var(--card); font-size: 15px; font-weight: 600; }
+.f-later b { display: flex; align-items: center; gap: 10px; font: 900 21px/1 var(--display); }
+.f-tabs { display: flex; justify-content: space-around; width: 280px; margin: auto auto 0; padding: 6px; border-radius: 34px; background: var(--card); box-shadow: 0 8px 20px var(--shade); }
+.f-tabs span { display: flex; flex-direction: column; align-items: center; gap: 3px; width: 84px; padding: 8px 0 6px; border-radius: 26px; font-size: 11px; font-weight: 600; color: var(--body); }
+.f-tabs span.on { background: #F7E4E0; color: #A2452F; }
+.s-title { margin: 14px 0 0; padding-bottom: 8px; border-bottom: 2px dashed #D9D1C1; font: 600 36px/1.06 var(--hand); }
+.s-notes { margin-top: 12px; padding: 14px 18px; border: 1.5px solid var(--line); border-radius: 22px; background: var(--card); font-size: 15px; line-height: 1.5; color: var(--body); }
+.s-mosaic { display: flex; gap: 6px; height: 330px; margin-top: 14px; }
+.s-mosaic i { overflow: hidden; min-height: 0; border-radius: 6px; background: var(--shot); }
+.f-card { position: absolute; inset: 0; padding: 10px 10px 0; border-radius: 4px; background: var(--card); box-shadow: 0 1px 2px rgba(41, 36, 24, 0.1), 0 14px 30px var(--shade); }
+/* Moments screen */
+.m-kept { padding: 8px 4px 0; font-size: 12.5px; font-weight: 600; letter-spacing: 0.1em; color: var(--muted); }
+.m-title { padding-left: 4px; font: 900 34px/1.1 var(--display); letter-spacing: -0.02em; }
+.m-week { display: flex; align-items: center; gap: 10px; margin-top: 18px; font: 800 17px/1 var(--display); }
+.m-week::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #B79A3A; }
+.m-week i { flex: 1; border-top: 1px solid var(--line); }
+.m-week small { font: 600 13px var(--text); color: var(--muted); }
+.m-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 14px; margin-top: 16px; }
+.m-grid .pol { padding: 8px 8px 0; }
+.m-grid .pol:nth-child(odd) { rotate: -1.5deg; }
+.m-grid .pol:nth-child(even) { rotate: 1.5deg; }
+.m-grid figcaption { font-size: 20px; }
+.m-tabs { position: absolute; z-index: 4; left: 50%; bottom: 22px; translate: -50% 0; }
+.m-tabs span.on { background: #EEE9D8; color: #6E6020; }
+.m-last::before { background: var(--shot-line); }
+/* The friends that sit inside the mockup's Find and Moments screens: one still frame from their sprite sheets. */
+.pal { position: absolute; z-index: 5; width: calc(var(--ch) * 0.7333); height: var(--ch); background: var(--sheet) calc(var(--ch) * -0.7333 * var(--i)) 0 / calc(var(--ch) * 0.7333 * 19) var(--ch) no-repeat; pointer-events: none; }
+.pal[data-who="flip"] { --sheet: url(assets/flip_sheet.webp); }
+.pal[data-who="momo"] { --sheet: url(assets/momo_sheet.webp); }
+.how .screen { zoom: 0.52; }
+/* Short laptop screens: smaller phones, so the three still fit in one view. */
+@media (min-width: 1200px) { .how-head { flex-wrap: nowrap; } }
+@media (min-width: 760px) and (max-height: 820px) { .how .screen { zoom: 0.44; } }
+@media (min-width: 760px) and (max-height: 700px) { .how .screen { zoom: 0.34; } .how-steps { margin-top: 20px; } }
+@media (max-width: 759px) {
+  .how-steps { display: flex; gap: 16px; margin-inline: calc(var(--gutter) * -1); padding: 4px var(--gutter) 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .how-steps::-webkit-scrollbar { display: none; }
+  .how-step { flex: 0 0 76%; scroll-snap-align: center; }
+  .how .screen { zoom: 0.5; }
+  /* The neighbours peek in, faded, so a cut-off caption never reads as broken. */
+  .how-steps { -webkit-mask-image: linear-gradient(90deg, transparent, #000 var(--gutter), #000 calc(100% - var(--gutter)), transparent); mask-image: linear-gradient(90deg, transparent, #000 var(--gutter), #000 calc(100% - var(--gutter)), transparent); }
+}
+@media (max-width: 759px) and (max-height: 760px) { .how .screen { zoom: 0.43; } }
+@media (max-width: 759px) and (max-height: 680px) { .how .screen { zoom: 0.33; } }
+
+/* 3c. Strengths: four features, each with a small before-and-after; the worries live in Common questions. */
+.strengths { background: var(--butter); padding-block: clamp(32px, 4.5vw, 64px) clamp(36px, 5vw, 64px); }
+.str-wrap { display: grid; gap: clamp(22px, 3vw, 40px); }
+.strengths h2 { max-width: 16em; font-size: clamp(2rem, 1.8vw + 1.3rem, 3.1rem); }
+.feats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 2.6vw, 36px) clamp(20px, 4vw, 56px); margin: 0; padding: 0; list-style: none; }
+.feats li { padding-top: 18px; border-top: 2px solid var(--ink); }
+.feats h3 { font: 900 clamp(1.2rem, 0.6vw + 1rem, 1.45rem)/1.12 var(--display); letter-spacing: -0.02em; text-wrap: balance; }
+.feats p { max-width: 27em; margin-top: 8px; font-size: 1.02rem; color: var(--body); text-wrap: pretty; }
+/* Each feature opens with a small before-and-after drawn from real photos: many in, one moment out. */
+.art { display: flex; align-items: center; gap: 8px; height: 84px; margin-bottom: 10px; }
+.art .th { display: block; width: 44px; height: 44px; flex: none; object-fit: cover; border: 2px solid #fff; border-radius: 9px; box-shadow: 0 3px 8px var(--shade); }
+.art .th:nth-child(odd) { rotate: -4deg; } .art .th:nth-child(even) { rotate: 3deg; }
+.art .th.keep { width: 66px; height: 78px; padding: 0 0 12px; border: 4px solid #fff; border-bottom-width: 0; border-radius: 3px; background: #fff; rotate: -2deg; box-shadow: 0 1px 2px rgba(41, 36, 24, 0.1), 0 8px 18px var(--shade); }
+.art .go { flex: none; margin-inline: 4px; color: var(--muted); }
+.mini-pol { width: 66px; flex: none; padding: 4px 4px 12px; rotate: 2.5deg; }
+.mini-pol .mo-grid { aspect-ratio: 1; gap: 2px; }
+.mini-pol figcaption { display: none; }
+.named { display: flex; flex-direction: column; gap: 2px; padding-bottom: 4px; border-bottom: 2px dashed var(--shot-line); font: 600 1.45rem/1 var(--hand); }
+.named small { font: 400 0.8rem/1.2 var(--text); color: var(--muted); }
+.fan { position: relative; width: 74px; height: 50px; flex: none; }
+.fan .th { position: absolute; top: 2px; }
+.fan .th:nth-child(1) { left: 0; rotate: -8deg; } .fan .th:nth-child(2) { left: 9px; rotate: -3deg; } .fan .th:nth-child(3) { left: 18px; rotate: 2deg; } .fan .th:nth-child(4) { left: 27px; rotate: 6deg; }
+.junk { position: relative; width: 34px; height: 46px; flex: none; border-radius: 6px; background: linear-gradient(var(--shot-line), var(--shot-line)) 50% 28% / 64% 6px no-repeat, linear-gradient(var(--shot-line), var(--shot-line)) 40% 46% / 44% 6px no-repeat, linear-gradient(var(--shot-line), var(--shot-line)) 46% 64% / 52% 6px no-repeat, var(--card); box-shadow: 0 2px 6px var(--shade); opacity: 0.5; }
+.junk.receipt { width: 28px; height: 52px; border-radius: 2px; }
+.junk:nth-child(1) { rotate: -6deg; } .junk:nth-child(3) { rotate: 5deg; }
+.curve.to-trust + .trust { padding-top: clamp(36px, 5vw, 72px); }
+@media (min-width: 960px) {
+  .feats { column-gap: clamp(40px, 5vw, 72px); }
+}
+@media (max-width: 640px) {
+  .feats { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .feats p { margin-top: 4px; font-size: 0.96rem; }
+  .feats li { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 14px; padding-top: 12px; }
+  .feats .art { grid-row: span 2; flex-direction: column; justify-content: center; gap: 0; height: auto; margin: 0 0 0 4px; }
+  .feats .art .go, .feats .art > .th:not(.keep), .feats .art .junk, .feats .art .fan { display: none; }
+  .named { display: none; }
+}
+
 /* 4. Trust, 5. Voices, 6. Questions */
 .trust { padding-bottom: clamp(56px, 8vw, 110px); }
 .trust-card { position: relative; display: flex; flex-wrap: wrap; align-items: flex-end; gap: clamp(8px, 3vw, 40px); overflow: hidden; padding: clamp(32px, 6vw, 84px) clamp(22px, 6vw, 84px) 0; border-radius: clamp(28px, 3.4vw, 48px); background: var(--teal-tint); }
@@ -305,7 +436,7 @@ footer { overflow: hidden; background: var(--walnut); color: var(--on-ink); }
         <li>Life in Photos looks past the screenshots and the photos of stuff.</li>
         <li>It folds eleven takes of one candle into one.</li>
         <li>It gathers the photos that belong together.</li>
-        <li>Today's ten moments are ready.</li>
+        <li>Ten moments are ready.</li>
       </ol>
     </div>
     <div class="dig-field" id="digField"></div>
@@ -330,6 +461,84 @@ footer { overflow: hidden; background: var(--walnut); color: var(--on-ink); }
     </div>
   </div>
 </section>
+
+<section class="how" id="how" aria-labelledby="howTitle">
+  <div class="wrap">
+    <div class="how-head">
+      <h2 class="display" id="howTitle">Ten moments at a time. That’s the whole app.</h2>
+      <p>Open it whenever you have five minutes, look through ten moments, and keep the ones that feel like yours.</p>
+    </div>
+    <ol class="how-steps" tabindex="0" aria-label="Three screens from the app">
+      <li class="how-step">
+        <div class="device" aria-hidden="true"><div class="screen">
+              <p class="f-lockup"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" transform="rotate(-8 12 12)" d="M6.6 2.5h10.8a2.6 2.6 0 0 1 2.6 2.6v13.8a2.6 2.6 0 0 1-2.6 2.6H6.6A2.6 2.6 0 0 1 4 18.9V5.1a2.6 2.6 0 0 1 2.6-2.6zM7.3 4.8a1 1 0 0 0-1 1v9.6a1 1 0 0 0 1 1h9.4a1 1 0 0 0 1-1V5.8a1 1 0 0 0-1-1z"/></svg> life in photos</p>
+              <p class="f-date">TUESDAY, OCT 6</p>
+              <div class="f-deck"><span class="pal" data-who="flip" style="--i: 12; --ch: 128px; top: -84px; right: -14px; rotate: 180deg"></span><div class="f-card c2"></div><div class="f-card c1"></div><div class="f-card c0"><div class="mo-grid"><img src="assets/photos/m/11914.jpg" alt=""><img src="assets/photos/s/11900.jpg" alt=""><img src="assets/photos/s/11986.jpg" alt=""></div><span>Kings Canyon lake</span></div></div>
+              <p class="f-ready">Your next 10 are ready</p>
+              <p class="f-sub">About 5 minutes. Your Photos library stays untouched.</p>
+              <p class="f-start">Start these 10</p>
+              <p class="f-later">Waiting in Later<b>5 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></b></p>
+              <p class="f-tabs"><span class="on"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>Find</span><span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="15.5" cy="9.5" r="1.5"/><path d="M4 17l5-5 4 4 2-2 5 4"/></svg>Moments</span><span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"/></svg>Settings</span></p>
+            </div></div>
+        <div class="how-cap"><h3>Open Find</h3><p>Ten moments from your camera roll are ready, about five minutes’ worth.</p></div>
+      </li>
+      <li class="how-step">
+        <div class="device" aria-hidden="true"><div class="screen">
+              <div class="s-top"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg><div class="s-ticks"><b class="done"></b><b class="done"></b><b class="done"></b><b class="now"></b><b></b><b></b><b></b><b></b><b></b><b></b></div><span class="s-count">4 of 10</span></div>
+              <p class="s-title">Sunset at the Beimen salt fields</p>
+              <p class="s-meta">11 photos · Saturday · Beimen</p>
+              <p class="s-notes">We stayed for the last light at the salt fields. The salt piles turned pink, and the baby slept through the whole sunset in the carrier.</p>
+              <div class="s-mosaic"><div class="s-col"><i style="flex:300"><img src="assets/photos/s/26711.jpg" alt=""></i><i style="flex:200"><img src="assets/photos/s/26756.jpg" alt=""></i></div><div class="s-col"><i style="flex:200"><img src="assets/photos/s/26718.jpg" alt=""></i><i style="flex:360"><img src="assets/photos/s/26751.jpg" alt=""></i></div><div class="s-col"><i style="flex:340"><img src="assets/photos/s/26734.jpg" alt=""></i><i style="flex:220"><img src="assets/photos/s/26745.jpg" alt=""></i></div></div>
+              <div class="s-acts"><span>Keep</span><span>Later</span><span>Skip</span></div>
+            </div></div>
+        <div class="how-cap"><h3>Keep, Later or Skip</h3><p>Each moment arrives with its title and story already written.</p></div>
+      </li>
+      <li class="how-step">
+        <div class="device" aria-hidden="true"><div class="screen">
+              <span class="pal" data-who="momo" style="--i: 10; --ch: 128px; top: 8px; right: 10px"></span>
+              <p class="m-kept">12 KEPT</p>
+              <p class="m-title">Moments</p>
+              <p class="m-week">This week<i></i><small>4 new</small></p>
+              <div class="m-grid"><figure class="pol"><img src="assets/photos/m/24360.jpg" alt=""><figcaption>Hualien daylilies</figcaption></figure><figure class="pol"><img src="assets/photos/m/28887.jpg" alt=""><figcaption>Summer 2019</figcaption></figure><figure class="pol"><img src="assets/photos/m/20269.jpg" alt=""><figcaption>Shoufeng</figcaption></figure><figure class="pol"><img src="assets/photos/m/15113.jpg" alt=""><figcaption>Hokkaido snow</figcaption></figure></div>
+              <p class="m-week m-last">Last week<i></i><small>3</small></p>
+              <div class="m-grid"><figure class="pol"><img src="assets/photos/m/27064.jpg" alt=""><figcaption>Taipei winter</figcaption></figure><figure class="pol"><img src="assets/photos/m/26711.jpg" alt=""><figcaption>Beimen salt fields</figcaption></figure></div>
+              <p class="f-tabs m-tabs"><span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>Find</span><span class="on"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="15.5" cy="9.5" r="1.5"/><path d="M4 17l5-5 4 4 2-2 5 4"/></svg>Moments</span><span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"/></svg>Settings</span></p>
+            </div></div>
+        <div class="how-cap"><h3>Look back</h3><p>What you keep becomes your Moments, week by week.</p></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<svg class="curve" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true"><path d="M0 90V30c360 54 1080-60 1440 0v60z" style="fill: var(--butter)"/></svg>
+<section class="strengths" id="strengths" aria-labelledby="strengthsTitle">
+  <div class="wrap str-wrap">
+    <h2 class="display" id="strengthsTitle">Less scrolling, more remembering.</h2>
+    <ul class="feats">
+      <li>
+        <div class="art" aria-hidden="true"><img class="th" src="assets/photos/s/20269.jpg" alt=""><img class="th" src="assets/photos/s/20346.jpg" alt=""><img class="th" src="assets/photos/s/20299.jpg" alt=""><svg class="go" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg><figure class="pol mini-pol"><div class="mo-grid"><img src="assets/photos/m/20269.jpg" alt=""><img src="assets/photos/s/20346.jpg" alt=""><img src="assets/photos/s/20299.jpg" alt=""></div><figcaption>Shoufeng</figcaption></figure></div>
+        <h3>Your photos, already put together.</h3>
+        <p>We gather your photos into moments, like a Saturday at the park or a weekend away, so you see the day, not 400 separate shots.</p>
+      </li>
+      <li>
+        <div class="art" aria-hidden="true"><span class="fan"><img class="th" src="assets/photos/s/26092.jpg" alt=""><img class="th" src="assets/photos/s/26094.jpg" alt=""><img class="th" src="assets/photos/s/26095.jpg" alt=""><img class="th" src="assets/photos/s/26091.jpg" alt=""></span><svg class="go" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg><img class="th keep" src="assets/photos/m/26008.jpg" alt=""></div>
+        <h3>Less of the same photo.</h3>
+        <p>Ten almost-identical shots become one, so the good one isn’t buried.</p>
+      </li>
+      <li>
+        <div class="art" aria-hidden="true"><span class="junk"></span><span class="junk receipt"></span><span class="junk"></span><svg class="go" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg><img class="th keep" src="assets/photos/m/24360.jpg" alt=""></div>
+        <h3>Only the memories.</h3>
+        <p>Receipts, screenshots and parking-spot photos stay out of the way.</p>
+      </li>
+      <li>
+        <div class="art" aria-hidden="true"><img class="th keep" src="assets/photos/m/26711.jpg" alt=""><svg class="go" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg><span class="named">Sunset at the salt fields<small>We stayed for the last light…</small></span></div>
+        <h3>A name for every moment.</h3>
+        <p>Each moment gets a warm title and a short note, so you remember why you took it.</p>
+      </li>
+    </ul>
+  </div>
+</section>
+<svg class="curve to-trust" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true" style="background: var(--butter)"><path d="M0 92V36c420 60 1000-64 1440 0v56z" style="fill: var(--paper)"/></svg>
 
 <section class="trust">
   <div class="wrap">
@@ -365,11 +574,14 @@ footer { overflow: hidden; background: var(--walnut); color: var(--on-ink); }
     <div class="arch"><button class="friend" data-who="flip" data-pose="tilt" aria-label="Flip. Tap to play."><i></i></button></div>
     <div class="faq-list">
       <h2 class="display">Common questions</h2>
-      <details open><summary>Will it delete my photos?<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>No. Keep, Later and Skip only change what's in this app. Nothing in your Photos library is deleted or moved.</p></details>
+      <details open><summary>Will it delete my photos?<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>No. Your photos stay exactly where they are. Choosing which moments to keep never deletes anything from your phone.</p></details>
+      <details><summary>I have tens of thousands of photos.<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>That’s who it’s for. You start seeing moments right away while the rest get ready.</p></details>
+      <details><summary>Do my photos leave my phone?<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>Your photos stay on your phone and in your own iCloud. To write a title, you can opt in to send a few small previews, with location and camera data removed, to an AI model. We don’t run servers that keep your photos.</p></details>
+      <details><summary>Do I have to organize first?<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>No setup and no albums to make. Open it and start.</p></details>
       <details><summary>How long does it take?<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>About five minutes. Each session is ten moments, and you can stop partway and come back.</p></details>
-      <details><summary>What happens to a moment I skip?<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>It leaves your list in the app. The photos themselves stay exactly where they were in Photos. If you can't decide, Later holds the moment for you.</p></details>
+      <details><summary>What happens to a moment I skip?<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>It leaves your list in the app. The photos themselves stay exactly where they were in Photos. If you can’t decide, Later holds the moment for you.</p></details>
+      <details><summary>Will it heat up my phone?<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>Finding moments pauses when your iPhone gets warm, then picks up where it left off.</p></details>
       <details><summary>Which iPhones does it work on?<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>iPhones running iOS 26 or later. The beta is installed through TestFlight.</p></details>
-      <details><summary>Do my photos leave my phone?<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>[PRIVACY ANSWER. Say exactly what is processed on the phone and what is sent elsewhere, once that is verified.]</p></details>
       <details><summary>What does it cost?<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>[PRICE DURING THE BETA AND AFTER IT]</p></details>
     </div>
   </div>
