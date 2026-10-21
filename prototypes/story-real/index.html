@@ -50,12 +50,27 @@ h2.display { font-size: clamp(2rem, 2.6vw + 1.3rem, 3.6rem); }
 :focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; border-radius: 6px; }
 .curve { display: block; width: 100%; height: clamp(36px, 6vw, 90px); margin-bottom: -1px; }
 
-/* Friends: stop-motion sprites. One cell is 308 x 420; --ch is the cell height. */
-.friend { position: absolute; width: calc(var(--ch) * 0.42); height: calc(var(--ch) * var(--fig)); padding: 0; border: 0; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
-.friend i { position: absolute; left: 50%; bottom: calc(var(--ch) * -0.0417); width: calc(var(--ch) * 0.7333); height: var(--ch); margin-left: calc(var(--ch) * -0.3667); background: var(--sheet) calc(var(--ch) * -0.7333 * var(--i, 0)) 0 / calc(var(--ch) * 0.7333 * 19) var(--ch) no-repeat; transform-origin: 50% 95.83%; pointer-events: none; }
-.friend[data-who="momo"] { --sheet: url(assets/momo_sheet.webp); --fig: 0.447; }
-.friend[data-who="flip"] { --sheet: url(assets/flip_sheet.webp); --fig: 0.567; }
-.friend[data-who="nori"] { --sheet: url(assets/nori_sheet.webp); --fig: 0.633; }
+/* Friends: sharp still poses on a square canvas (figure 80% of it, feet at 96%). The button keeps the figure's
+   own box, so layouts that placed the old sprites still hold; a reaction swaps the pose and moves the whole still once. */
+.friend { position: absolute; width: calc(var(--ch) * 0.42); height: calc(var(--ch) * var(--fig)); padding: 0; border: 0; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation; --s: calc(var(--ch) * var(--fig) / 0.8); }
+.friend img:not(.on) { visibility: hidden; }
+.friend img { position: absolute; left: 50%; bottom: calc(var(--s) * -0.04); width: var(--s); height: var(--s); max-width: none; margin-left: calc(var(--s) * -0.5); transform-origin: 50% 96%; pointer-events: none; }
+.friend[data-who="momo"] { --fig: 0.447; }
+.friend[data-who="flip"] { --fig: 0.567; }
+.friend[data-who="nori"] { --fig: 0.633; }
+.friend[data-move="hop"] img { animation: f-hop 0.72s cubic-bezier(0.3, 0.7, 0.3, 1); }
+.friend[data-move="dip"] img { animation: f-dip 0.9s ease-in-out; }
+.friend[data-move="tilt"] img { animation: f-tilt 0.8s cubic-bezier(0.3, 0.7, 0.3, 1); }
+.friend[data-move="bob"] img { animation: f-bob 0.9s ease-in-out; }
+@keyframes f-hop { 0% { transform: none; } 18% { transform: scale(1.05, 0.93); } 50% { transform: translateY(-14%) scale(0.97, 1.04); } 78% { transform: scale(1.04, 0.96); } 100% { transform: none; } }
+@keyframes f-dip { 0%, 55%, 100% { transform: none; } 30% { transform: translateY(2.5%) scale(1, 0.97); } 75% { transform: translateY(1.5%) scale(1, 0.98); } }
+@keyframes f-tilt { 0%, 100% { transform: none; } 35% { transform: rotate(-7deg); } 70% { transform: rotate(-5deg); } }
+@keyframes f-bob { 0%, 50%, 100% { transform: none; } 25% { transform: translateY(-3%) rotate(-2deg); } 75% { transform: translateY(-3%) rotate(2deg); } }
+/* Flip peeking over the top of the hero phone, in front of it: his hands rest over the frame, and the straight bottom edge of his body (13% of his width up
+   from the image bottom) overlaps the phone's top edge by 5px, so no background shows and the frame stays whole. */
+.friend.peek { --fw: calc(var(--pw) * 0.62); width: var(--fw); height: auto; aspect-ratio: 1024 / 876; }
+.friend.peek img { position: static; width: 100%; height: auto; margin: 0; transform-origin: 50% 85%; }
+.friend.peek img:not(.on) { display: none; }
 
 /* Polaroids */
 .pol { margin: 0; padding: 6% 6% 0; background: var(--card); border-radius: 4px; box-shadow: 0 1px 2px rgba(41, 36, 24, 0.1), 0 14px 30px var(--shade); }
@@ -80,7 +95,7 @@ h1 { max-width: 11.4em; font-size: clamp(2.3rem, 4.6vw + 1.15rem, 4.5rem); }
 .phone img { display: block; width: 100%; height: auto; border-radius: calc(var(--pw) * 0.125); }
 .phone::before { content: ""; position: absolute; top: 3.4%; left: 35%; width: 30%; height: 3%; border-radius: 99px; background: #1F1B14; }
 .river .friend { z-index: 3; }
-#heroFlip { z-index: 1; left: calc(var(--px) + var(--pw) / 2 - var(--ch) * 0.21); bottom: calc(100% - var(--pt) - var(--ch) * 0.2); }
+#heroFlip { z-index: 3; left: calc(var(--px) + (var(--pw) - var(--fw)) / 2); bottom: calc(100% - var(--pt) - var(--fw) * 0.1283 - 5px); }
 #heroMomo { left: 3cqw; bottom: 5cqw; }
 #heroNori { right: 3cqw; bottom: 5cqw; }
 .tag { display: none; position: absolute; z-index: 3; font: 600 1.6rem/1 var(--hand); color: var(--ink); white-space: nowrap; }
@@ -89,6 +104,8 @@ h1 { max-width: 11.4em; font-size: clamp(2.3rem, 4.6vw + 1.15rem, 4.5rem); }
 .river .hill { position: absolute; z-index: 4; left: 0; bottom: -1px; width: 100%; height: clamp(34px, 7cqw, 100px); }
 @media (min-width: 760px) {
   .river { aspect-ratio: 1440 / 600; --ch: 15.5cqw; --px: 39.6cqw; --pt: 6.7cqw; --pw: 20.8cqw; }
+  /* The phone sits high on wide screens, so Flip peeks smaller to keep his head inside the scene. */
+  .friend.peek { --fw: calc(var(--pw) * 0.42); }
   .river .wide { display: block; }
   .river .narrow { display: none; }
   #heroNori { right: auto; left: 7cqw; bottom: 4.5cqw; }
@@ -259,10 +276,8 @@ h1 { max-width: 11.4em; font-size: clamp(2.3rem, 4.6vw + 1.15rem, 4.5rem); }
 .m-tabs { position: absolute; z-index: 4; left: 50%; bottom: 22px; translate: -50% 0; }
 .m-tabs span.on { background: #EEE9D8; color: #6E6020; }
 .m-last::before { background: var(--shot-line); }
-/* The friends that sit inside the mockup's Find and Moments screens: one still frame from their sprite sheets. */
-.pal { position: absolute; z-index: 5; width: calc(var(--ch) * 0.7333); height: var(--ch); background: var(--sheet) calc(var(--ch) * -0.7333 * var(--i)) 0 / calc(var(--ch) * 0.7333 * 19) var(--ch) no-repeat; pointer-events: none; }
-.pal[data-who="flip"] { --sheet: url(assets/flip_sheet.webp); }
-.pal[data-who="momo"] { --sheet: url(assets/momo_sheet.webp); }
+/* The friends that sit inside the mockup's Find and Moments screens, as in the mockup. */
+.pal { position: absolute; z-index: 5; height: auto; pointer-events: none; }
 .how .screen { zoom: 0.52; }
 /* Short laptop screens: smaller phones, so the three still fit in one view. */
 @media (min-width: 1200px) { .how-head { flex-wrap: nowrap; } }
@@ -382,7 +397,7 @@ details p { max-width: 34em; padding-bottom: 22px; color: var(--body); }
 .invite .field { display: flex; gap: 8px; }
 .invite input { flex: 1; min-width: 0; height: 52px; padding: 0 18px; border: 1px solid #B99A2E; border-radius: 26px; background: #FFFDF6; font: 400 1rem var(--text); color: var(--ink); }
 .invite .status { min-height: 1.5em; font-size: 0.92rem; font-weight: 600; color: var(--teal-deep); }
-.trio { flex: 0 1 auto; width: clamp(240px, 38vw, 500px); max-width: 100%; height: auto; aspect-ratio: 1; rotate: -4deg; filter: drop-shadow(0 28px 30px rgba(41, 36, 24, 0.3)); }
+.trio { flex: 0 1 auto; width: clamp(240px, 36vw, 470px); max-width: 100%; height: auto; aspect-ratio: 1229 / 1400; filter: drop-shadow(0 28px 30px rgba(41, 36, 24, 0.3)); }
 footer { overflow: hidden; background: var(--walnut); color: var(--on-ink); }
 .foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 28px; padding-block: clamp(28px, 4vw, 56px) 0; font-size: 0.95rem; }
 .foot span { color: #BDAE8C; }
@@ -395,6 +410,7 @@ footer { overflow: hidden; background: var(--walnut); color: var(--on-ink); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .bar, .bar-cta, .bar-cta.on { transition: none; transform: none; }
+  .friend img { animation: none !important; }
   .play.hint .acts button, .play.hint .curl, .play.hint .bubble { animation: none; }
   .btn:hover, .btn:active { translate: none; }
   .dig-lines li, summary svg { transition: none; }
@@ -435,10 +451,10 @@ footer { overflow: hidden; background: var(--walnut); color: var(--on-ink); }
     </svg>
     <p class="tag" id="tagIn">3,482 photos in</p>
     <p class="tag" id="tagOut">ten moments out</p>
-    <button class="friend" id="heroFlip" data-who="flip" aria-label="Flip. Tap to play."><i></i></button>
+    <button class="friend peek" id="heroFlip" data-who="flip" data-pose="peek" aria-label="Flip. Tap to play."></button>
     <div class="phone"><img src="assets/find-home.png" width="780" height="1688" alt="The Life in Photos app on an iPhone. The Find screen says: Today's 10 are ready. About 5 minutes. Your Photos library stays untouched."></div>
-    <button class="friend" id="heroNori" data-who="nori" aria-label="Nori. Tap to play."><i></i></button>
-    <button class="friend" id="heroMomo" data-who="momo" aria-label="Momo. Tap to play."><i></i></button>
+    <button class="friend" id="heroNori" data-who="nori" aria-label="Nori. Tap to play."></button>
+    <button class="friend" id="heroMomo" data-who="momo" aria-label="Momo. Tap to play."></button>
     <svg class="hill" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 100V40c380 70 980-50 1440 16v44z" style="fill: var(--dull)"/></svg>
   </div>
 </div>
@@ -466,9 +482,9 @@ footer { overflow: hidden; background: var(--walnut); color: var(--on-ink); }
       <h2 class="display">Now you try. Here are three of ours.</h2>
       <p>This is the whole app in miniature. A moment comes up, you decide, and the next one arrives.</p>
       <div class="crew">
-        <button class="friend" id="playNori" data-who="nori" aria-label="Nori. Tap to play."><i></i></button>
-        <button class="friend" id="playMomo" data-who="momo" aria-label="Momo. Tap to play."><i></i></button>
-        <button class="friend" id="playFlip" data-who="flip" aria-label="Flip. Tap to play."><i></i></button>
+        <button class="friend" id="playNori" data-who="nori" aria-label="Nori. Tap to play."></button>
+        <button class="friend" id="playMomo" data-who="momo" aria-label="Momo. Tap to play."></button>
+        <button class="friend" id="playFlip" data-who="flip" aria-label="Flip. Tap to play."></button>
       </div>
     </div>
     <div>
@@ -489,7 +505,7 @@ footer { overflow: hidden; background: var(--walnut); color: var(--on-ink); }
         <div class="device" aria-hidden="true"><div class="screen">
               <p class="f-lockup"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" transform="rotate(-8 12 12)" d="M6.6 2.5h10.8a2.6 2.6 0 0 1 2.6 2.6v13.8a2.6 2.6 0 0 1-2.6 2.6H6.6A2.6 2.6 0 0 1 4 18.9V5.1a2.6 2.6 0 0 1 2.6-2.6zM7.3 4.8a1 1 0 0 0-1 1v9.6a1 1 0 0 0 1 1h9.4a1 1 0 0 0 1-1V5.8a1 1 0 0 0-1-1z"/></svg> life in photos</p>
               <p class="f-date">TUESDAY, OCT 6</p>
-              <div class="f-deck"><span class="pal" data-who="flip" style="--i: 12; --ch: 128px; top: -84px; right: -14px; rotate: 180deg"></span><div class="f-card c2"></div><div class="f-card c1"></div><div class="f-card c0"><div class="mo-grid"><img src="assets/photos/m/11914.jpg" alt=""><img src="assets/photos/s/11900.jpg" alt=""><img src="assets/photos/s/11986.jpg" alt=""></div><span>Kings Canyon lake</span></div></div>
+              <div class="f-deck"><img class="pal" src="assets/friends/flip-hang.webp" alt="" style="width: 74px; top: -64px; right: -4px"><div class="f-card c2"></div><div class="f-card c1"></div><div class="f-card c0"><div class="mo-grid"><img src="assets/photos/m/11914.jpg" alt=""><img src="assets/photos/s/11900.jpg" alt=""><img src="assets/photos/s/11986.jpg" alt=""></div><span>Kings Canyon lake</span></div></div>
               <p class="f-ready">Your next 10 are ready</p>
               <p class="f-sub">About 5 minutes. Your Photos library stays untouched.</p>
               <p class="f-start">Start these 10</p>
@@ -511,7 +527,7 @@ footer { overflow: hidden; background: var(--walnut); color: var(--on-ink); }
       </li>
       <li class="how-step">
         <div class="device" aria-hidden="true"><div class="screen">
-              <span class="pal" data-who="momo" style="--i: 10; --ch: 128px; top: 8px; right: 10px"></span>
+              <img class="pal" src="assets/friends/momo-front.webp" alt="" style="width: 112px; top: 6px; right: 4px">
               <p class="m-kept">12 KEPT</p>
               <p class="m-title">Moments</p>
               <p class="m-week">This week<i></i><small>4 new</small></p>
@@ -567,7 +583,7 @@ footer { overflow: hidden; background: var(--walnut); color: var(--on-ink); }
           <li><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#36686D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>You look at every moment before you decide.</li>
         </ul>
       </div>
-      <div class="arch"><button class="friend" data-who="nori" data-pose="hum" aria-label="Nori. Tap to play."><i></i></button></div>
+      <div class="arch"><button class="friend" data-who="nori" data-pose="hum" aria-label="Nori. Tap to play."></button></div>
     </div>
   </div>
 </section>
@@ -587,7 +603,7 @@ footer { overflow: hidden; background: var(--walnut); color: var(--on-ink); }
 <svg class="curve" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true" style="background: var(--butter)"><path d="M0 92V30c400 70 1040-54 1440 4v58z" style="fill: var(--blush)"/></svg>
 <section class="faq" id="faq">
   <div class="wrap faq-grid">
-    <div class="arch"><button class="friend" data-who="flip" data-pose="tilt" aria-label="Flip. Tap to play."><i></i></button></div>
+    <div class="arch"><button class="friend" data-who="flip" data-pose="tilt" aria-label="Flip. Tap to play."></button></div>
     <div class="faq-list">
       <h2 class="display">Common questions</h2>
       <details open><summary>Will it delete my photos?<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>No. Your photos stay exactly where they are. Choosing which moments to keep never deletes anything from your phone.</p></details>
@@ -615,7 +631,7 @@ footer { overflow: hidden; background: var(--walnut); color: var(--on-ink); }
         <p class="status" id="inviteStatus" role="status"></p>
       </form>
     </div>
-    <img class="trio" src="assets/trio-cutout.png" width="920" height="920" alt="Nori, Momo and Flip, three painted wood friends, holding a Polaroid frame together">
+    <img class="trio" src="assets/friends/trio-polaroid.webp" width="1229" height="1400" alt="Nori, Momo and Flip, three painted wood friends, holding a Polaroid frame together">
   </div>
 </section>
 
@@ -660,86 +676,57 @@ footer { overflow: hidden; background: var(--walnut); color: var(--on-ink); }
   const junk = () => JUNK[junkTurn++ % JUNK.length];
   const photo = (id, size = "s") => `<img src="assets/photos/${size}/${id}.jpg" alt="" decoding="async">`;
 
-  /* ---- Friends: stop-motion sprite player. A step is pose:frames[:lift], ~ mirrors it. ---- */
-  const COMMON = "front q_front side q_back back running leaping landing lookback curious proud ";
-  const POSES = {
-    momo: COMMON + "crouch takeoff catch squish_landing blink giggle wave_1 wave_2",
-    flip: COMMON + "spring_crouch takeoff mid_flip boing_landing blink wink tilt dizzy",
-    nori: COMMON + "lean nod small_crouch little_hop half_blink blink hum wave"
+  /* ---- Friends: sharp still poses. A reaction swaps in its pose and moves the whole still once
+     (hop, dip, tilt or bob), then returns to rest; with Reduce Motion only the pose changes. ---- */
+  const POSE = (who, pose) => `assets/friends/${who}-${pose}.webp`;
+  const ACTS = {
+    momo: { hop: ["keep", "hop", 720], wave: ["wave", "bob", 900] },
+    nori: { nod: ["later", "dip", 900], wave: ["wave", "bob", 900] },
+    flip: { tilt: ["skip", "tilt", 800], boing: ["front", "hop", 720] }
   };
-  const MOVES = {
-    momo: {
-      hop: "front:1 crouch:2 takeoff:1 catch:2:-.03 takeoff:1:-.01 squish_landing:2 proud:3 front:1",
-      wave: "front:1 wave_1:2 wave_2:2 wave_1:2 wave_2:2 wave_1:1 front:1",
-      giggle: "front:1 giggle:2 ~giggle:2 giggle:2 ~giggle:2 front:1",
-      idle: ["blink:1 front:1", "q_front:3 front:1"],
-      secret: "front:1 q_front:1 side:1 q_back:1 back:1 ~q_back:1 ~side:1 ~q_front:1 front:1 crouch:1 catch:3:-.05 squish_landing:2 proud:3 front:1"
-    },
-    flip: {
-      boing: "front:1 spring_crouch:2 takeoff:1:-.02 takeoff:2:-.1 takeoff:1:-.04 boing_landing:2 front:1",
-      tilt: "front:1 tilt:7 front:1",
-      wink: "front:1 wink:5 front:1",
-      idle: ["blink:1 front:1", "q_front:3 front:1 ~q_front:3 front:1"],
-      secret: "front:1 q_front:1 side:1 q_back:1 back:1 ~q_back:1 ~side:1 ~q_front:1 dizzy:8 front:1"
-    },
-    nori: {
-      nod: "front:1 nod:3 front:2 nod:3 front:1",
-      sway: "front:1 lean:4 front:2 ~lean:4 front:1",
-      wave: "front:1 wave:8 front:1",
-      idle: ["half_blink:1 blink:2 half_blink:1 front:1"],
-      secret: "front:2 q_front:2 side:2 q_back:2 back:2 ~q_back:2 ~side:2 ~q_front:2 front:1 proud:5 front:1"
-    }
-  };
+  const REST = { hum: "hum", tilt: "skip", peek: "peek" };
   class Friend {
     constructor(el) {
       this.el = el;
-      this.sprite = el.firstElementChild;
-      this.poses = POSES[el.dataset.who].split(" ");
-      this.moves = MOVES[el.dataset.who];
-      this.rest = el.dataset.pose || "front";
-      this.run = 0;
-      this.busy = false;
-      this.taps = [];
-      el.addEventListener("click", () => this.tap());
-      this.show(this.rest);
-      if (!calm) this.idle();
-    }
-    show(step) {
-      const [pose, , lift = 0] = step.replace("~", "").split(":");
-      this.sprite.style.setProperty("--i", this.poses.indexOf(pose));
-      this.sprite.style.transform = `translateY(${lift * 100}%) scaleX(${step[0] === "~" ? -1 : 1})`;
-    }
-    async play(sequence) {
-      const run = ++this.run;
-      const steps = sequence.split(" ");
-      this.busy = true;
-      if (calm) { this.show(steps[steps.length >> 1]); await sleep(700); }
-      else for (const step of steps) {
-        if (run !== this.run) return;
-        this.show(step);
-        await sleep((+step.split(":")[1] || 1) * 83);
+      this.who = el.dataset.who;
+      this.rest = REST[el.dataset.pose] || "front";
+      // Every pose this friend can show is already in place and decoded, stacked; a reaction only switches which one
+      // is visible, so there is never an empty frame while an image loads.
+      const poses = [this.rest, ...(this.rest === "peek" ? [] : Object.values(ACTS[this.who]).map(([pose]) => pose))];
+      this.imgs = {};
+      for (const pose of new Set(poses)) {
+        const img = new Image();
+        img.alt = "";
+        img.src = POSE(this.who, pose);
+        img.decode?.().catch(() => {});
+        this.imgs[pose] = img;
       }
+      el.replaceChildren(...Object.values(this.imgs));
+      this.show(this.rest);
+      this.run = 0;
+      this.last = "";
+      el.addEventListener("click", () => this.tap());
+    }
+    show(pose) {
+      for (const [name, img] of Object.entries(this.imgs)) img.classList.toggle("on", name === pose);
+    }
+    async act(name) {
+      const [pose, move, ms] = ACTS[this.who][name] || [this.rest, "hop", 720];
+      const run = ++this.run;
+      // The peek keeps its pose (it is half hidden by the phone) and only moves.
+      if (this.imgs[pose]) this.show(pose);
+      this.el.dataset.move = "";
+      void this.el.offsetWidth;
+      this.el.dataset.move = move;
+      await sleep(calm ? 700 : ms);
       if (run !== this.run) return;
-      this.busy = false;
+      this.el.dataset.move = "";
       this.show(this.rest);
     }
-    act(name) { return this.play(this.moves[name]); }
     tap() {
-      const now = performance.now();
-      this.taps = this.taps.filter((t) => now - t < 700).concat(now);
-      if (this.taps.length >= 3) { this.taps = []; this.act("secret"); return; }
-      if (this.busy) return;
-      const names = Object.keys(this.moves).filter((n) => n !== "idle" && n !== "secret" && n !== this.last);
+      const names = Object.keys(ACTS[this.who]).filter((n) => n !== this.last);
       this.last = names[Math.floor(Math.random() * names.length)];
       this.act(this.last);
-    }
-    async idle() {
-      for (;;) {
-        await sleep(2600 + Math.random() * 4200);
-        if (this.busy || document.hidden || this.rest !== "front") continue;
-        const loops = this.moves.idle;
-        await this.play(loops[Math.floor(Math.random() * loops.length)]);
-      }
     }
   }
   const crew = {};
