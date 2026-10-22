@@ -23,10 +23,15 @@ Ten ready moments at a time, already gathered and written up, instead of a clean
 - Ten moments per session (not a daily quota), about five minutes; you can stop partway and come back. Later keeps what you can't decide on.
 - Near-duplicate takes fold into one; screenshots and utility frames stay out of a moment.
 - Finding moments runs on the iPhone. Indexing pauses when the phone gets warm and picks up where it left off.
-- Each moment gets a title and notes by default, written by an AI model from a few small previews; the visitor can edit what comes back.
+- Each moment gets a title and notes by default, written by Meta's Muse Spark model through the developer's own account. The request carries up to five small previews (location and camera data removed) plus a short text description: place name, time of day, number of people, activity, and the names of people labelled in Photos. An off switch is planned for a later version; the visitor can edit what comes back.
 - Place names come from Apple's reverse geocoding of photo locations, so the page must not say that only the notes step leaves the phone.
 - Privacy (titles are on by default, confirmed by the owner): "Your photos stay on your phone and in your own iCloud. To write each moment's title and note, a few small previews, with location and camera data removed, are sent to an AI model. We don't run servers that keep your photos."
 - Pricing is decided after the beta. Every beta tester gets an exclusive discount offer.
+
+## Legal and contact
+
+- Published under the developer's own name (exact name still to be filled in on the privacy page). Privacy and general contact: contact@hackerker.com. No postal address on the site.
+- Retention: waitlist emails are kept until the person asks to be removed; site analytics follow PostHog's standard retention.
 
 ## Brand Commitments
 

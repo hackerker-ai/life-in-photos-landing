@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy policy · Life in Photos</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Figtree:wght@400;600&family=Nunito:wght@800;900&display=swap">
+<style>
+/* The privacy policy: a reading page in the landing page's world. Paper ground, a readable column, a sticky contents
+   list on wide screens, the short version first, and the same footer as the home page. */
+:root {
+  color-scheme: light;
+  --sun: #F4D160;
+  --paper: #FAF7F1;
+  --card: #FFFFFF;
+  --dull: #E2DDD0;
+  --ink: #292418;
+  --body: #4A4232;
+  --muted: #6B5F45;
+  --line: #E0D6BF;
+  --teal: #4E8589;
+  --teal-deep: #36686D;
+  --teal-tint: #D8E8E5;
+  --teal-arch: #BCD8D3;
+  --blush: #F5DDD5;
+  --blush-arch: #ECC7BC;
+  --butter: #FAF0CC;
+  --walnut: #211D16;
+  --on-ink: #F3E8C4;
+  --shot: #E9E5DB;
+  --shot-line: #C6BEAD;
+  --shade: rgba(41, 36, 24, 0.14);
+  --display: "Nunito", ui-rounded, "Arial Rounded MT Bold", system-ui, sans-serif;
+  --text: "Figtree", -apple-system, "Segoe UI", system-ui, sans-serif;
+  --hand: "Caveat", "Bradley Hand", "Segoe Print", cursive;
+  --gutter: clamp(16px, 4vw, 56px);
+  --bar-h: 64px;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--bar-h) + 16px); }
+body { margin: 0; overflow-x: clip; background: var(--paper); color: var(--ink); font-family: var(--text); font-size: 1rem; line-height: 1.5; }
+h1, h2, h3, p, figure { margin: 0; }
+.wrap { max-width: 1160px; margin-inline: auto; padding-inline: var(--gutter); }
+:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; border-radius: 6px; }
+::selection { background: var(--sun); color: var(--ink); }
+.bar { position: sticky; top: 0; z-index: 30; background: color-mix(in oklab, var(--paper) 88%, transparent); -webkit-backdrop-filter: blur(12px) saturate(1.2); backdrop-filter: blur(12px) saturate(1.2); box-shadow: 0 1px 0 var(--line); }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: var(--bar-h); }
+.lockup { display: flex; align-items: center; gap: 9px; color: var(--ink); text-decoration: none; font: 800 1.35rem/1 var(--display); letter-spacing: -0.025em; }
+.back { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 16px; border-radius: 22px; background: var(--ink); color: var(--on-ink); font-size: 0.9rem; font-weight: 600; text-decoration: none; }
+@media (hover: hover) { .back:hover { background: var(--teal-deep); color: #fff; } }
+
+.head { padding-block: clamp(40px, 6vw, 80px) clamp(24px, 3vw, 36px); }
+.draft { display: flex; gap: 12px; align-items: flex-start; max-width: 46rem; margin-bottom: clamp(24px, 3vw, 36px); padding: 14px 18px; border: 1.5px dashed #B99A2E; border-radius: 16px; background: #FFFBEA; color: var(--body); font-size: 0.95rem; }
+.draft b { color: var(--ink); }
+.head h1 { font: 900 clamp(2.4rem, 3.4vw + 1.2rem, 4rem)/1.02 var(--display); letter-spacing: -0.03em; }
+.updated { margin-top: 12px; color: var(--muted); font-size: 0.95rem; }
+.short { display: grid; gap: 14px; max-width: 46rem; margin-top: clamp(24px, 3vw, 36px); padding: clamp(22px, 3vw, 32px); border-radius: clamp(22px, 2.6vw, 32px); background: var(--butter); }
+.short h2 { font: 900 1.4rem/1.1 var(--display); letter-spacing: -0.02em; }
+.short ul { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.short li { display: flex; gap: 12px; align-items: flex-start; font-size: 1.05rem; line-height: 1.45; }
+.short li svg { flex: none; margin-top: 1px; }
+
+.body { display: grid; gap: clamp(28px, 4vw, 56px); padding-bottom: clamp(64px, 9vw, 120px); }
+.toc { display: none; }
+.toc p { margin-bottom: 12px; font: 800 1rem/1 var(--display); }
+.toc ol { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; counter-reset: s; }
+.toc a { color: var(--body); font-size: 0.95rem; text-decoration: none; }
+.toc a:hover { color: var(--teal-deep); }
+.policy { max-width: 42rem; }
+.policy section { padding-top: clamp(28px, 3vw, 40px); }
+.policy section + section { border-top: 1px solid var(--line); margin-top: clamp(28px, 3vw, 40px); }
+.policy h2 { margin-bottom: 14px; font: 900 clamp(1.45rem, 0.8vw + 1.2rem, 1.85rem)/1.12 var(--display); letter-spacing: -0.02em; }
+.policy h3 { margin: 20px 0 8px; font: 800 1.1rem/1.2 var(--display); }
+.policy p, .policy li { font-size: 1.05rem; line-height: 1.65; color: var(--body); text-wrap: pretty; }
+.policy p + p, .policy p + ul, .policy ul + p { margin-top: 12px; }
+.policy ul { display: grid; gap: 8px; margin: 0; padding-left: 1.2em; }
+.policy strong { color: var(--ink); }
+.policy a { color: var(--teal-deep); text-underline-offset: 3px; }
+.ph { padding: 1px 6px; border-radius: 6px; background: #FFF1C2; color: #6E5200; font-weight: 600; }
+.who { display: grid; gap: 0; margin-top: 16px; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: var(--card); }
+.who div { display: grid; gap: 4px; padding: 14px 18px; }
+.who div + div { border-top: 1px solid var(--line); }
+.who b { font: 800 1.02rem/1.2 var(--display); color: var(--ink); }
+.who span { font-size: 0.98rem; line-height: 1.5; color: var(--body); }
+@media (min-width: 960px) {
+  .body { grid-template-columns: 15rem minmax(0, 1fr); align-items: start; }
+  .toc { position: sticky; top: calc(var(--bar-h) + 32px); display: block; padding-top: clamp(28px, 3vw, 40px); }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+@keyframes f-hop { 0% { transform: none; } 18% { transform: scale(1.05, 0.93); } 50% { transform: translateY(-14%) scale(0.97, 1.04); } 78% { transform: scale(1.04, 0.96); } 100% { transform: none; } }
+/* Footer: what the app is and where to go, then the wordmark as the page's last word, with the three friends standing
+   on the tops of its letters. Each friend sits in a span around its letter, so it lands on that letter at any size. */
+footer { overflow: hidden; background: var(--walnut); color: var(--on-ink); }
+.foot { display: grid; gap: clamp(28px, 4vw, 48px); padding-block: clamp(48px, 7vw, 96px) clamp(28px, 3vw, 40px); }
+.foot-brand { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+.foot-lockup { display: flex; align-items: center; gap: 9px; font: 800 1.4rem/1 var(--display); letter-spacing: -0.025em; color: var(--on-ink); text-decoration: none; }
+.foot-about { max-width: 30em; font-size: clamp(1rem, 0.3vw + 0.95rem, 1.08rem); line-height: 1.6; color: #D9CBA6; text-wrap: pretty; }
+.foot-nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+.foot-h { margin-bottom: 14px; font: 800 1.05rem/1 var(--display); letter-spacing: -0.01em; color: var(--sun); }
+.foot-nav ul { display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.foot a { color: var(--on-ink); text-decoration: none; }
+.foot-nav a { font-size: 1.02rem; transition: color 0.2s; }
+.foot-nav .soon { color: #9C8E6E; }
+@media (hover: hover) { .foot-nav a:hover, .foot-top:hover { color: var(--sun); } }
+.foot a:focus-visible { outline-color: var(--sun); }
+.foot-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 28px; padding-top: 22px; border-top: 1px solid rgba(243, 232, 196, 0.14); font-size: 0.9rem; color: #9C8E6E; }
+.foot-top { display: inline-flex; align-items: center; gap: 7px; font-weight: 600; transition: color 0.2s; }
+@media (min-width: 860px) {
+  .foot { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); column-gap: clamp(40px, 8vw, 140px); }
+  .foot-row { grid-column: 1 / -1; }
+}
+.wordmark { position: relative; margin-top: 0.14em; padding-bottom: 0.06em; text-align: center; font: 900 clamp(2.6rem, 13.4vw, 13.75rem)/1.1 var(--display); letter-spacing: -0.04em; white-space: nowrap; color: var(--on-ink); }
+.perch { position: relative; display: inline-block; }
+/* The pose canvas puts feet at 96% of its height. In this inline-block the letter's top (Nunito's x-height) is about
+   0.70em above the box bottom: 0.22em of descent plus 0.48em of x-height. */
+.perch img { position: absolute; left: 50%; bottom: calc(0.7em - 0.04 * var(--fh)); width: var(--fh); height: var(--fh); translate: -50% 0; pointer-events: auto; transform-origin: 50% 96%; --fh: 0.62em; }
+.perch img.tall { --fh: 0.74em; }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) { .perch img:hover { animation: f-hop 0.72s cubic-bezier(0.3, 0.7, 0.3, 1); } }
+
+</style>
+</head>
+<body>
+<header class="bar">
+  <div class="top wrap">
+    <a class="lockup" href="index.html" aria-label="Life in Photos home"><svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" transform="rotate(-8 12 12)" d="M6.6 2.5h10.8a2.6 2.6 0 0 1 2.6 2.6v13.8a2.6 2.6 0 0 1-2.6 2.6H6.6A2.6 2.6 0 0 1 4 18.9V5.1a2.6 2.6 0 0 1 2.6-2.6zM7.3 4.8a1 1 0 0 0-1 1v9.6a1 1 0 0 0 1 1h9.4a1 1 0 0 0 1-1V5.8a1 1 0 0 0-1-1z"/></svg>life in photos</a>
+    <a class="back" href="index.html">Back to home</a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap head">
+    <p class="draft" role="note"><span><b>Draft for review.</b> This policy describes the app and site as they work today. The items in <span class="ph">highlighted brackets</span> are filled in on the day it’s published, and the whole text needs a legal review before then.</span></p>
+    <h1>Privacy policy</h1>
+    <p class="updated">Last updated <span class="ph">[DATE OF PUBLISHING]</span></p>
+    <div class="short">
+      <h2>The short version</h2>
+      <ul>
+        <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#36686D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Your photos stay on your phone and in your own iCloud. We don’t run servers that keep your photos.</span></li>
+        <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#36686D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>The app never deletes, moves or changes anything in your Photos library. Keep, Later and Skip only change what’s in the app.</span></li>
+        <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#36686D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>To write each moment’s title and note, a few small previews and a short description of the moment are sent to an AI model.</span></li>
+        <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#36686D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>We don’t sell your information, show ads, or track you across other apps and websites.</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="wrap body">
+    <nav class="toc" aria-label="On this page">
+      <p>On this page</p>
+      <ol><li><a href="#covers">What this policy covers</a></li><li><a href="#photos">Your photos</a></li><li><a href="#titles">Titles and notes</a></li><li><a href="#places">Place names</a></li><li><a href="#website">This website and the beta</a></li><li><a href="#sharing">Who we share with</a></li><li><a href="#keeping">How long we keep things</a></li><li><a href="#choices">Your choices</a></li><li><a href="#children">Children</a></li><li><a href="#security">Security</a></li><li><a href="#changes">Changes to this policy</a></li><li><a href="#contact">Contact us</a></li></ol>
+    </nav>
+    <article class="policy">
+      <section id="covers">
+        <h2>What this policy covers</h2>
+        <p>This policy covers the Life in Photos iPhone app, which is in beta through Apple’s TestFlight, and this website. “We” means <span class="ph">[YOUR FULL NAME]</span>, the independent developer of Life in Photos. “You” means anyone who uses the app or visits the site.</p>
+      </section>
+
+      <section id="photos">
+        <h2>Your photos</h2>
+        <p>The app asks for access to your Photos library so it can find the moments in it. It reads your photos on your iPhone and builds its catalog of moments there. Finding and gathering moments runs on the phone itself.</p>
+        <p>Your photos stay where they already are: on your phone, and in your own iCloud if you use iCloud Photos. The app doesn’t copy your library to us, and we don’t run servers that keep your photos.</p>
+        <p>The app never deletes, moves or edits anything in your Photos library. Keep, Later and Skip only change what’s in the app. What you keep, and any titles and notes you edit, are saved inside the app on your phone.</p>
+      </section>
+
+      <section id="titles">
+        <h2>Titles and notes</h2>
+        <p>Each moment comes with a title and a short note, written by an AI model: Muse Spark, made by Meta. This is on by default. A setting to turn it off is coming in a later version.</p>
+        <p>To write them, the app sends the AI model:</p>
+        <ul>
+          <li><strong>Up to five small previews</strong> of the moment’s photos, with location and camera data removed.</li>
+          <li><strong>A short description of the moment:</strong> the place name, the time of day, how many people appear, what seems to be happening, and the names of any people you’ve labelled in the Photos app.</li>
+        </ul>
+        <p>These requests go through our own account with Meta, so you don’t need an account of your own. The model sends back a title and a note, which you can change. We use the requests only to write that title and note, and Meta handles them under its terms for developers who use its models.</p>
+      </section>
+
+      <section id="places">
+        <h2>Place names</h2>
+        <p>To name where a moment happened, the app sends the approximate location of a group of photos to Apple’s location service and gets a place name back. The place names are saved inside the app on your phone.</p>
+      </section>
+
+      <section id="website">
+        <h2>This website and the beta</h2>
+        <h3>The beta waitlist</h3>
+        <p>When you join the beta, we keep your email address so we can send you a welcome email and your TestFlight invite. We use it for nothing else, and you can ask us to remove it at any time.</p>
+        <h3>Site analytics</h3>
+        <p>We count a few events on this site, such as a page view or a waitlist signup, along with the campaign that brought you here, if there was one. These counts include only the domain of an email address, never the full address. We don’t record sessions or set analytics cookies.</p>
+        <h3>TestFlight</h3>
+        <p>Apple runs TestFlight. When you install the beta, Apple may share information with us as the app’s developer, such as your email address and basic crash and usage reports, under <a href="https://www.apple.com/legal/privacy/">Apple’s privacy policy</a>.</p>
+      </section>
+
+      <section id="sharing">
+        <h2>Who we share with</h2>
+        <p>We use a few service providers, only for the jobs below.</p>
+        <div class="who">
+          <div><b>Meta</b><span>Its Muse Spark model writes each moment’s title and note from the previews and description above.</span></div>
+          <div><b>Apple</b><span>Turns approximate photo locations into place names, and runs TestFlight and iCloud.</span></div>
+          <div><b>Resend</b><span>Sends the waitlist welcome email and the TestFlight invite, and stores the waitlist.</span></div>
+          <div><b>PostHog</b><span>Counts the site events described above.</span></div>
+        </div>
+        <p>We don’t sell your information or share it for advertising. We would share it with others only if the law required it.</p>
+      </section>
+
+      <section id="keeping">
+        <h2>How long we keep things</h2>
+        <ul>
+          <li>Everything the app saves stays on your phone until you delete it or delete the app.</li>
+          <li>We keep your waitlist email until you ask us to remove it.</li>
+          <li>Site analytics are kept for PostHog’s standard retention period.</li>
+        </ul>
+      </section>
+
+      <section id="choices">
+        <h2>Your choices</h2>
+        <ul>
+          <li>You can turn off the app’s access to your photos at any time in the iPhone’s Settings.</li>
+          <li>Deleting the app removes everything it saved on your phone. Your Photos library is untouched either way.</li>
+          <li>You can leave the waitlist through the link in any email we send, or by writing to us.</li>
+          <li>Depending on where you live, you may have the right to see, correct or delete the information we hold about you. Write to us and we’ll help.</li>
+        </ul>
+      </section>
+
+      <section id="children">
+        <h2>Children</h2>
+        <p>Life in Photos is made for parents. The app and this site are not meant for children under 13, and we don’t knowingly collect information from them. Family photos, including photos of your children, stay on your phone as described above.</p>
+      </section>
+
+      <section id="security">
+        <h2>Security</h2>
+        <p>The app keeps its data in its own private storage on your phone, protected by your iPhone’s security. Requests to the services above are sent over encrypted connections.</p>
+      </section>
+
+      <section id="changes">
+        <h2>Changes to this policy</h2>
+        <p>If we change this policy, we’ll update the date at the top. If the change is significant, we’ll tell you in the app or by email before it takes effect.</p>
+      </section>
+
+      <section id="contact">
+        <h2>Contact us</h2>
+        <p>Questions, or a request about your information: <a href="mailto:contact@hackerker.com">contact@hackerker.com</a>.</p>
+      </section>
+    </article>
+  </div>
+</main>
+
+<footer id="footer">
+  <div class="wrap foot">
+    <div class="foot-brand">
+      <a class="foot-lockup" href="index.html"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" transform="rotate(-8 12 12)" d="M6.6 2.5h10.8a2.6 2.6 0 0 1 2.6 2.6v13.8a2.6 2.6 0 0 1-2.6 2.6H6.6A2.6 2.6 0 0 1 4 18.9V5.1a2.6 2.6 0 0 1 2.6-2.6zM7.3 4.8a1 1 0 0 0-1 1v9.6a1 1 0 0 0 1 1h9.4a1 1 0 0 0 1-1V5.8a1 1 0 0 0-1-1z"/></svg>life in photos</a>
+      <p class="foot-about">Life in Photos is an iPhone app that finds the moments buried in your camera roll. It gathers your photos into moments, writes each one a title and a short note, and brings them to you ten at a time, so looking back takes minutes, not a whole weekend.</p>
+    </div>
+    <nav class="foot-nav" aria-label="Footer">
+      <div>
+        <p class="foot-h">The app</p>
+        <ul>
+          <li><a href="index.html#how">How it works</a></li>
+          <li><a href="index.html#strengths">What it does</a></li>
+          <li><a href="index.html#faq">Common questions</a></li>
+          <li><a href="index.html#invite">Join the beta</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="foot-h">Get in touch</p>
+        <ul>
+          <li><a href="mailto:contact@hackerker.com">contact@hackerker.com</a></li>
+          <li><a href="privacy.html" aria-current="page">Privacy policy</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="foot-row">
+      <span>&copy; 2026 Life in Photos. All rights reserved.</span>
+      <a class="foot-top" href="#top"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>Back to top</a>
+    </div>
+  </div>
+  <div class="wordmark" aria-hidden="true">life i<span class="perch"><img class="tall" src="assets/friends/nori-wave.webp" alt="">n</span> ph<span class="perch"><img src="assets/friends/momo-wave.webp" alt="">o</span>to<span class="perch"><img src="assets/friends/flip-front.webp" alt="">s</span></div>
+</footer>
+</body>
+</html>
