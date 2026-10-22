@@ -1,0 +1,454 @@
+/* Layout: one story told by scrolling. A river of camera-roll thumbnails flows into the phone and
+   comes out as Polaroids; a pinned scene sorts 548 photos into ten moments; the visitor keeps a
+   few; those land on the wall beside the invitation. One look by choice: the brand's warm paper. */
+.display { font-family: var(--display); font-weight: 900; letter-spacing: -0.03em; line-height: 1.04; text-wrap: balance; }
+h2.display { font-size: clamp(2rem, 2.6vw + 1.3rem, 3.6rem); }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 54px; padding: 0 30px; border: 0; border-radius: 27px; background: var(--ink); color: var(--on-ink); font: 600 1.06rem var(--text); text-decoration: none; cursor: pointer; transition: background-color 0.2s, color 0.2s, box-shadow 0.2s, translate 0.2s cubic-bezier(0.2, 0.8, 0.2, 1); }
+/* Hover: the button turns Nori's teal and lifts off the page; a press pushes it back down. */
+@media (hover: hover) {
+  .btn:hover { background: var(--teal-deep); color: #FFFFFF; translate: 0 -2px; box-shadow: 0 10px 22px rgba(41, 36, 24, 0.26); }
+  .btn.ghost:hover { border-color: var(--teal-deep); }
+}
+.btn:active { translate: 0 1px; box-shadow: 0 2px 6px rgba(41, 36, 24, 0.22); }
+.btn.small { min-height: 44px; padding: 0 15px; font-size: 0.88rem; white-space: nowrap; }
+.curve { display: block; width: 100%; height: clamp(36px, 6vw, 90px); margin-bottom: -1px; }
+
+/* Friends: sharp still poses on a square canvas (figure 80% of it, feet at 96%). The button keeps the figure's
+   own box, so layouts that placed the old sprites still hold; a reaction swaps the pose and moves the whole still once. */
+.friend { position: absolute; width: calc(var(--ch) * 0.42); height: calc(var(--ch) * var(--fig)); padding: 0; border: 0; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation; --s: calc(var(--ch) * var(--fig) / 0.8); }
+.friend img:not(.on) { visibility: hidden; }
+.friend img { position: absolute; left: 50%; bottom: calc(var(--s) * -0.04); width: var(--s); height: var(--s); max-width: none; margin-left: calc(var(--s) * -0.5); transform-origin: 50% 96%; pointer-events: none; }
+.friend[data-who="momo"] { --fig: 0.447; }
+.friend[data-who="flip"] { --fig: 0.567; }
+.friend[data-who="nori"] { --fig: 0.633; }
+.friend[data-move="hop"] img { animation: f-hop 0.72s cubic-bezier(0.3, 0.7, 0.3, 1); }
+.friend[data-move="dip"] img { animation: f-dip 0.9s ease-in-out; }
+.friend[data-move="tilt"] img { animation: f-tilt 0.8s cubic-bezier(0.3, 0.7, 0.3, 1); }
+.friend[data-move="bob"] img { animation: f-bob 0.9s ease-in-out; }
+@keyframes f-dip { 0%, 55%, 100% { transform: none; } 30% { transform: translateY(2.5%) scale(1, 0.97); } 75% { transform: translateY(1.5%) scale(1, 0.98); } }
+@keyframes f-tilt { 0%, 100% { transform: none; } 35% { transform: rotate(-7deg); } 70% { transform: rotate(-5deg); } }
+@keyframes f-bob { 0%, 50%, 100% { transform: none; } 25% { transform: translateY(-3%) rotate(-2deg); } 75% { transform: translateY(-3%) rotate(2deg); } }
+/* Flip peeking over the top of the hero phone, in front of it: his hands rest over the frame, and the straight bottom edge of his body (13% of his width up
+   from the image bottom) overlaps the phone's top edge by 5px, so no background shows and the frame stays whole. */
+.friend.peek { --fw: calc(var(--pw) * 0.62); width: var(--fw); height: auto; aspect-ratio: 1024 / 876; }
+.friend.peek img { position: static; width: 100%; height: auto; margin: 0; transform-origin: 50% 85%; }
+.friend.peek img:not(.on) { display: none; }
+
+/* Polaroids */
+.pol { margin: 0; padding: 6% 6% 0; background: var(--card); border-radius: 4px; box-shadow: 0 1px 2px rgba(41, 36, 24, 0.1), 0 14px 30px var(--shade); }
+.pol img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; }
+.pol figcaption { padding: 0.3em 0.1em 0.45em; font: 600 1.35rem/1.05 var(--hand); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* 1. Hero */
+.hero { background: var(--sun); }
+/* One header that stays at the top. It shares the hero's yellow at rest and turns to frosted paper once the page scrolls. */
+.bar { position: sticky; top: 0; z-index: 30; padding-top: env(safe-area-inset-top, 0px); background: var(--sun); transition: background-color 0.25s, box-shadow 0.25s; }
+.bar.stuck { background: color-mix(in oklab, var(--paper) 86%, transparent); -webkit-backdrop-filter: blur(12px) saturate(1.2); backdrop-filter: blur(12px) saturate(1.2); box-shadow: 0 1px 0 var(--line); }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: var(--bar-h); }
+.lockup { color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: 9px; font: 800 1.35rem/1 var(--display); letter-spacing: -0.025em; }
+.hero-copy { display: flex; flex-direction: column; align-items: center; gap: 16px; padding-block: clamp(14px, 3vw, 36px) 0; text-align: center; }
+h1 { max-width: 11.4em; font-size: clamp(2.3rem, 4.6vw + 1.15rem, 4.5rem); }
+.lede { max-width: 30em; font-size: clamp(1rem, 0.4vw + 0.95rem, 1.2rem); color: var(--body); text-wrap: balance; }
+.river { position: relative; container-type: inline-size; aspect-ratio: 390 / 580; overflow: hidden; margin-top: 6px; --ch: 34cqw; --px: 28.2cqw; --pt: 38.5cqw; --pw: 43.6cqw; }
+.river > svg.map { position: absolute; inset: 0; width: 100%; height: 100%; }
+.river .wide { display: none; }
+.bed { fill: none; stroke: var(--teal); stroke-linecap: round; }
+.phone { position: absolute; z-index: 2; left: var(--px); top: var(--pt); width: var(--pw); padding: calc(var(--pw) * 0.04); border-radius: calc(var(--pw) * 0.16); background: #1F1B14; box-shadow: 0 2px 4px rgba(41, 36, 24, 0.16), 0 26px 50px rgba(41, 36, 24, 0.24); }
+.phone > img { display: block; width: 100%; height: auto; border-radius: calc(var(--pw) * 0.125); }
+.phone.live::before { display: none; }
+/* The hero's live session screen: laid out at the app's 390 pt and zoomed to the phone (set in script). */
+.hero-screen .hm { display: flex; flex: 1; flex-direction: column; min-height: 0; }
+.hero-screen .s-title { min-height: 1.06em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hero-screen .s-notes { min-height: 5.6em; }
+/* Every photo in the moment sits in a three-column grid with fixed row heights, scrolling inside the space down to the
+   buttons, like the app's masonry; the fixed rows keep each photo's proportions however tall the space is. */
+.hero-screen .s-mosaic { display: block; position: relative; flex: 1; height: auto; min-height: 0; margin-bottom: 18px; overflow: hidden; border-radius: 6px; }
+.s-track { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: 44px; grid-auto-flow: dense; gap: 6px; transition: transform 1.2s cubic-bezier(0.45, 0, 0.2, 1); }
+.s-track i { overflow: hidden; border-radius: 6px; background: var(--shot); }
+.s-track img { display: block; width: 100%; height: 100%; object-fit: cover; }
+/* Full screen, as in the app: the photo edge to edge, a back chevron, the moment's title, a counter pill and page dots. */
+.hero-screen::before { z-index: 7; }
+.fs { position: absolute; inset: 0; z-index: 5; overflow: hidden; border-radius: inherit; background: #0E0C0A; opacity: 0; visibility: hidden; transition: opacity 0.25s, visibility 0s 0.25s; }
+.fs.on { opacity: 1; visibility: visible; transition: opacity 0.25s; }
+.fs-inner { position: absolute; inset: 0; transform: scale(0.94); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+.fs.on .fs-inner { transform: none; }
+.fs-strip { display: flex; height: 100%; transition: transform 0.4s cubic-bezier(0.3, 0.7, 0.2, 1); }
+/* The whole photo shows, letterboxed on the dark ground, never cropped. */
+.fs-strip img { flex: 0 0 100%; width: 100%; height: 100%; object-fit: contain; }
+.fs-nav { position: absolute; top: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: center; height: 118px; padding-top: 58px; background: linear-gradient(rgba(0, 0, 0, 0.42), transparent); color: #fff; font: 600 17px/1 var(--text); }
+.fs-nav svg { position: absolute; left: 16px; top: 74px; }
+.fs-count { position: absolute; top: 118px; right: 14px; padding: 5px 11px; border-radius: 99px; background: rgba(0, 0, 0, 0.32); color: #fff; font-size: 13px; font-weight: 600; }
+.fs-dots { position: absolute; left: 0; right: 0; bottom: 34px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+.fs-dots b { width: 6px; height: 6px; border-radius: 50%; background: rgba(255, 255, 255, 0.38); transition: background-color 0.2s; }
+.fs-dots b.on { width: 7px; height: 7px; background: #fff; }
+/* The fingertip that scrolls, taps a photo and swipes: it glides between targets in screen points. */
+.finger { position: absolute; z-index: 8; left: 195px; top: 600px; width: 46px; height: 46px; margin: -23px 0 0 -23px; border: 3px solid #fff; border-radius: 50%; background: rgba(78, 133, 137, 0.45); box-shadow: 0 4px 12px rgba(41, 36, 24, 0.3); opacity: 0; transform: scale(1.5); transition: opacity 0.18s, transform 0.18s, left 0.5s cubic-bezier(0.45, 0, 0.2, 1), top 0.5s cubic-bezier(0.45, 0, 0.2, 1); pointer-events: none; }
+.finger.on { opacity: 1; transform: scale(1); }
+.finger.down { transform: scale(0.82); }
+.finger.slow { transition-duration: 0.18s, 0.18s, 1.2s, 1.2s; }
+.hero-screen .s-ticks b { transition: background-color 0.25s, border-color 0.25s; }
+.hero-screen .s-ticks b.k { border-color: var(--ink); background: var(--ink); }
+.hero-screen .s-ticks b.l { border-color: #B79A3A; background: #B79A3A; }
+.hero-screen .s-ticks b.s { border-color: #C6BEAD; background: var(--dull); }
+.hero-screen .s-acts span { position: relative; transition: transform 0.14s, filter 0.14s; }
+.hero-screen .s-acts span.press { transform: scale(0.93); filter: brightness(1.2); }
+/* A fingertip shows which choice is being tapped. */
+.tap { position: absolute; left: 50%; top: 50%; width: 46px; height: 46px; margin: -23px 0 0 -23px; border: 3px solid #fff; border-radius: 50%; background: rgba(78, 133, 137, 0.45); box-shadow: 0 4px 12px rgba(41, 36, 24, 0.3); opacity: 0; transform: scale(1.5); transition: opacity 0.18s, transform 0.18s; pointer-events: none; }
+.tap.on { opacity: 1; transform: scale(1); }
+.tap.down { transform: scale(0.82); }
+.hm.in { animation: deal 0.32s cubic-bezier(0.16, 1, 0.3, 1) backwards; }
+.hm.out-keep { animation: hm-keep 0.34s cubic-bezier(0.4, 0, 1, 1) forwards; }
+.hm.out-later { animation: hm-later 0.34s cubic-bezier(0.4, 0, 1, 1) forwards; }
+.hm.out-skip { animation: hm-skip 0.34s cubic-bezier(0.4, 0, 1, 1) forwards; }
+@keyframes hm-keep { to { opacity: 0; transform: translateY(-6%) scale(0.9); } }
+@keyframes hm-later { to { opacity: 0; transform: translateX(55%) rotate(6deg); } }
+@keyframes hm-skip { to { opacity: 0; transform: translateX(-55%) rotate(-6deg); } }
+.hm-end { display: flex; flex: 1; flex-direction: column; align-items: center; justify-content: center; gap: 10px; text-align: center; }
+.hm-end b { font: 900 120px/0.9 var(--display); letter-spacing: -0.04em; }
+.hm-end strong { font: 600 40px/1 var(--hand); }
+.hm-end span { font-size: 17px; font-weight: 600; color: var(--muted); }
+.phone::before { content: ""; position: absolute; top: 3.4%; left: 35%; width: 30%; height: 3%; border-radius: 99px; background: #1F1B14; }
+.river .friend { z-index: 3; }
+#heroFlip { z-index: 3; left: calc(var(--px) + (var(--pw) - var(--fw)) / 2); bottom: calc(100% - var(--pt) - var(--fw) * 0.1283 - 5px); }
+#heroMomo { left: 3cqw; bottom: 5cqw; }
+#heroNori { right: 3cqw; bottom: 5cqw; }
+.tag { display: none; position: absolute; z-index: 3; font: 600 1.6rem/1 var(--hand); color: var(--ink); white-space: nowrap; }
+#tagIn { rotate: -7deg; }
+#tagOut { rotate: 5deg; }
+.river .hill { position: absolute; z-index: 4; left: 0; bottom: -1px; width: 100%; height: clamp(34px, 7cqw, 100px); }
+@media (min-width: 760px) {
+  /* Side by side: the copy on the left, the phone on the right at full height, so the whole review session is in view. */
+  .hero { position: relative; }
+  .hero-copy { position: absolute; z-index: 6; inset: 0; justify-content: center; align-items: flex-start; padding-block: 0 9cqw; text-align: left; pointer-events: none; }
+  .hero-copy > * { pointer-events: auto; }
+  .hero-copy h1 { max-width: 7.6em; }
+  .hero-copy .lede { max-width: 21em; }
+  .river { margin-top: 0; aspect-ratio: 1440 / 965; --ch: 15.5cqw; --px: 59cqw; --pt: 9cqw; --pw: 20.8cqw; }
+  .river .phone { z-index: 5; }
+  #heroFlip { z-index: 6; }
+  /* The phone sits high on wide screens, so Flip peeks smaller to keep his head inside the scene. */
+  .friend.peek { --fw: calc(var(--pw) * 0.42); }
+  .river .wide { display: block; }
+  .river .narrow { display: none; }
+  #heroNori { right: auto; left: 44cqw; bottom: 4.5cqw; }
+  #heroMomo { left: 86cqw; bottom: 4.5cqw; }
+  .tag { display: block; font-size: clamp(1.2rem, 2.3cqw, 2.1rem); }
+  #tagIn { left: 30cqw; top: 49cqw; }
+  #tagOut { right: 3.5cqw; top: 12.5cqw; }
+}
+
+/* 2. The dig: a pinned scene that sorts the roll as you scroll */
+.dig { position: relative; height: 380vh; }
+.dig-pin { position: sticky; top: var(--bar-h); display: flex; flex-direction: column; height: calc(100vh - var(--bar-h)); height: calc(100svh - var(--bar-h)); overflow: hidden; background: color-mix(in oklab, var(--dull), var(--paper) calc(var(--m, 0) * 100%)); }
+.dig-head { padding: clamp(14px, 3.4vh, 40px) var(--gutter) 0; text-align: center; }
+.dig-count { font: 900 clamp(3rem, 11vw, 7rem)/0.95 var(--display); letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+.dig-count small { font-size: 0.3em; letter-spacing: -0.01em; }
+.dig-lines { position: relative; height: 3.1em; margin: 8px auto 0; padding: 0; max-width: 24em; list-style: none; font-size: clamp(1.05rem, 0.8vw + 0.95rem, 1.5rem); line-height: 1.3; color: var(--body); }
+.dig-lines li { position: absolute; inset: 0; opacity: 0; transition: opacity 0.3s; text-wrap: balance; }
+.dig-lines li.on { opacity: 1; }
+.dig-field { position: relative; flex: 1; min-height: 0; margin: 6px var(--gutter) 0; }
+.dig-foot { padding: 8px var(--gutter) clamp(12px, 3vh, 30px); text-align: center; font-size: 0.95rem; color: var(--muted); opacity: var(--m, 0); }
+.t { position: absolute; left: 0; top: 0; overflow: hidden; border-radius: 16%; background: var(--shot); will-change: transform; }
+.t img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.t.shot { background: linear-gradient(var(--shot-line), var(--shot-line)) 18% 30% / 52% 9% no-repeat, linear-gradient(var(--shot-line), var(--shot-line)) 18% 52% / 34% 9% no-repeat, var(--shot); }
+.t.dup::after { content: ""; position: absolute; inset: 0; background: rgba(226, 221, 208, 0.35); }
+.frame { position: absolute; left: 0; top: 0; background: var(--card); border-radius: 4px; box-shadow: 0 1px 2px rgba(41, 36, 24, 0.1), 0 10px 24px var(--shade); opacity: 0; }
+.frame span { position: absolute; left: 7%; right: 4%; bottom: 4%; font-family: var(--hand); font-weight: 600; line-height: 1; white-space: nowrap; overflow: hidden; }
+.dig.still, .dig.forced { height: auto; }
+.dig.forced .dig-pin { position: relative; }
+.dig.still .dig-pin { position: static; height: auto; }
+.dig.still .dig-field { flex: none; height: min(640px, 150vw); }
+.dig.still .dig-lines { height: auto; }
+.dig.still .dig-lines li { position: static; opacity: 1; }
+
+/* 3. Your turn */
+.play { padding-block: clamp(48px, 7vw, 110px) clamp(56px, 8vw, 120px); }
+.play-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; align-items: center; }
+.play-copy { display: flex; flex-direction: column; gap: 16px; }
+.play-copy p { max-width: 26em; font-size: clamp(1.02rem, 0.4vw + 0.95rem, 1.2rem); color: var(--body); }
+.crew { position: relative; height: calc(var(--ch) * 0.68); --ch: clamp(130px, 17vw, 210px); }
+.crew .friend:nth-child(1) { left: 0; bottom: 0; }
+.crew .friend:nth-child(2) { left: calc(var(--ch) * 0.5); bottom: 0; }
+.crew .friend:nth-child(3) { left: calc(var(--ch) * 1.02); bottom: 0; }
+.deck { width: 100%; max-width: 420px; margin-inline: auto; }
+.card { display: flex; flex-direction: column; gap: 12px; padding: 20px 18px 18px; border-radius: 30px; background: var(--card); box-shadow: 0 2px 4px rgba(41, 36, 24, 0.08), 0 26px 60px var(--shade); transition: transform 0.25s cubic-bezier(0.4, 0, 1, 1), opacity 0.25s; }
+/* A decided card leaves faster than the next one arrives. Keep lifts the cover photo out to the tray, so the rest of the card just fades where it stands. */
+.card.in { animation: deal 0.32s cubic-bezier(0.16, 1, 0.3, 1) backwards; }
+.card.keep { opacity: 0; transition-duration: 0.2s; }
+.card.later { transform: translateX(64%) rotate(9deg); opacity: 0; }
+.card.skip { transform: translateX(-64%) rotate(-9deg); opacity: 0; }
+.mosaic img.lifted { visibility: hidden; }
+@keyframes deal { from { opacity: 0; transform: translateY(18px); } }
+@keyframes fade { from { opacity: 0; } }
+.ticks { display: flex; align-items: center; gap: 5px; font-size: 0.8rem; font-weight: 600; color: var(--muted); }
+.ticks b { width: 11px; height: 13px; border: 2px solid var(--ink); border-radius: 2px; }
+.ticks b.done { background: var(--ink); }
+.ticks span { margin-left: 6px; }
+.card h3 { font: 600 2.05rem/1.02 var(--hand); }
+.meta { font-size: 0.82rem; font-weight: 600; color: var(--muted); }
+.why { padding: 11px 14px; border: 1px solid var(--line); border-radius: 14px; font-size: 0.96rem; line-height: 1.42; color: var(--body); }
+.mosaic { display: grid; grid-template-columns: 1.35fr 1fr 1fr; grid-template-rows: 78px 78px; gap: 4px; }
+.mosaic img { display: block; width: 100%; height: 100%; min-height: 0; object-fit: cover; }
+.mosaic img:first-child { grid-row: span 2; }
+.acts { display: grid; grid-template-columns: 1.25fr 1fr 1fr; gap: 8px; margin-top: 4px; }
+.acts button { min-height: 50px; border: 1px solid transparent; border-radius: 25px; font: 600 1rem var(--text); cursor: pointer; }
+.acts [data-act="keep"] { background: var(--ink); color: var(--on-ink); }
+.acts [data-act="later"] { background: var(--card); border-color: var(--line); color: var(--ink); }
+.acts [data-act="skip"] { background: #F2EBDD; color: var(--ink); }
+.acts-why { display: grid; grid-template-columns: 1.25fr 1fr 1fr; gap: 8px; margin-top: -4px; text-align: center; font-size: 0.78rem; font-weight: 600; line-height: 1.25; color: var(--muted); }
+.card.end { align-items: flex-start; gap: 14px; padding: 28px 24px; }
+.card.end p { color: var(--body); }
+.card.end .row { display: flex; flex-wrap: wrap; gap: 10px; }
+.btn.ghost { background: none; border: 1.5px solid var(--ink); color: var(--ink); }
+/* Until the first tap the tray holds the hint; Kept appears only once something is kept. */
+.nudge { display: flex; flex-direction: column; align-items: center; gap: 2px; width: 100%; }
+.curl { width: 58px; height: 60px; margin-top: -10px; color: var(--teal-deep); }
+.play.hint .curl { animation: bob 1.3s ease-in-out infinite; }
+@keyframes bob { 50% { transform: translateY(-7px); } }
+.bubble { padding: 8px 18px 10px; border-radius: 99px; background: var(--sun); box-shadow: 0 6px 14px var(--shade); font: 600 1.6rem/1 var(--hand); color: var(--ink); rotate: -1.5deg; }
+.play.hint .bubble { animation: nudge-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both; }
+@keyframes nudge-in { from { opacity: 0; transform: translateY(8px) scale(0.94); } }
+.tray:has(.nudge) { justify-content: center; margin-top: 6px; }
+/* The three choices glow in turn while the hint is up, so it is clear they are the visitor's to tap. */
+.play.hint .acts button { animation: glow 2.7s ease-out infinite; }
+.play.hint .acts button:nth-child(2) { animation-delay: 0.3s; }
+.play.hint .acts button:nth-child(3) { animation-delay: 0.6s; }
+@keyframes glow { 0% { box-shadow: 0 0 0 0 rgba(78, 133, 137, 0.55); } 30%, 100% { box-shadow: 0 0 0 10px rgba(78, 133, 137, 0); } }
+.tray { display: flex; align-items: center; gap: 10px; min-height: 66px; margin-top: 16px; padding-inline: 8px; font-size: 0.86rem; font-weight: 600; color: var(--muted); }
+.tray .pol { width: 46px; padding: 3px 3px 9px; border-radius: 2px; box-shadow: 0 4px 10px var(--shade); }
+.tray .pol figcaption { display: none; }
+.tray .pol:nth-of-type(odd) { rotate: -5deg; }
+.tray .pol:nth-of-type(even) { rotate: 4deg; }
+.tray .pol.flying { position: relative; z-index: 5; }
+@media (min-width: 900px) {
+  .play-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 420px); gap: 72px; }
+  .crew { margin-top: 16px; }
+}
+
+
+/* 3b. How it works: three screens from the app mockup, one line under each, all in one view.
+   On phones the three sit in a row you swipe, so the section never gets long. */
+.how { padding-block: clamp(24px, 3vw, 40px) clamp(56px, 8vw, 104px); }
+.how-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px 40px; }
+.how-head h2 { max-width: 12em; font-size: clamp(2rem, 1.8vw + 1.3rem, 3.1rem); }
+.how-head p { max-width: 22em; font-size: clamp(1.02rem, 0.4vw + 0.95rem, 1.2rem); color: var(--body); }
+.how-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 3vw, 40px); margin: clamp(24px, 3vw, 40px) 0 0; padding: 0; list-style: none; }
+.how-step { display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; }
+.how-cap h3 { font: 600 clamp(1.7rem, 1vw + 1.4rem, 2.2rem)/1 var(--hand); }
+.how-cap p { max-width: 19em; margin-top: 6px; color: var(--body); text-wrap: pretty; }
+.how .device { text-align: left; }
+.device { padding: 9px; border-radius: 42px; background: #1F1B14; box-shadow: 0 2px 4px rgba(41, 36, 24, 0.16), 0 26px 50px rgba(41, 36, 24, 0.24); }
+.screen { position: relative; display: flex; flex-direction: column; width: 390px; height: 844px; overflow: hidden; padding: 56px 20px 22px; border-radius: 52px; background: var(--paper); color: var(--ink); }
+.screen::before { content: ""; position: absolute; top: 14px; left: 50%; width: 120px; height: 34px; translate: -50% 0; border-radius: 99px; background: #1F1B14; }
+.s-top { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; padding-top: 6px; }
+.s-top svg { position: absolute; left: 4px; top: 12px; }
+.s-ticks { display: flex; gap: 6px; }
+.s-ticks b { width: 15px; height: 17px; border: 2px solid #C6BEAD; border-radius: 3px; }
+.s-ticks b.done { border-color: var(--ink); background: var(--ink); }
+.s-ticks b.done:nth-child(2) { border-color: #B79A3A; background: #B79A3A; }
+.s-ticks b.now { border-color: var(--ink); border-width: 2.5px; }
+.s-count { font-size: 14px; color: var(--muted); }
+.s-meta { margin-top: 8px; font-size: 13px; font-weight: 600; color: var(--muted); }
+.s-col { display: flex; flex: 1; flex-direction: column; gap: 6px; }
+.s-mosaic img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.s-acts { display: grid; grid-template-columns: 1.1fr 1fr 1fr; gap: 10px; margin-top: auto; padding-inline: 20px; }
+.s-acts span { display: grid; place-items: center; height: 52px; border-radius: 26px; font-size: 17px; font-weight: 600; }
+.s-acts span:nth-child(1) { background: var(--ink); color: var(--on-ink); }
+.s-acts span:nth-child(2) { border: 1.5px solid #CFC8BA; background: var(--card); }
+.s-acts span:nth-child(3) { background: #F2EBDD; color: var(--muted); }
+.f-lockup { display: flex; align-items: center; gap: 10px; padding: 8px 4px 0; font: 800 23px/1 var(--display); letter-spacing: -0.025em; }
+.f-date { display: flex; align-items: center; gap: 10px; margin-top: 12px; padding-left: 4px; font-size: 12.5px; font-weight: 600; letter-spacing: 0.1em; color: var(--muted); }
+.f-date::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #B79A3A; }
+.f-deck { position: relative; width: 236px; height: 300px; margin: 30px auto 0; }
+.mo-grid { display: grid; grid-template-columns: 1.5fr 1fr; grid-template-rows: 1fr 1fr; gap: 3px; }
+.mo-grid img { display: block; width: 100%; height: 100%; min-height: 0; aspect-ratio: auto; object-fit: cover; }
+.mo-grid img:first-child { grid-row: span 2; }
+.f-card .mo-grid { gap: 4px; aspect-ratio: 1 / 0.9; }
+.f-card span { display: block; padding: 10px 4px; font: 600 23px/1.05 var(--hand); }
+.f-card.c0 { z-index: 3; transform: rotate(-1.5deg); }
+.f-card.c1 { z-index: 2; transform: rotate(6deg) translate(16px, -2px); }
+.f-card.c2 { z-index: 1; transform: rotate(-7deg) translate(-18px, 0); }
+.f-card.c1 > *, .f-card.c2 > * { visibility: hidden; }
+.f-ready { margin-top: 40px; text-align: center; font: 900 25px/1.1 var(--display); letter-spacing: -0.02em; }
+.f-sub { margin-top: 8px; text-align: center; font-size: 14px; line-height: 1.35; color: var(--body); }
+.f-start { display: grid; place-items: center; height: 56px; margin-top: 18px; border-radius: 28px; background: var(--ink); color: var(--on-ink); font-size: 17px; font-weight: 600; }
+.f-later { display: flex; align-items: center; justify-content: space-between; height: 56px; margin-top: 14px; padding: 0 18px; border: 1.5px solid var(--line); border-radius: 18px; background: var(--card); font-size: 15px; font-weight: 600; }
+.f-later b { display: flex; align-items: center; gap: 10px; font: 900 21px/1 var(--display); }
+.f-tabs { display: flex; justify-content: space-around; width: 280px; margin: auto auto 0; padding: 6px; border-radius: 34px; background: var(--card); box-shadow: 0 8px 20px var(--shade); }
+.f-tabs span { display: flex; flex-direction: column; align-items: center; gap: 3px; width: 84px; padding: 8px 0 6px; border-radius: 26px; font-size: 11px; font-weight: 600; color: var(--body); }
+.f-tabs span.on { background: #F7E4E0; color: #A2452F; }
+.s-title { margin: 14px 0 0; padding-bottom: 8px; border-bottom: 2px dashed #D9D1C1; font: 600 36px/1.06 var(--hand); }
+.s-notes { margin-top: 12px; padding: 14px 18px; border: 1.5px solid var(--line); border-radius: 22px; background: var(--card); font-size: 15px; line-height: 1.5; color: var(--body); }
+.s-mosaic { display: flex; gap: 6px; height: 330px; margin-top: 14px; }
+.s-mosaic i { overflow: hidden; min-height: 0; border-radius: 6px; background: var(--shot); }
+.f-card { position: absolute; inset: 0; padding: 10px 10px 0; border-radius: 4px; background: var(--card); box-shadow: 0 1px 2px rgba(41, 36, 24, 0.1), 0 14px 30px var(--shade); }
+/* Moments screen */
+.m-kept { padding: 8px 4px 0; font-size: 12.5px; font-weight: 600; letter-spacing: 0.1em; color: var(--muted); }
+.m-title { padding-left: 4px; font: 900 34px/1.1 var(--display); letter-spacing: -0.02em; }
+.m-week { display: flex; align-items: center; gap: 10px; margin-top: 18px; font: 800 17px/1 var(--display); }
+.m-week::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #B79A3A; }
+.m-week i { flex: 1; border-top: 1px solid var(--line); }
+.m-week small { font: 600 13px var(--text); color: var(--muted); }
+.m-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 14px; margin-top: 16px; }
+.m-grid .pol { padding: 8px 8px 0; }
+.m-grid .pol:nth-child(odd) { rotate: -1.5deg; }
+.m-grid .pol:nth-child(even) { rotate: 1.5deg; }
+.m-grid figcaption { font-size: 20px; }
+.m-tabs { position: absolute; z-index: 4; left: 50%; bottom: 22px; translate: -50% 0; }
+.m-tabs span.on { background: #EEE9D8; color: #6E6020; }
+.m-last::before { background: var(--shot-line); }
+/* The friends that sit inside the mockup's Find and Moments screens, as in the mockup. */
+.pal { position: absolute; z-index: 5; height: auto; pointer-events: none; }
+/* --z is the screen's zoom; the frame's corner follows it (the screen's 52pt corner, zoomed, plus the 9px bezel)
+   so the bezel is the same width all the way round. */
+.how { --z: 0.52; }
+.how .screen { zoom: var(--z); }
+.how .device { border-radius: calc(52px * var(--z) + 9px); }
+/* Short laptop screens: smaller phones, so the three still fit in one view. */
+@media (min-width: 1200px) { .how-head { flex-wrap: nowrap; } }
+@media (min-width: 760px) and (max-height: 820px) { .how { --z: 0.44; } }
+@media (min-width: 760px) and (max-height: 700px) { .how { --z: 0.34; } .how-steps { margin-top: 20px; } }
+@media (max-width: 759px) {
+  .how-steps { display: flex; gap: 16px; margin-inline: calc(var(--gutter) * -1); padding: 4px var(--gutter) 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .how-steps::-webkit-scrollbar { display: none; }
+  .how-step { flex: 0 0 76%; scroll-snap-align: center; }
+  .how { --z: 0.5; }
+  /* The neighbours peek in, faded, so a cut-off caption never reads as broken. */
+  .how-steps { -webkit-mask-image: linear-gradient(90deg, transparent, #000 var(--gutter), #000 calc(100% - var(--gutter)), transparent); mask-image: linear-gradient(90deg, transparent, #000 var(--gutter), #000 calc(100% - var(--gutter)), transparent); }
+}
+/* Phones: the section holds still while scrolling down slides the row sideways, so nobody has to swipe. */
+@media (max-width: 759px) {
+  .how.pinned { position: relative; }
+  .how.pinned > .wrap { position: sticky; top: var(--bar-h); }
+  .how.pinned .how-steps { overflow: visible; scroll-snap-type: none; -webkit-mask-image: none; mask-image: none; will-change: transform; }
+}
+@media (max-width: 759px) and (max-height: 760px) { .how { --z: 0.43; } }
+@media (max-width: 759px) and (max-height: 680px) { .how { --z: 0.33; } }
+
+/* 3c. Strengths: four features, each with a small before-and-after; the worries live in Common questions. */
+.strengths { background: var(--butter); padding-block: clamp(32px, 4.5vw, 64px) clamp(36px, 5vw, 64px); }
+.str-wrap { display: grid; gap: clamp(22px, 3vw, 40px); }
+.strengths h2 { max-width: 16em; font-size: clamp(2rem, 1.8vw + 1.3rem, 3.1rem); }
+.feats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 2.6vw, 36px) clamp(20px, 4vw, 56px); margin: 0; padding: 0; list-style: none; }
+.feats li { padding-top: 18px; border-top: 2px solid var(--ink); }
+.feats h3 { font: 900 clamp(1.2rem, 0.6vw + 1rem, 1.45rem)/1.12 var(--display); letter-spacing: -0.02em; text-wrap: balance; }
+.feats p { max-width: 27em; margin-top: 8px; font-size: 1.02rem; color: var(--body); text-wrap: pretty; }
+/* Each feature opens with a small before-and-after drawn from real photos: many in, one moment out. */
+.art { display: flex; align-items: center; gap: 8px; height: 84px; margin-bottom: 10px; }
+.art .th { display: block; width: 44px; height: 44px; flex: none; object-fit: cover; border: 2px solid #fff; border-radius: 9px; box-shadow: 0 3px 8px var(--shade); }
+.art .th:nth-child(odd) { rotate: -4deg; } .art .th:nth-child(even) { rotate: 3deg; }
+.art .th.keep { width: 66px; height: 78px; padding: 0 0 12px; border: 4px solid #fff; border-bottom-width: 0; border-radius: 3px; background: #fff; rotate: -2deg; box-shadow: 0 1px 2px rgba(41, 36, 24, 0.1), 0 8px 18px var(--shade); }
+.art .go { flex: none; margin-inline: 4px; color: var(--muted); }
+.mini-pol { width: 66px; flex: none; padding: 4px 4px 12px; rotate: 2.5deg; }
+.mini-pol .mo-grid { aspect-ratio: 1; gap: 2px; }
+.mini-pol figcaption { display: none; }
+.named { display: flex; flex-direction: column; gap: 2px; padding-bottom: 4px; border-bottom: 2px dashed var(--shot-line); font: 600 1.45rem/1 var(--hand); }
+.named small { font: 400 0.8rem/1.2 var(--text); color: var(--muted); }
+.fan { position: relative; width: 74px; height: 50px; flex: none; }
+.fan .th { position: absolute; top: 2px; }
+.fan .th:nth-child(1) { left: 0; rotate: -8deg; } .fan .th:nth-child(2) { left: 9px; rotate: -3deg; } .fan .th:nth-child(3) { left: 18px; rotate: 2deg; } .fan .th:nth-child(4) { left: 27px; rotate: 6deg; }
+.junk { position: relative; width: 34px; height: 46px; flex: none; border-radius: 6px; background: linear-gradient(var(--shot-line), var(--shot-line)) 50% 28% / 64% 6px no-repeat, linear-gradient(var(--shot-line), var(--shot-line)) 40% 46% / 44% 6px no-repeat, linear-gradient(var(--shot-line), var(--shot-line)) 46% 64% / 52% 6px no-repeat, var(--card); box-shadow: 0 2px 6px var(--shade); opacity: 0.5; }
+.junk.receipt { width: 28px; height: 52px; border-radius: 2px; }
+.junk:nth-child(1) { rotate: -6deg; } .junk:nth-child(3) { rotate: 5deg; }
+.curve.to-trust + .trust { padding-top: clamp(36px, 5vw, 72px); }
+@media (min-width: 960px) {
+  .feats { column-gap: clamp(40px, 5vw, 72px); }
+}
+@media (max-width: 640px) {
+  .feats { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .feats p { margin-top: 4px; font-size: 0.96rem; }
+  .feats li { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 14px; padding-top: 12px; }
+  .feats .art { grid-row: span 2; flex-direction: column; justify-content: center; gap: 0; height: auto; margin: 0 0 0 4px; }
+  .feats .art .go, .feats .art > .th:not(.keep), .feats .art .junk, .feats .art .fan { display: none; }
+  .named { display: none; }
+}
+
+/* 4. Trust, 5. Voices, 6. Questions */
+.trust { padding-bottom: clamp(56px, 8vw, 110px); }
+.trust-card { position: relative; display: flex; flex-wrap: wrap; align-items: flex-end; gap: clamp(8px, 3vw, 40px); overflow: hidden; padding: clamp(32px, 6vw, 84px) clamp(22px, 6vw, 84px) 0; border-radius: clamp(28px, 3.4vw, 48px); background: var(--teal-tint); }
+.trust-copy { flex: 999 1 400px; min-width: 0; padding-bottom: clamp(32px, 6vw, 84px); }
+.checks { display: flex; flex-direction: column; max-width: 520px; margin: clamp(20px, 2.6vw, 34px) 0 0; padding: 0; list-style: none; font-size: clamp(1.08rem, 0.4vw + 1rem, 1.3rem); font-weight: 600; line-height: 1.35; }
+.checks li { display: flex; align-items: center; gap: 14px; padding: 15px 0; }
+.checks li + li { border-top: 1px solid #B9D3CF; }
+.checks svg { flex: none; }
+.arch { position: relative; flex: 1 1 260px; max-width: 380px; height: var(--ah); margin-inline: auto; border-radius: 999px 999px 0 0; --ah: clamp(280px, 30vw, 420px); --ch: calc(var(--ah) * 1.22); }
+.arch .friend { left: calc(50% - var(--ch) * 0.21); bottom: 0; }
+.trust .arch { background: var(--teal-arch); }
+.voices { background: var(--butter); padding-block: clamp(48px, 7vw, 100px) clamp(64px, 9vw, 128px); text-align: center; }
+.notes { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 26px 0; margin-top: clamp(36px, 5vw, 60px); }
+.notes .pol { flex: 0 1 320px; min-width: 0; padding: 14px 14px 0; text-align: left; }
+.notes .pol:nth-child(1) { rotate: -3.5deg; margin-top: 20px; }
+.notes .pol:nth-child(2) { position: relative; z-index: 1; rotate: 1.5deg; margin-inline: -16px; }
+.notes .pol:nth-child(3) { rotate: -2deg; margin-top: 34px; }
+.notes blockquote { display: flex; align-items: center; min-height: 210px; margin: 0; padding: 24px; font: 600 1.85rem/1.16 var(--hand); }
+.notes figcaption { padding: 12px 4px 16px; font: 600 0.92rem/1.3 var(--text); color: var(--body); white-space: normal; }
+.faq { position: relative; overflow: hidden; background: var(--blush); }
+.faq-grid { display: flex; flex-wrap: wrap-reverse; align-items: flex-start; gap: clamp(8px, 5vw, 72px); padding-top: clamp(40px, 6vw, 96px); }
+.faq .arch { background: var(--blush-arch); flex-basis: 320px; }
+.faq-list { flex: 999 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 10px; padding-bottom: clamp(64px, 9vw, 128px); }
+.faq-list h2 { margin-bottom: clamp(12px, 2vw, 24px); }
+/* Side by side, Flip's arch floats level with the questions instead of sinking to the bottom edge. Stacked, it still rises from the bottom. */
+@media (min-width: 860px) {
+  .faq-grid { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); align-items: center; padding-block: clamp(64px, 8vw, 112px); }
+  .faq .arch { width: 100%; max-width: 340px; margin-inline: 0; border-radius: 200px 200px 32px 32px; }
+  .faq-list { padding-bottom: 0; }
+}
+details { padding: 0 clamp(16px, 2vw, 26px); border-radius: 22px; background: #FFFDFB; }
+summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 19px 0; list-style: none; cursor: pointer; font: 800 1.2rem/1.25 var(--display); letter-spacing: -0.015em; }
+summary::-webkit-details-marker { display: none; }
+summary svg { flex: none; transition: rotate 0.2s; }
+details[open] summary svg { rotate: 45deg; }
+details p a { color: var(--teal-deep); text-underline-offset: 3px; }
+details p { max-width: 34em; padding-bottom: 22px; color: var(--body); }
+
+/* 7. The wall and the invitation */
+.invite { background: var(--sun); padding-block: clamp(40px, 6vw, 88px) clamp(56px, 8vw, 110px); }
+.invite-grid { display: flex; flex-wrap: wrap-reverse; align-items: center; justify-content: space-between; gap: clamp(8px, 4vw, 56px); }
+.invite-copy { flex: 1 1 400px; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 22px; }
+.invite h2 { max-width: 10em; font-size: clamp(2.2rem, 3.4vw + 1.2rem, 4.2rem); line-height: 1.02; }
+.wall { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 12px; }
+.wall .pol, .wall .empty { width: clamp(92px, 10vw, 128px); }
+.wall .pol { padding: 7px 7px 0; }
+.wall .pol:nth-child(odd) { rotate: -3deg; }
+.wall .pol:nth-child(even) { rotate: 2.5deg; }
+.wall .pol figcaption { font-size: 1.02rem; }
+.wall .empty { display: flex; align-items: center; justify-content: center; aspect-ratio: 1 / 1.2; border: 2px dashed rgba(41, 36, 24, 0.4); border-radius: 4px; font: 600 1.3rem var(--hand); color: var(--body); }
+/* Moments kept in the demo wait off the wall until it comes into view, then get pressed on one by one, lifted close and settling flat. */
+.wall .pol.waiting { opacity: 0; }
+.wall .pol.pin { animation: pin 0.55s cubic-bezier(0.16, 1, 0.3, 1) var(--delay, 0s) backwards; }
+@keyframes pin { from { opacity: 0; transform: translateY(-16px) scale(1.12); box-shadow: 0 2px 4px rgba(41, 36, 24, 0.06), 0 40px 46px rgba(41, 36, 24, 0.2); } }
+/* The visitor's own Polaroid: it fills the first empty frame and develops like an instant photo. */
+.wall .mine .dev { position: relative; display: grid; place-items: center; aspect-ratio: 1; overflow: hidden; background: var(--butter); color: var(--teal-deep); }
+.wall .mine .dev svg { width: 44%; height: auto; }
+.wall .mine .dev::after { content: ""; position: absolute; inset: 0; background: #2E2A22; opacity: 0; }
+.wall .mine.develop .dev::after { animation: develop 0.8s cubic-bezier(0.3, 0, 0.2, 1) 0.15s backwards; }
+@keyframes develop { from { opacity: 1; } }
+.wall-note { font: 600 1.5rem/1.1 var(--hand); }
+.invite form { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 440px; }
+.invite label { font-size: 1rem; color: var(--body); }
+.invite .field { display: flex; gap: 8px; }
+.invite input { flex: 1; min-width: 0; height: 52px; padding: 0 18px; border: 1px solid #B99A2E; border-radius: 26px; background: #FFFDF6; font: 400 1rem var(--text); color: var(--ink); }
+.invite .status { min-height: 1.5em; font-size: 0.92rem; font-weight: 600; color: var(--teal-deep); }
+/* A field for bots only: off screen, out of the tab order, and outside the form's flex layout. */
+.invite .honeypot { position: absolute; left: -10000px; }
+.trio { flex: 0 1 auto; width: clamp(240px, 36vw, 470px); max-width: 100%; height: auto; aspect-ratio: 1229 / 1400; filter: drop-shadow(0 28px 30px rgba(41, 36, 24, 0.3)); }
+
+
+/* The top-right button shows only once the hero button has scrolled away, and hides again at the invitation. */
+.bar-cta { opacity: 0; visibility: hidden; transform: translateY(-6px); transition: opacity 0.25s, transform 0.25s, visibility 0s 0.25s; }
+.bar-cta.on { opacity: 1; visibility: visible; transform: none; transition: opacity 0.25s, transform 0.25s; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .bar, .bar-cta, .bar-cta.on { transition: none; transform: none; }
+  .hm.in, .hm[class*="out-"] { animation: fade 0.2s linear backwards; }
+  .friend img { animation: none !important; }
+  .play.hint .acts button, .play.hint .curl, .play.hint .bubble { animation: none; }
+  .btn:hover, .btn:active { translate: none; }
+  .dig-lines li, summary svg { transition: none; }
+  /* Cards and Polaroids still show each change, as a short fade with no travel. */
+  .card { transition: opacity 0.15s; }
+  .card.later, .card.skip { transform: none; }
+  .card.in, .wall .pol.pin { animation: fade 0.15s linear backwards; }
+  .wall .mine.develop .dev::after { animation-duration: 0.3s; animation-delay: 0s; }
+}

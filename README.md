@@ -15,6 +15,18 @@ The marketing site for Life in Photos, built with Next.js, Resend and PostHog. T
 
 Never commit real family photos. Only face-swapped or otherwise approved images belong in this repo.
 
+## Pages and languages
+
+The home page and the privacy policy are the story design from `prototypes/story-real/`, rebuilt as components in `components/story/`, `components/privacy/` and `components/site/`.
+
+| Path | Page |
+|---|---|
+| `/`, `/privacy` | English |
+| `/zh-Hant`, `/zh-Hant/privacy` | Traditional Chinese (still the English text, kept out of search until translated) |
+| `/designs` | The earlier design explorations |
+
+Every user-facing string, alt text included, lives in `app/[lang]/dictionaries/` (one file per locale). `proxy.ts` serves English at the root and redirects `/en/...` there. The page's photos in `public/photos/` are the face-swapped family only.
+
 ## Local setup
 
 1. Run `npm install`.

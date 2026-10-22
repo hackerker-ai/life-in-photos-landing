@@ -1,0 +1,71 @@
+/* Shared by every page: the brand tokens, the reset, focus rings and the footer with the friends on the wordmark.
+   Carried over from prototypes/story-real. Font families come from next/font (see app/[lang]/fonts.ts). */
+:root {
+  color-scheme: light;
+  --sun: #F4D160;
+  --paper: #FAF7F1;
+  --card: #FFFFFF;
+  --dull: #E2DDD0;
+  --ink: #292418;
+  --body: #4A4232;
+  --muted: #6B5F45;
+  --line: #E0D6BF;
+  --teal: #4E8589;
+  --teal-deep: #36686D;
+  --teal-tint: #D8E8E5;
+  --teal-arch: #BCD8D3;
+  --blush: #F5DDD5;
+  --blush-arch: #ECC7BC;
+  --butter: #FAF0CC;
+  --walnut: #211D16;
+  --on-ink: #F3E8C4;
+  --shot: #E9E5DB;
+  --shot-line: #C6BEAD;
+  --shade: rgba(41, 36, 24, 0.14);
+  /* Nunito, Figtree and Caveat have no CJK glyphs, so Chinese text falls through to the system font for now. Once a
+     CJK fallback is chosen, it goes into these three stacks under :root:lang(zh-Hant). */
+  --display: var(--font-nunito), ui-rounded, "Arial Rounded MT Bold", system-ui, sans-serif;
+  --text: var(--font-figtree), -apple-system, "Segoe UI", system-ui, sans-serif;
+  --hand: var(--font-caveat), "Bradley Hand", "Segoe Print", cursive;
+  --gutter: clamp(16px, 4vw, 56px);
+  --bar-h: 64px;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: var(--bar-h); }
+body { margin: 0; overflow-x: clip; background: var(--paper); color: var(--ink); font-family: var(--text); font-size: 1rem; line-height: 1.5; }
+h1, h2, h3, p, figure { margin: 0; }
+.wrap { max-width: 1160px; margin-inline: auto; padding-inline: var(--gutter); }
+:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; border-radius: 6px; }
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+@keyframes f-hop { 0% { transform: none; } 18% { transform: scale(1.05, 0.93); } 50% { transform: translateY(-14%) scale(0.97, 1.04); } 78% { transform: scale(1.04, 0.96); } 100% { transform: none; } }
+
+/* Footer: what the app is and where to go, then the wordmark as the page's last word, with the three friends standing
+   on the tops of its letters. Each friend sits in a span around its letter, so it lands on that letter at any size. */
+footer { overflow: hidden; background: var(--walnut); color: var(--on-ink); }
+.foot { display: grid; gap: clamp(28px, 4vw, 48px); padding-block: clamp(48px, 7vw, 96px) clamp(28px, 3vw, 40px); }
+.foot-brand { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+.foot-lockup { display: flex; align-items: center; gap: 9px; font: 800 1.4rem/1 var(--display); letter-spacing: -0.025em; color: var(--on-ink); text-decoration: none; }
+.foot-about { max-width: 30em; font-size: clamp(1rem, 0.3vw + 0.95rem, 1.08rem); line-height: 1.6; color: #D9CBA6; text-wrap: pretty; }
+.foot-nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+.foot-h { margin-bottom: 14px; font: 800 1.05rem/1 var(--display); letter-spacing: -0.01em; color: var(--sun); }
+.foot-nav ul { display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.foot a { color: var(--on-ink); text-decoration: none; }
+.foot-nav a { font-size: 1.02rem; transition: color 0.2s; }
+.foot-nav .soon { color: #9C8E6E; }
+@media (hover: hover) { .foot-nav a:hover, .foot-top:hover { color: var(--sun); } }
+.foot a:focus-visible { outline-color: var(--sun); }
+.foot-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 28px; padding-top: 22px; border-top: 1px solid rgba(243, 232, 196, 0.14); font-size: 0.9rem; color: #9C8E6E; }
+.foot-top { display: inline-flex; align-items: center; gap: 7px; font-weight: 600; transition: color 0.2s; }
+@media (min-width: 860px) {
+  .foot { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); column-gap: clamp(40px, 8vw, 140px); }
+  .foot-row { grid-column: 1 / -1; }
+}
+.wordmark { position: relative; margin-top: 0.14em; padding-bottom: 0.06em; text-align: center; font: 900 clamp(2.6rem, 13.4vw, 13.75rem)/1.1 var(--display); letter-spacing: -0.04em; white-space: nowrap; color: var(--on-ink); }
+.perch { position: relative; display: inline-block; }
+/* The pose canvas puts feet at 96% of its height. In this inline-block the letter's top (Nunito's x-height) is about
+   0.70em above the box bottom: 0.22em of descent plus 0.48em of x-height. */
+.perch img { position: absolute; left: 50%; bottom: calc(0.7em - 0.04 * var(--fh)); width: var(--fh); height: var(--fh); translate: -50% 0; pointer-events: auto; transform-origin: 50% 96%; --fh: 0.62em; }
+.perch img.tall { --fh: 0.74em; }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) { .perch img:hover { animation: f-hop 0.72s cubic-bezier(0.3, 0.7, 0.3, 1); } }
+
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }

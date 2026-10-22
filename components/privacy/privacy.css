@@ -1,0 +1,49 @@
+/* The privacy policy: a reading page in the landing page's world. Paper ground, a readable column, a sticky contents
+   list on wide screens, the short version first, and the same footer as the home page. Carried over from
+   prototypes/story-real/privacy.html; everything is scoped to .privacy-page, since it shares class names (.bar, .lockup)
+   with the home page. The tokens, reset and footer come from components/site/base.css. */
+html:has(.privacy-page) { scroll-padding-top: calc(var(--bar-h) + 16px); }
+.privacy-page ::selection { background: var(--sun); color: var(--ink); }
+.privacy-page .bar { position: sticky; top: 0; z-index: 30; background: color-mix(in oklab, var(--paper) 88%, transparent); -webkit-backdrop-filter: blur(12px) saturate(1.2); backdrop-filter: blur(12px) saturate(1.2); box-shadow: 0 1px 0 var(--line); }
+.privacy-page .top { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: var(--bar-h); }
+.privacy-page .lockup { display: flex; align-items: center; gap: 9px; color: var(--ink); text-decoration: none; font: 800 1.35rem/1 var(--display); letter-spacing: -0.025em; }
+.privacy-page .back { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 16px; border-radius: 22px; background: var(--ink); color: var(--on-ink); font-size: 0.9rem; font-weight: 600; text-decoration: none; }
+@media (hover: hover) { .privacy-page .back:hover { background: var(--teal-deep); color: #fff; } }
+
+.privacy-page .head { padding-block: clamp(40px, 6vw, 80px) clamp(24px, 3vw, 36px); }
+.privacy-page .draft { display: flex; gap: 12px; align-items: flex-start; max-width: 46rem; margin-bottom: clamp(24px, 3vw, 36px); padding: 14px 18px; border: 1.5px dashed #B99A2E; border-radius: 16px; background: #FFFBEA; color: var(--body); font-size: 0.95rem; }
+.privacy-page .draft b { color: var(--ink); }
+.privacy-page .head h1 { font: 900 clamp(2.4rem, 3.4vw + 1.2rem, 4rem)/1.02 var(--display); letter-spacing: -0.03em; }
+.privacy-page .updated { margin-top: 12px; color: var(--muted); font-size: 0.95rem; }
+.privacy-page .short { display: grid; gap: 14px; max-width: 46rem; margin-top: clamp(24px, 3vw, 36px); padding: clamp(22px, 3vw, 32px); border-radius: clamp(22px, 2.6vw, 32px); background: var(--butter); }
+.privacy-page .short h2 { font: 900 1.4rem/1.1 var(--display); letter-spacing: -0.02em; }
+.privacy-page .short ul { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.privacy-page .short li { display: flex; gap: 12px; align-items: flex-start; font-size: 1.05rem; line-height: 1.45; }
+.privacy-page .short li svg { flex: none; margin-top: 1px; }
+
+.privacy-page .body { display: grid; gap: clamp(28px, 4vw, 56px); padding-bottom: clamp(64px, 9vw, 120px); }
+.privacy-page .toc { display: none; }
+.privacy-page .toc p { margin-bottom: 12px; font: 800 1rem/1 var(--display); }
+.privacy-page .toc ol { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; counter-reset: s; }
+.privacy-page .toc a { color: var(--body); font-size: 0.95rem; text-decoration: none; }
+.privacy-page .toc a:hover { color: var(--teal-deep); }
+.privacy-page .policy { max-width: 42rem; }
+.privacy-page .policy section { padding-top: clamp(28px, 3vw, 40px); }
+.privacy-page .policy section + section { border-top: 1px solid var(--line); margin-top: clamp(28px, 3vw, 40px); }
+.privacy-page .policy h2 { margin-bottom: 14px; font: 900 clamp(1.45rem, 0.8vw + 1.2rem, 1.85rem)/1.12 var(--display); letter-spacing: -0.02em; }
+.privacy-page .policy h3 { margin: 20px 0 8px; font: 800 1.1rem/1.2 var(--display); }
+.privacy-page .policy p, .privacy-page .policy li { font-size: 1.05rem; line-height: 1.65; color: var(--body); text-wrap: pretty; }
+.privacy-page .policy p + p, .privacy-page .policy p + ul, .privacy-page .policy ul + p { margin-top: 12px; }
+.privacy-page .policy ul { display: grid; gap: 8px; margin: 0; padding-left: 1.2em; }
+.privacy-page .policy strong { color: var(--ink); }
+.privacy-page .policy a { color: var(--teal-deep); text-underline-offset: 3px; }
+.privacy-page .ph { padding: 1px 6px; border-radius: 6px; background: #FFF1C2; color: #6E5200; font-weight: 600; }
+.privacy-page .who { display: grid; gap: 0; margin-top: 16px; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: var(--card); }
+.privacy-page .who div { display: grid; gap: 4px; padding: 14px 18px; }
+.privacy-page .who div + div { border-top: 1px solid var(--line); }
+.privacy-page .who b { font: 800 1.02rem/1.2 var(--display); color: var(--ink); }
+.privacy-page .who span { font-size: 0.98rem; line-height: 1.5; color: var(--body); }
+@media (min-width: 960px) {
+  .privacy-page .body { grid-template-columns: 15rem minmax(0, 1fr); align-items: start; }
+  .privacy-page .toc { position: sticky; top: calc(var(--bar-h) + 32px); display: block; padding-top: clamp(28px, 3vw, 40px); }
+}

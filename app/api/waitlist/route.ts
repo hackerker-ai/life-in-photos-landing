@@ -28,30 +28,30 @@ function response(body: Record<string, string | boolean>, status = 200) {
 export async function POST(request: Request) {
   const contentLength = Number(request.headers.get("content-length") || 0);
   if (contentLength > 8_192) {
-    return response({ error: "That request is too large." }, 413);
+    return response({ error: "That request is too large.", code: "failed" }, 413);
   }
 
   let payload: { email?: unknown; website?: unknown };
   try {
     payload = (await request.json()) as { email?: unknown; website?: unknown };
   } catch {
-    return response({ error: "Please enter a valid email address." }, 400);
+    return response({ error: "Please enter a valid email address.", code: "invalid" }, 400);
   }
 
   if (typeof payload.website === "string" && payload.website.trim()) {
-    return response({ message: "You are on the list. Watch your inbox." });
+    return response({ message: "You are on the list. Watch your inbox.", code: "joined" });
   }
 
   const email = typeof payload.email === "string" ? payload.email.trim().toLowerCase() : "";
   if (!emailPattern.test(email) || email.length > 254) {
-    return response({ error: "Please enter a valid email address." }, 400);
+    return response({ error: "Please enter a valid email address.", code: "invalid" }, 400);
   }
 
   const apiKey = process.env.RESEND_API_KEY;
   const segmentId = process.env.RESEND_WAITLIST_SEGMENT_ID;
   const from = process.env.WAITLIST_FROM_EMAIL;
   if (!apiKey || !segmentId || !from) {
-    return response({ error: "Early access is temporarily unavailable. Please try again later." }, 503);
+    return response({ error: "Early access is temporarily unavailable. Please try again later.", code: "unavailable" }, 503);
   }
 
   const resend = new Resend(apiKey);
@@ -65,17 +65,17 @@ export async function POST(request: Request) {
   if (contactResult.error) {
     alreadyJoined = isAlreadyRegistered(contactResult.error as ResendError);
     if (!alreadyJoined) {
-      return response({ error: "We could not add you right now. Please try again." }, 502);
+      return response({ error: "We could not add you right now. Please try again.", code: "failed" }, 502);
     }
 
     const segmentResult = await resend.contacts.segments.add({ email, segmentId });
     if (segmentResult.error && !isAlreadyRegistered(segmentResult.error as ResendError)) {
-      return response({ error: "We could not add you right now. Please try again." }, 502);
+      return response({ error: "We could not add you right now. Please try again.", code: "failed" }, 502);
     }
   }
 
   if (alreadyJoined) {
-    return response({ message: "You are already on the list. We will keep you posted.", alreadyJoined: true });
+    return response({ message: "You are already on the list. We will keep you posted.", code: "alreadyJoined", alreadyJoined: true });
   }
 
   const welcome = welcomeEmail();
@@ -94,7 +94,8 @@ export async function POST(request: Request) {
 
   if (welcomeResult.error) {
     return response({
-      message: "You are on the list. Your confirmation email may take a little longer."
+      message: "You are on the list. Your confirmation email may take a little longer.",
+      code: "joinedEmailDelayed"
     });
   }
 
@@ -108,5 +109,5 @@ export async function POST(request: Request) {
     });
   }
 
-  return response({ message: "You are on the list. Watch your inbox." });
+  return response({ message: "You are on the list. Watch your inbox.", code: "joined" });
 }
