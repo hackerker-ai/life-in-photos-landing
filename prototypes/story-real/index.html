@@ -468,10 +468,34 @@ details p { max-width: 34em; padding-bottom: 22px; color: var(--body); }
 .invite input { flex: 1; min-width: 0; height: 52px; padding: 0 18px; border: 1px solid #B99A2E; border-radius: 26px; background: #FFFDF6; font: 400 1rem var(--text); color: var(--ink); }
 .invite .status { min-height: 1.5em; font-size: 0.92rem; font-weight: 600; color: var(--teal-deep); }
 .trio { flex: 0 1 auto; width: clamp(240px, 36vw, 470px); max-width: 100%; height: auto; aspect-ratio: 1229 / 1400; filter: drop-shadow(0 28px 30px rgba(41, 36, 24, 0.3)); }
+/* Footer: what the app is and where to go, then the wordmark as the page's last word, with the three friends standing
+   on the tops of its letters. Each friend sits in a span around its letter, so it lands on that letter at any size. */
 footer { overflow: hidden; background: var(--walnut); color: var(--on-ink); }
-.foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 28px; padding-block: clamp(28px, 4vw, 56px) 0; font-size: 0.95rem; }
-.foot span { color: #BDAE8C; }
-.wordmark { padding-bottom: 0.06em; text-align: center; font: 900 clamp(3rem, 15.2vw, 13.75rem)/1.1 var(--display); letter-spacing: -0.04em; white-space: nowrap; }
+.foot { display: grid; gap: clamp(28px, 4vw, 48px); padding-block: clamp(48px, 7vw, 96px) clamp(28px, 3vw, 40px); }
+.foot-brand { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+.foot-lockup { display: flex; align-items: center; gap: 9px; font: 800 1.4rem/1 var(--display); letter-spacing: -0.025em; color: var(--on-ink); text-decoration: none; }
+.foot-about { max-width: 30em; font-size: clamp(1rem, 0.3vw + 0.95rem, 1.08rem); line-height: 1.6; color: #D9CBA6; text-wrap: pretty; }
+.foot-nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+.foot-h { margin-bottom: 14px; font: 800 1.05rem/1 var(--display); letter-spacing: -0.01em; color: var(--sun); }
+.foot-nav ul { display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.foot a { color: var(--on-ink); text-decoration: none; }
+.foot-nav a { font-size: 1.02rem; transition: color 0.2s; }
+.foot-nav .soon { color: #9C8E6E; }
+@media (hover: hover) { .foot-nav a:hover, .foot-top:hover { color: var(--sun); } }
+.foot a:focus-visible { outline-color: var(--sun); }
+.foot-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 28px; padding-top: 22px; border-top: 1px solid rgba(243, 232, 196, 0.14); font-size: 0.9rem; color: #9C8E6E; }
+.foot-top { display: inline-flex; align-items: center; gap: 7px; font-weight: 600; transition: color 0.2s; }
+@media (min-width: 860px) {
+  .foot { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); column-gap: clamp(40px, 8vw, 140px); }
+  .foot-row { grid-column: 1 / -1; }
+}
+.wordmark { position: relative; margin-top: 0.14em; padding-bottom: 0.06em; text-align: center; font: 900 clamp(2.6rem, 13.4vw, 13.75rem)/1.1 var(--display); letter-spacing: -0.04em; white-space: nowrap; color: var(--on-ink); }
+.perch { position: relative; display: inline-block; }
+/* The pose canvas puts feet at 96% of its height. In this inline-block the letter's top (Nunito's x-height) is about
+   0.70em above the box bottom: 0.22em of descent plus 0.48em of x-height. */
+.perch img { position: absolute; left: 50%; bottom: calc(0.7em - 0.04 * var(--fh)); width: var(--fh); height: var(--fh); translate: -50% 0; pointer-events: auto; transform-origin: 50% 96%; --fh: 0.62em; }
+.perch img.tall { --fh: 0.74em; }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) { .perch img:hover { animation: f-hop 0.72s cubic-bezier(0.3, 0.7, 0.3, 1); } }
 
 /* The top-right button shows only once the hero button has scrolled away, and hides again at the invitation. */
 .bar-cta { opacity: 0; visibility: hidden; transform: translateY(-6px); transition: opacity 0.25s, transform 0.25s, visibility 0s 0.25s; }
@@ -706,12 +730,36 @@ footer { overflow: hidden; background: var(--walnut); color: var(--on-ink); }
   </div>
 </section>
 
-<footer>
+<footer id="footer">
   <div class="wrap foot">
-    <span>In beta for iPhone.</span>
-    <span>[PRIVACY POLICY LINK] &nbsp; [CONTACT EMAIL]</span>
+    <div class="foot-brand">
+      <a class="foot-lockup" href="#top"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" transform="rotate(-8 12 12)" d="M6.6 2.5h10.8a2.6 2.6 0 0 1 2.6 2.6v13.8a2.6 2.6 0 0 1-2.6 2.6H6.6A2.6 2.6 0 0 1 4 18.9V5.1a2.6 2.6 0 0 1 2.6-2.6zM7.3 4.8a1 1 0 0 0-1 1v9.6a1 1 0 0 0 1 1h9.4a1 1 0 0 0 1-1V5.8a1 1 0 0 0-1-1z"/></svg>life in photos</a>
+      <p class="foot-about">Life in Photos is an iPhone app that finds the moments buried in your camera roll. It gathers your photos into moments, writes each one a title and a short note, and brings them to you ten at a time, so looking back takes minutes, not a whole weekend.</p>
+    </div>
+    <nav class="foot-nav" aria-label="Footer">
+      <div>
+        <p class="foot-h">The app</p>
+        <ul>
+          <li><a href="#how">How it works</a></li>
+          <li><a href="#strengths">What it does</a></li>
+          <li><a href="#faq">Common questions</a></li>
+          <li><a href="#invite">Join the beta</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="foot-h">Get in touch</p>
+        <ul>
+          <li><a href="#">[CONTACT EMAIL]</a></li>
+          <li><a href="#">[PRIVACY POLICY LINK]</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="foot-row">
+      <span>&copy; 2026 Life in Photos. All rights reserved.</span>
+      <a class="foot-top" href="#top"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>Back to top</a>
+    </div>
   </div>
-  <div class="wordmark" aria-hidden="true">life in photos</div>
+  <div class="wordmark" aria-hidden="true">life i<span class="perch"><img class="tall" src="assets/friends/nori-wave.webp" alt="">n</span> ph<span class="perch"><img src="assets/friends/momo-wave.webp" alt="">o</span>to<span class="perch"><img src="assets/friends/flip-front.webp" alt="">s</span></div>
 </footer>
 
 <script>
