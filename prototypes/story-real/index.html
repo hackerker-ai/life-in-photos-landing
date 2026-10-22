@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Figtree:wght@400;600&family=Nunito:wght@800;900&display=swap">
 <style>
 /* Layout: one story told by scrolling. A river of camera-roll thumbnails flows into the phone and
-   comes out as Polaroids; a pinned scene sorts 3,482 photos into ten moments; the visitor keeps a
+   comes out as Polaroids; a pinned scene sorts 548 photos into ten moments; the visitor keeps a
    few; those land on the wall beside the invitation. One look by choice: the brand's warm paper. */
 :root {
   color-scheme: light;
@@ -87,12 +87,64 @@ h2.display { font-size: clamp(2rem, 2.6vw + 1.3rem, 3.6rem); }
 .hero-copy { display: flex; flex-direction: column; align-items: center; gap: 16px; padding-block: clamp(14px, 3vw, 36px) 0; text-align: center; }
 h1 { max-width: 11.4em; font-size: clamp(2.3rem, 4.6vw + 1.15rem, 4.5rem); }
 .lede { max-width: 30em; font-size: clamp(1rem, 0.4vw + 0.95rem, 1.2rem); color: var(--body); text-wrap: balance; }
-.river { position: relative; container-type: inline-size; aspect-ratio: 390 / 500; overflow: hidden; margin-top: 6px; --ch: 34cqw; --px: 28.2cqw; --pt: 38.5cqw; --pw: 43.6cqw; }
+.river { position: relative; container-type: inline-size; aspect-ratio: 390 / 580; overflow: hidden; margin-top: 6px; --ch: 34cqw; --px: 28.2cqw; --pt: 38.5cqw; --pw: 43.6cqw; }
 .river > svg.map { position: absolute; inset: 0; width: 100%; height: 100%; }
 .river .wide { display: none; }
 .bed { fill: none; stroke: var(--teal); stroke-linecap: round; }
 .phone { position: absolute; z-index: 2; left: var(--px); top: var(--pt); width: var(--pw); padding: calc(var(--pw) * 0.04); border-radius: calc(var(--pw) * 0.16); background: #1F1B14; box-shadow: 0 2px 4px rgba(41, 36, 24, 0.16), 0 26px 50px rgba(41, 36, 24, 0.24); }
-.phone img { display: block; width: 100%; height: auto; border-radius: calc(var(--pw) * 0.125); }
+.phone > img { display: block; width: 100%; height: auto; border-radius: calc(var(--pw) * 0.125); }
+.phone.live::before { display: none; }
+/* The hero's live session screen: laid out at the app's 390 pt and zoomed to the phone (set in script). */
+.hero-screen .hm { display: flex; flex: 1; flex-direction: column; min-height: 0; }
+.hero-screen .s-title { min-height: 1.06em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hero-screen .s-notes { min-height: 5.6em; }
+/* Every photo in the moment sits in a three-column grid with fixed row heights, scrolling inside the space down to the
+   buttons, like the app's masonry; the fixed rows keep each photo's proportions however tall the space is. */
+.hero-screen .s-mosaic { display: block; position: relative; flex: 1; height: auto; min-height: 0; margin-bottom: 18px; overflow: hidden; border-radius: 6px; }
+.s-track { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: 44px; grid-auto-flow: dense; gap: 6px; transition: transform 1.2s cubic-bezier(0.45, 0, 0.2, 1); }
+.s-track i { overflow: hidden; border-radius: 6px; background: var(--shot); }
+.s-track img { display: block; width: 100%; height: 100%; object-fit: cover; }
+/* Full screen, as in the app: the photo edge to edge, a back chevron, the moment's title, a counter pill and page dots. */
+.hero-screen::before { z-index: 7; }
+.fs { position: absolute; inset: 0; z-index: 5; overflow: hidden; border-radius: inherit; background: #0E0C0A; opacity: 0; visibility: hidden; transition: opacity 0.25s, visibility 0s 0.25s; }
+.fs.on { opacity: 1; visibility: visible; transition: opacity 0.25s; }
+.fs-inner { position: absolute; inset: 0; transform: scale(0.94); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+.fs.on .fs-inner { transform: none; }
+.fs-strip { display: flex; height: 100%; transition: transform 0.4s cubic-bezier(0.3, 0.7, 0.2, 1); }
+/* The whole photo shows, letterboxed on the dark ground, never cropped. */
+.fs-strip img { flex: 0 0 100%; width: 100%; height: 100%; object-fit: contain; }
+.fs-nav { position: absolute; top: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: center; height: 118px; padding-top: 58px; background: linear-gradient(rgba(0, 0, 0, 0.42), transparent); color: #fff; font: 600 17px/1 var(--text); }
+.fs-nav svg { position: absolute; left: 16px; top: 74px; }
+.fs-count { position: absolute; top: 118px; right: 14px; padding: 5px 11px; border-radius: 99px; background: rgba(0, 0, 0, 0.32); color: #fff; font-size: 13px; font-weight: 600; }
+.fs-dots { position: absolute; left: 0; right: 0; bottom: 34px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+.fs-dots b { width: 6px; height: 6px; border-radius: 50%; background: rgba(255, 255, 255, 0.38); transition: background-color 0.2s; }
+.fs-dots b.on { width: 7px; height: 7px; background: #fff; }
+/* The fingertip that scrolls, taps a photo and swipes: it glides between targets in screen points. */
+.finger { position: absolute; z-index: 8; left: 195px; top: 600px; width: 46px; height: 46px; margin: -23px 0 0 -23px; border: 3px solid #fff; border-radius: 50%; background: rgba(78, 133, 137, 0.45); box-shadow: 0 4px 12px rgba(41, 36, 24, 0.3); opacity: 0; transform: scale(1.5); transition: opacity 0.18s, transform 0.18s, left 0.5s cubic-bezier(0.45, 0, 0.2, 1), top 0.5s cubic-bezier(0.45, 0, 0.2, 1); pointer-events: none; }
+.finger.on { opacity: 1; transform: scale(1); }
+.finger.down { transform: scale(0.82); }
+.finger.slow { transition-duration: 0.18s, 0.18s, 1.2s, 1.2s; }
+.hero-screen .s-ticks b { transition: background-color 0.25s, border-color 0.25s; }
+.hero-screen .s-ticks b.k { border-color: var(--ink); background: var(--ink); }
+.hero-screen .s-ticks b.l { border-color: #B79A3A; background: #B79A3A; }
+.hero-screen .s-ticks b.s { border-color: #C6BEAD; background: var(--dull); }
+.hero-screen .s-acts span { position: relative; transition: transform 0.14s, filter 0.14s; }
+.hero-screen .s-acts span.press { transform: scale(0.93); filter: brightness(1.2); }
+/* A fingertip shows which choice is being tapped. */
+.tap { position: absolute; left: 50%; top: 50%; width: 46px; height: 46px; margin: -23px 0 0 -23px; border: 3px solid #fff; border-radius: 50%; background: rgba(78, 133, 137, 0.45); box-shadow: 0 4px 12px rgba(41, 36, 24, 0.3); opacity: 0; transform: scale(1.5); transition: opacity 0.18s, transform 0.18s; pointer-events: none; }
+.tap.on { opacity: 1; transform: scale(1); }
+.tap.down { transform: scale(0.82); }
+.hm.in { animation: deal 0.32s cubic-bezier(0.16, 1, 0.3, 1) backwards; }
+.hm.out-keep { animation: hm-keep 0.34s cubic-bezier(0.4, 0, 1, 1) forwards; }
+.hm.out-later { animation: hm-later 0.34s cubic-bezier(0.4, 0, 1, 1) forwards; }
+.hm.out-skip { animation: hm-skip 0.34s cubic-bezier(0.4, 0, 1, 1) forwards; }
+@keyframes hm-keep { to { opacity: 0; transform: translateY(-6%) scale(0.9); } }
+@keyframes hm-later { to { opacity: 0; transform: translateX(55%) rotate(6deg); } }
+@keyframes hm-skip { to { opacity: 0; transform: translateX(-55%) rotate(-6deg); } }
+.hm-end { display: flex; flex: 1; flex-direction: column; align-items: center; justify-content: center; gap: 10px; text-align: center; }
+.hm-end b { font: 900 120px/0.9 var(--display); letter-spacing: -0.04em; }
+.hm-end strong { font: 600 40px/1 var(--hand); }
+.hm-end span { font-size: 17px; font-weight: 600; color: var(--muted); }
 .phone::before { content: ""; position: absolute; top: 3.4%; left: 35%; width: 30%; height: 3%; border-radius: 99px; background: #1F1B14; }
 .river .friend { z-index: 3; }
 #heroFlip { z-index: 3; left: calc(var(--px) + (var(--pw) - var(--fw)) / 2); bottom: calc(100% - var(--pt) - var(--fw) * 0.1283 - 5px); }
@@ -103,16 +155,24 @@ h1 { max-width: 11.4em; font-size: clamp(2.3rem, 4.6vw + 1.15rem, 4.5rem); }
 #tagOut { rotate: 5deg; }
 .river .hill { position: absolute; z-index: 4; left: 0; bottom: -1px; width: 100%; height: clamp(34px, 7cqw, 100px); }
 @media (min-width: 760px) {
-  .river { aspect-ratio: 1440 / 600; --ch: 15.5cqw; --px: 39.6cqw; --pt: 6.7cqw; --pw: 20.8cqw; }
+  /* Side by side: the copy on the left, the phone on the right at full height, so the whole review session is in view. */
+  .hero { position: relative; }
+  .hero-copy { position: absolute; z-index: 6; inset: 0; justify-content: center; align-items: flex-start; padding-block: 0 9cqw; text-align: left; pointer-events: none; }
+  .hero-copy > * { pointer-events: auto; }
+  .hero-copy h1 { max-width: 7.6em; }
+  .hero-copy .lede { max-width: 21em; }
+  .river { margin-top: 0; aspect-ratio: 1440 / 965; --ch: 15.5cqw; --px: 59cqw; --pt: 9cqw; --pw: 20.8cqw; }
+  .river .phone { z-index: 5; }
+  #heroFlip { z-index: 6; }
   /* The phone sits high on wide screens, so Flip peeks smaller to keep his head inside the scene. */
   .friend.peek { --fw: calc(var(--pw) * 0.42); }
   .river .wide { display: block; }
   .river .narrow { display: none; }
-  #heroNori { right: auto; left: 7cqw; bottom: 4.5cqw; }
-  #heroMomo { left: 74cqw; bottom: 4.5cqw; }
+  #heroNori { right: auto; left: 44cqw; bottom: 4.5cqw; }
+  #heroMomo { left: 86cqw; bottom: 4.5cqw; }
   .tag { display: block; font-size: clamp(1.2rem, 2.3cqw, 2.1rem); }
-  #tagIn { left: 5cqw; top: 15.5cqw; }
-  #tagOut { right: 3.5cqw; top: 31cqw; }
+  #tagIn { left: 30cqw; top: 49cqw; }
+  #tagOut { right: 3.5cqw; top: 12.5cqw; }
 }
 
 /* 2. The dig: a pinned scene that sorts the roll as you scroll */
@@ -278,21 +338,31 @@ h1 { max-width: 11.4em; font-size: clamp(2.3rem, 4.6vw + 1.15rem, 4.5rem); }
 .m-last::before { background: var(--shot-line); }
 /* The friends that sit inside the mockup's Find and Moments screens, as in the mockup. */
 .pal { position: absolute; z-index: 5; height: auto; pointer-events: none; }
-.how .screen { zoom: 0.52; }
+/* --z is the screen's zoom; the frame's corner follows it (the screen's 52pt corner, zoomed, plus the 9px bezel)
+   so the bezel is the same width all the way round. */
+.how { --z: 0.52; }
+.how .screen { zoom: var(--z); }
+.how .device { border-radius: calc(52px * var(--z) + 9px); }
 /* Short laptop screens: smaller phones, so the three still fit in one view. */
 @media (min-width: 1200px) { .how-head { flex-wrap: nowrap; } }
-@media (min-width: 760px) and (max-height: 820px) { .how .screen { zoom: 0.44; } }
-@media (min-width: 760px) and (max-height: 700px) { .how .screen { zoom: 0.34; } .how-steps { margin-top: 20px; } }
+@media (min-width: 760px) and (max-height: 820px) { .how { --z: 0.44; } }
+@media (min-width: 760px) and (max-height: 700px) { .how { --z: 0.34; } .how-steps { margin-top: 20px; } }
 @media (max-width: 759px) {
   .how-steps { display: flex; gap: 16px; margin-inline: calc(var(--gutter) * -1); padding: 4px var(--gutter) 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
   .how-steps::-webkit-scrollbar { display: none; }
   .how-step { flex: 0 0 76%; scroll-snap-align: center; }
-  .how .screen { zoom: 0.5; }
+  .how { --z: 0.5; }
   /* The neighbours peek in, faded, so a cut-off caption never reads as broken. */
   .how-steps { -webkit-mask-image: linear-gradient(90deg, transparent, #000 var(--gutter), #000 calc(100% - var(--gutter)), transparent); mask-image: linear-gradient(90deg, transparent, #000 var(--gutter), #000 calc(100% - var(--gutter)), transparent); }
 }
-@media (max-width: 759px) and (max-height: 760px) { .how .screen { zoom: 0.43; } }
-@media (max-width: 759px) and (max-height: 680px) { .how .screen { zoom: 0.33; } }
+/* Phones: the section holds still while scrolling down slides the row sideways, so nobody has to swipe. */
+@media (max-width: 759px) {
+  .how.pinned { position: relative; }
+  .how.pinned > .wrap { position: sticky; top: var(--bar-h); }
+  .how.pinned .how-steps { overflow: visible; scroll-snap-type: none; -webkit-mask-image: none; mask-image: none; will-change: transform; }
+}
+@media (max-width: 759px) and (max-height: 760px) { .how { --z: 0.43; } }
+@media (max-width: 759px) and (max-height: 680px) { .how { --z: 0.33; } }
 
 /* 3c. Strengths: four features, each with a small before-and-after; the worries live in Common questions. */
 .strengths { background: var(--butter); padding-block: clamp(32px, 4.5vw, 64px) clamp(36px, 5vw, 64px); }
@@ -410,6 +480,7 @@ footer { overflow: hidden; background: var(--walnut); color: var(--on-ink); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .bar, .bar-cta, .bar-cta.on { transition: none; transform: none; }
+  .hm.in, .hm[class*="out-"] { animation: fade 0.2s linear backwards; }
   .friend img { animation: none !important; }
   .play.hint .acts button, .play.hint .curl, .play.hint .bubble { animation: none; }
   .btn:hover, .btn:active { translate: none; }
@@ -439,20 +510,20 @@ footer { overflow: hidden; background: var(--walnut); color: var(--on-ink); }
     <a class="btn" href="#invite">Find your moments</a>
   </div>
   <div class="river" id="river">
-    <svg class="map wide" viewBox="0 0 1440 600" data-tile="34" data-count="26" aria-hidden="true">
-      <path class="bed in" stroke-width="62" d="M-80 120C120 20 330 90 330 260c0 160 140 210 210 120 30-40 60-50 120-50"/>
-      <path class="bed out" stroke-width="62" d="M790 330c110 0 140-180 260-180 130 0 120 180 230 200 100 20 140-70 260-100"/>
+    <svg class="map wide" viewBox="0 0 1440 965" data-tile="34" data-count="26" aria-hidden="true">
+      <path class="bed in" stroke-width="62" d="M-80 820C140 740 320 880 500 820c160-55 200-318 360-318"/>
+      <path class="bed out" stroke-width="62" d="M1130 432c80 0 90-150 180-150 60 0 80 30 210 30"/>
       <g class="flow"></g>
     </svg>
-    <svg class="map narrow" viewBox="0 0 390 500" data-tile="20" data-count="18" aria-hidden="true">
+    <svg class="map narrow" viewBox="0 0 390 580" data-tile="20" data-count="18" aria-hidden="true">
       <path class="bed in" stroke-width="34" d="M-30 70C60 10 170 30 190 90c15 50 140-10 155 70 13 70-45 90-83 90"/>
       <path class="bed out" stroke-width="34" d="M130 330c-60 0-80 50-170 62"/>
       <g class="flow"></g>
     </svg>
-    <p class="tag" id="tagIn">3,482 photos in</p>
+    <p class="tag" id="tagIn">548 photos in</p>
     <p class="tag" id="tagOut">ten moments out</p>
     <button class="friend peek" id="heroFlip" data-who="flip" data-pose="peek" aria-label="Flip. Tap to play."></button>
-    <div class="phone"><img src="assets/find-home.png" width="780" height="1688" alt="The Life in Photos app on an iPhone. The Find screen says: Today's 10 are ready. About 5 minutes. Your Photos library stays untouched."></div>
+    <div class="phone live" role="img" aria-label="The Life in Photos app on an iPhone, going through ten moments one at a time: each comes up with its photos and title, and gets kept, saved for later or skipped."><div class="screen hero-screen" id="heroScreen" aria-hidden="true"></div></div>
     <button class="friend" id="heroNori" data-who="nori" aria-label="Nori. Tap to play."></button>
     <button class="friend" id="heroMomo" data-who="momo" aria-label="Momo. Tap to play."></button>
     <svg class="hill" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 100V40c380 70 980-50 1440 16v44z" style="fill: var(--dull)"/></svg>
@@ -462,9 +533,9 @@ footer { overflow: hidden; background: var(--walnut); color: var(--on-ink); }
 <section class="dig" id="dig" aria-label="How a camera roll becomes ten moments">
   <div class="dig-pin">
     <div class="dig-head">
-      <p class="dig-count"><span id="digNum">3,482</span> <small id="digUnit">photos</small></p>
+      <p class="dig-count"><span id="digNum">548</span> <small id="digUnit">photos</small></p>
       <ol class="dig-lines">
-        <li class="on">Say your camera roll holds 3,482 photos.</li>
+        <li class="on">Say your camera roll holds 548 photos.</li>
         <li>Life in Photos looks past the screenshots and the photos of stuff.</li>
         <li>It folds eleven takes of one candle into one.</li>
         <li>It gathers the photos that belong together.</li>
@@ -786,7 +857,7 @@ footer { overflow: hidden; background: var(--walnut); color: var(--on-ink); }
   /* ---- 2. The dig: scroll sorts the roll into ten moments ---- */
   const dig = $("#dig"), pin = $(".dig-pin"), field = $("#digField");
   const digNum = $("#digNum"), digUnit = $("#digUnit"), digLines = $$(".dig-lines li");
-  const STOPS = [[0, 3482], [0.12, 3482], [0.36, 2104], [0.58, 968], [0.84, 10], [1, 10]];
+  const STOPS = [[0, 548], [0.12, 548], [0.36, 331], [0.58, 152], [0.84, 10], [1, 10]];
   let tiles = [], frames = [], fieldW = 0, fieldH = 0, painted = -1;
   const query = new URLSearchParams(location.search);
   const forced = query.has("p") ? +query.get("p") : null;
@@ -1004,6 +1075,185 @@ footer { overflow: hidden; background: var(--walnut); color: var(--on-ink); }
   }, { threshold: 0.6 }).observe(deck);
   dealCard();
   hangWall();
+
+  /* ---- Hero phone: a review session in the app, playing through the ten moments from the sorting scene.
+     Each moment comes up, a fingertip taps Keep, Later or Skip, the ticks fill in, and the next one arrives.
+     It runs only while the hero is on screen; with Reduce Motion it shows the first moment and holds. ---- */
+  const heroScreen = $("#heroScreen"), heroPhone = heroScreen.parentElement;
+  const CHOICES = ["keep", "keep", "later", "keep", "skip", "keep", "keep", "later", "keep", "keep"];
+  // The moments that also get opened full screen.
+  const FULL = [0, 3, 6];
+  const LABEL = { keep: "Keep", later: "Later", skip: "Skip" };
+  const back = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>';
+  heroScreen.innerHTML = `<div class="s-top">${back}<div class="s-ticks">${"<b></b>".repeat(10)}</div><span class="s-count"></span></div><div class="hm"></div><div class="s-acts">${["keep", "later", "skip"].map((a) => `<span data-a="${a}">${LABEL[a]}<i class="tap"></i></span>`).join("")}</div>`;
+  heroScreen.insertAdjacentHTML("beforeend", '<div class="fs"></div><i class="finger"></i>');
+  const heroFs = $(".fs", heroScreen), finger = $(".finger", heroScreen);
+  // Where an element sits in the screen's own 390-point space.
+  const at = (el, fx = 0.5, fy = 0.5) => {
+    const z = +heroScreen.style.zoom || 1, s = heroScreen.getBoundingClientRect(), r = el.getBoundingClientRect();
+    return [(r.left + r.width * fx - s.left) / z, (r.top + r.height * fy - s.top) / z];
+  };
+  const moveFinger = (x, y) => { finger.style.left = `${x}px`; finger.style.top = `${y}px`; };
+  const heroTicks = $$(".s-ticks b", heroScreen), heroCount = $(".s-count", heroScreen), heroActs = $(".s-acts", heroScreen);
+  // Each moment's note, in our own voice, like a line in the family journal.
+  const NOTES = {
+    "Kings Canyon lake": "We claimed the red chairs by the lake and stayed far longer than we planned. By the drive home, both kids were fast asleep in the back.",
+    "Sequoia trail": "We kept tipping our heads back to see the tops of the trees. The best part was all of us squeezing inside a hollow trunk together.",
+    "Hokkaido snow": "Her first real snow. She ran straight into it and didn't want to come back inside, even when her cheeks turned pink.",
+    "Tamsui riverside": "The sky stayed grey, but we didn't mind. We took selfie after selfie by the water, and the kids insisted on a peace sign every time.",
+    "Shoufeng": "A slow afternoon by the pond. We shared a little cake with a strawberry on top, and she twirled around in her new purple dress.",
+    "Hualien daylilies": "We drove up into the hills just as the daylilies bloomed. The baby rode in the carrier the whole way, and we warmed up in a little café after.",
+    "Abby turns one": "Our girl turned one. We hung the banner, filled the bed with balloons, and she wore the lace bonnet all morning.",
+    "Beimen salt fields": "We waited for the sun to set over the salt fields. The baby stayed snug between us while the sky turned soft and pink.",
+    "Taipei winter": "We bundled up for a chilly day in the city, shared a bunny-shaped dessert at our favourite café, and strolled home through the park.",
+    "Summer 2019": "Those first slow weeks at home with our newest one. We barely left the bed, and we couldn't stop kissing those cheeks."
+  };
+  // All the photos in a moment (accidental frames left out), the kept ones first.
+  const heroShots = (g) => [...g.keep, ...g.takes.filter((id) => !ACCIDENTS.includes(id))];
+  const SPANS = [4, 3, 3, 3, 4, 3, 3, 3, 4, 3, 4, 3];
+  const heroMoment = (g) => {
+    const shots = heroShots(g);
+    return `<p class="s-title">${g.name}</p><p class="s-meta">${shots.length} photos</p><p class="s-notes">${NOTES[g.name] || ""}</p><div class="s-mosaic"><div class="s-track">${shots.map((id, k) => `<i style="grid-row: span ${SPANS[k % SPANS.length]}">${photo(id, k < g.keep.length ? "m" : "s")}</i>`).join("")}</div></div>`;
+  };
+  const heroFull = (g) => {
+    const shots = heroShots(g);
+    return `<div class="fs-inner"><div class="fs-strip">${shots.map((id, k) => `<img src="assets/photos/${k < g.keep.length ? "m" : "s"}/${id}.jpg" alt=""${k > 2 ? ' loading="lazy"' : ""}>`).join("")}</div></div><div class="fs-nav">${back}${g.name}</div><span class="fs-count">1 / ${shots.length}</span><div class="fs-dots">${shots.slice(0, 9).map((_, k) => `<b${k ? "" : ' class="on"'}></b>`).join("")}</div>`;
+  };
+  function heroAt(i, results) {
+    heroTicks.forEach((b, k) => { b.className = k < i ? { keep: "k", later: "l", skip: "s" }[results[k]] : k === i ? "now" : ""; });
+    heroCount.textContent = i < 10 ? `${i + 1} of 10` : "10 of 10";
+  }
+  const fitHero = () => {
+    const cs = getComputedStyle(heroPhone);
+    heroScreen.style.zoom = ((heroPhone.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight)) / 390).toFixed(4);
+  };
+  fitHero();
+  addEventListener("resize", fitHero);
+  isWide.addEventListener("change", fitHero);
+  let heroOn = false;
+  new IntersectionObserver(([entry]) => { heroOn = entry.isIntersecting; }, { threshold: 0.25 }).observe(heroPhone);
+  // Every photo the session shows, decoded ahead so a moment never arrives half-loaded.
+  GROUPS.forEach((g) => heroShots(g).forEach((id, k) => { const im = new Image(); im.src = `assets/photos/${k < g.keep.length ? "m" : "s"}/${id}.jpg`; }));
+  (async () => {
+    const hm = () => $(".hm", heroScreen);
+    const wait = async (ms) => { await sleep(ms); while (!heroOn || document.hidden) await sleep(300); };
+    heroAt(0, []);
+    hm().innerHTML = heroMoment(GROUPS[0]);
+    if (calm) return;
+    for (;;) {
+      const results = [];
+      for (let i = 0; i < 10; i++) {
+        heroAt(i, results);
+        const body = hm();
+        body.className = "hm in";
+        body.innerHTML = heroMoment(GROUPS[i]);
+        await wait(1300);
+        // Scroll through the moment's photos, as a thumb would.
+        const mosaic = $(".s-mosaic", body), track = $(".s-track", body);
+        const reach = Math.max(0, track.scrollHeight - mosaic.clientHeight);
+        const full = FULL.includes(i);
+        // Only scroll when there is a real screenful more to see.
+        if (reach > 60) {
+          const [mx, my] = at(mosaic, 0.5, 0.82);
+          finger.classList.remove("slow"); moveFinger(mx, my);
+          await sleep(40);
+          finger.classList.add("on", "slow");
+          track.style.transform = `translateY(${-reach}px)`;
+          moveFinger(mx, my - Math.min(reach, 240));
+          await wait(1300);
+          finger.classList.remove("on");
+          await wait(500);
+          if (full) {
+            track.style.transform = "";
+            await wait(1250);
+          }
+        }
+        // Open the first photo full screen, swipe to the next, then go back.
+        if (full) {
+          finger.classList.remove("slow");
+          heroFs.innerHTML = heroFull(GROUPS[i]);
+          moveFinger(...at($(".s-track i", body)));
+          await sleep(60);
+          finger.classList.add("on");
+          await wait(520);
+          finger.classList.add("down");
+          await sleep(160);
+          finger.classList.remove("down", "on");
+          heroFs.classList.add("on");
+          await wait(1100);
+          moveFinger(300, 470);
+          await sleep(60);
+          finger.classList.add("on");
+          await sleep(220);
+          moveFinger(90, 470);
+          $(".fs-strip", heroFs).style.transform = "translateX(-100%)";
+          $(".fs-count", heroFs).textContent = `2 / ${heroShots(GROUPS[i]).length}`;
+          $$(".fs-dots b", heroFs).forEach((b, k) => b.classList.toggle("on", k === 1));
+          await sleep(480);
+          finger.classList.remove("on");
+          await wait(1100);
+          moveFinger(28, 84);
+          await sleep(60);
+          finger.classList.add("on");
+          await wait(520);
+          finger.classList.add("down");
+          await sleep(160);
+          finger.classList.remove("down", "on");
+          heroFs.classList.remove("on");
+          await wait(500);
+        }
+        const act = CHOICES[i], button = $(`[data-a="${act}"]`, heroActs), tap = $(".tap", button);
+        tap.classList.add("on");
+        await wait(380);
+        tap.classList.add("down"); button.classList.add("press");
+        await sleep(160);
+        tap.classList.remove("down", "on"); button.classList.remove("press");
+        body.className = `hm out-${act}`;
+        results.push(act);
+        await sleep(340);
+      }
+      heroAt(10, results);
+      const kept = results.filter((r) => r === "keep").length, later = results.filter((r) => r === "later").length;
+      const body = hm();
+      body.className = "hm in";
+      body.innerHTML = `<div class="hm-end"><b>${kept}</b><strong>moments kept</strong><span>${later} saved for later · ${10 - kept - later} skipped</span></div>`;
+      await wait(2600);
+      body.className = "hm out-keep";
+      await sleep(340);
+    }
+  })();
+
+  /* ---- How it works on phones: the section holds still while scrolling down slides the three phones sideways. ---- */
+  const how = $("#how"), howWrap = $(":scope > .wrap", how), howRow = $(".how-steps", how);
+  const narrow = matchMedia("(max-width: 759px)");
+  let howStart = 0, howDist = 0, howPad = [0, 0];
+  function layoutHow() {
+    const on = narrow.matches && !calm;
+    how.classList.toggle("pinned", on);
+    howRow.style.transform = "";
+    how.style.height = "";
+    if (!on) return;
+    const cs = getComputedStyle(how);
+    howPad = [parseFloat(cs.paddingTop), parseFloat(cs.paddingBottom)];
+    // The slide runs from the first phone centred in the view to the last phone centred in the view.
+    const offset = (step) => step.offsetLeft + step.offsetWidth / 2 - howRow.clientWidth / 2;
+    howStart = offset(howRow.firstElementChild);
+    howDist = Math.max(0, offset(howRow.lastElementChild) - howStart);
+    // Scroll distance while pinned: the slide itself, then a short hold on the last phone.
+    how.style.height = `${howPad[0] + howWrap.offsetHeight + howDist + 80 + howPad[1]}px`;
+    paintHow();
+  }
+  function paintHow() {
+    if (!how.classList.contains("pinned")) return;
+    const barH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--bar-h")) || 64;
+    const p = clamp((barH - howPad[0] - how.getBoundingClientRect().top) / Math.max(1, howDist));
+    howRow.style.transform = `translateX(${(-(howStart + p * howDist)).toFixed(1)}px)`;
+  }
+  let howQueued = false;
+  addEventListener("scroll", () => { if (!howQueued) { howQueued = true; requestAnimationFrame(() => { howQueued = false; paintHow(); }); } }, { passive: true });
+  addEventListener("resize", layoutHow);
+  narrow.addEventListener("change", layoutHow);
+  layoutHow();
 
   /* ---- Header: frosted once the page scrolls; its button shows only while neither the hero button nor the invitation is on screen ---- */
   const bar = $("#bar"), barCta = $("#barCta");
