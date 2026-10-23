@@ -39,11 +39,12 @@ export function HeroRiver({ hero, moments, acts, friends }: HeroRiverProps) {
     paint()(7);
     if (!calm) frame = requestAnimationFrame(flow);
 
-    const onBreakpoint = () => { paint()(7); fitHero(screen); };
-    const onResize = () => fitHero(screen);
+    const onBreakpoint = () => paint()(7);
     isWide.addEventListener("change", onBreakpoint);
-    addEventListener("resize", onResize);
-    fitHero(screen);
+    // The phone's size follows the window and, on short screens, the copy above it (which changes once the fonts load),
+    // so the screen re-zooms whenever the phone itself changes size.
+    const phoneSize = new ResizeObserver(() => fitHero(screen));
+    phoneSize.observe(phone);
 
     const riverWatch = new IntersectionObserver(([entry]) => { riverOn = entry.isIntersecting; });
     riverWatch.observe(river);
@@ -57,7 +58,7 @@ export function HeroRiver({ hero, moments, acts, friends }: HeroRiverProps) {
       alive = false;
       cancelAnimationFrame(frame);
       isWide.removeEventListener("change", onBreakpoint);
-      removeEventListener("resize", onResize);
+      phoneSize.disconnect();
       riverWatch.disconnect();
       phoneWatch.disconnect();
     };

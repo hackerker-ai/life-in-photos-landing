@@ -56,10 +56,18 @@ h1 { max-width: 11.4em; font-size: clamp(2.3rem, 4.6vw + 1.15rem, 4.5rem); }
 .river { position: relative; container-type: size; width: 100%; aspect-ratio: 390 / 580; overflow: hidden; margin-top: 6px; --ch: calc(34 * var(--u)); --px: calc(var(--ox) + 28.2 * var(--u)); --pt: calc(38.5 * var(--u)); --pw: calc(43.6 * var(--u)); }
 .river > svg.map { overflow: visible; }
 @media (max-width: 759px) {
-  /* Phones: the copy keeps its size and the scene takes what is left of the screen under the header. */
+  /* Phones: the scene takes what is left of the screen under the header and the copy. */
   .hero { display: flex; flex-direction: column; max-height: calc(100svh - var(--bar-h)); }
   .hero-copy { flex: none; }
   .river { flex: 0 1 auto; min-height: 0; }
+}
+/* Phones too short for the whole first section (most, with the browser's bars showing): the copy makes room so the
+   phone in the scene stays close to its full size. A smaller headline, tighter spacing and no description line; the
+   scene shrinks only on the shortest screens. */
+@media (max-width: 759px) and (min-aspect-ratio: 393 / 880) {
+  .hero-copy { gap: 12px; padding-top: 8px; }
+  .hero-copy h1 { font-size: clamp(1.75rem, 3.6vw + 1rem, 2.3rem); }
+  .hero-copy .lede { display: none; }
 }
 .river > svg.map { position: absolute; inset: 0; width: 100%; height: 100%; }
 .river .wide { display: none; }
