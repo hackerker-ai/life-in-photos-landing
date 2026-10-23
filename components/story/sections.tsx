@@ -1,5 +1,6 @@
 import type { Dictionary } from "@/app/[lang]/dictionaries";
 import { RichText } from "@/components/site/rich-text";
+import { FaqAccordion } from "./faq-accordion";
 import { Friend } from "./friend";
 import { Check, Go, Plus } from "./icons";
 import { photoSrc } from "./photos";
@@ -103,7 +104,7 @@ export function Faq({ faq, friends, privacyHref }: { faq: Dictionary["faq"]; fri
     <section className="faq" id="faq">
       <div className="wrap faq-grid">
         <div className="arch"><Friend who="flip" pose="tilt" label={friends.flip} /></div>
-        <div className="faq-list">
+        <FaqAccordion>
           <h2 className="display">{faq.title}</h2>
           {faq.items.map((item, i) => (
             <details key={item.q} open={i === 0}>
@@ -111,7 +112,7 @@ export function Faq({ faq, friends, privacyHref }: { faq: Dictionary["faq"]; fri
               <p><RichText text={item.a.replaceAll("{privacy}", privacyHref)} /></p>
             </details>
           ))}
-        </div>
+        </FaqAccordion>
       </div>
     </section>
   );

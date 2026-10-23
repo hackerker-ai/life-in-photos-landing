@@ -403,7 +403,8 @@ details { padding: 0 clamp(16px, 2vw, 26px); border-radius: 22px; background: #F
 summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 19px 0; list-style: none; cursor: pointer; font: 800 1.2rem/1.25 var(--display); letter-spacing: -0.015em; }
 summary::-webkit-details-marker { display: none; }
 summary svg { flex: none; transition: rotate 0.2s; }
-details[open] summary svg { rotate: 45deg; }
+/* While an answer slides shut it is still open, so the + turns back as soon as it is tapped. */
+details[open]:not([data-closing]) summary svg { rotate: 45deg; }
 details p a { color: var(--teal-deep); text-underline-offset: 3px; }
 details p { max-width: 34em; padding-bottom: 22px; color: var(--body); }
 
