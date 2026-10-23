@@ -42,7 +42,7 @@ export function HeroRiver({ hero, moments, acts, friends }: HeroRiverProps) {
     const onBreakpoint = () => paint()(7);
     isWide.addEventListener("change", onBreakpoint);
     // The phone's size follows the window and, on short screens, the copy above it (which changes once the fonts load),
-    // so the screen re-zooms whenever the phone itself changes size.
+    // so the screen re-scales whenever the phone itself changes size.
     const phoneSize = new ResizeObserver(() => fitHero(screen));
     phoneSize.observe(phone);
 
@@ -85,7 +85,7 @@ export function HeroRiver({ hero, moments, acts, friends }: HeroRiverProps) {
       <Friend who="flip" pose="peek" id="heroFlip" label={friends.flip} />
       <div className="phone live" role="img" aria-label={hero.phoneLabel}>
         <div
-          className="screen hero-screen"
+          className="screen scaled hero-screen"
           id="heroScreen"
           ref={screenRef}
           aria-hidden="true"

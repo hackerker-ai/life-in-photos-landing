@@ -41,7 +41,7 @@ export function HowItWorks({ how, brand }: { how: Dictionary["how"]; brand: stri
         </div>
         <ol className="how-steps" tabIndex={0} aria-label={how.stepsLabel}>
           <li className="how-step">
-            <div className="device" aria-hidden="true"><div className="screen">
+            <div className="device" aria-hidden="true"><div className="screen scaled">
               <p className="f-lockup"><Logo size={26} /> {brand}</p>
               <p className="f-date">{how.find.date}</p>
               <div className="f-deck">
@@ -61,7 +61,7 @@ export function HowItWorks({ how, brand }: { how: Dictionary["how"]; brand: stri
             <div className="how-cap"><h3>{find.title}</h3><p>{find.body}</p></div>
           </li>
           <li className="how-step">
-            <div className="device" aria-hidden="true"><div className="screen">
+            <div className="device" aria-hidden="true"><div className="screen scaled">
               <div className="s-top">
                 <Chevron back />
                 <div className="s-ticks">
@@ -84,7 +84,7 @@ export function HowItWorks({ how, brand }: { how: Dictionary["how"]; brand: stri
             <div className="how-cap"><h3>{session.title}</h3><p>{session.body}</p></div>
           </li>
           <li className="how-step">
-            <div className="device" aria-hidden="true"><div className="screen">
+            <div className="device" aria-hidden="true"><div className="screen scaled">
               <img className="pal" src="/friends/momo-front.webp" alt="" style={{ width: 112, top: 6, right: 4 }} />
               <p className="m-kept">{how.moments.kept}</p>
               <p className="m-title">{how.moments.title}</p>

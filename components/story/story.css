@@ -75,7 +75,11 @@ h1 { max-width: 11.4em; font-size: clamp(2.3rem, 4.6vw + 1.15rem, 4.5rem); }
 .phone { position: absolute; z-index: 2; left: var(--px); top: var(--pt); width: var(--pw); padding: calc(var(--pw) * 0.04); border-radius: calc(var(--pw) * 0.16); background: #1F1B14; box-shadow: 0 2px 4px rgba(41, 36, 24, 0.16), 0 26px 50px rgba(41, 36, 24, 0.24); }
 .phone > img { display: block; width: 100%; height: auto; border-radius: calc(var(--pw) * 0.125); }
 .phone.live::before { display: none; }
-/* The hero's live session screen: laid out at the app's 390 pt and zoomed to the phone (set in script). */
+/* The hero's live session screen: laid out at the app's 390 pt and scaled to the phone (set in script). */
+/* Screens drawn at the app's 390 x 844 pt are shrunk with a transform, not CSS zoom: iOS keeps a minimum font size, so
+   zoomed-down text would grow back and crowd the photos. The negative margins give back the space the transform frees,
+   so the frame around a screen hugs it. --z is the scale. */
+.screen.scaled { transform: scale(var(--z, 1)); transform-origin: 0 0; margin: 0 calc(390px * (var(--z, 1) - 1)) calc(844px * (var(--z, 1) - 1)) 0; }
 .hero-screen .hm { display: flex; flex: 1; flex-direction: column; min-height: 0; }
 .hero-screen .s-title { min-height: 1.06em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .hero-screen .s-notes { min-height: 5.6em; }
@@ -145,7 +149,9 @@ h1 { max-width: 11.4em; font-size: clamp(2.3rem, 4.6vw + 1.15rem, 4.5rem); }
   .hero-copy h1 { max-width: 7.6em; }
   .hero-copy .lede { max-width: 21em; }
   /* The explicit width (above) keeps the max-height from carrying through the aspect ratio and narrowing the river. */
-  .river { margin-top: 0; aspect-ratio: 1440 / 965; max-height: calc(100svh - var(--bar-h)); --ch: calc(15.5 * var(--u)); --px: calc(var(--ox) + 59 * var(--u)); --pt: calc(9 * var(--u)); --pw: calc(20.8 * var(--u)); }
+  /* When the scene shrinks for a short window, the phone takes back up to a fifth of its size from the empty room between
+     it and the hill (never more than the full-size design's phone), growing leftward so its right edge stays put. */
+  .river { margin-top: 0; aspect-ratio: 1440 / 965; max-height: calc(100svh - var(--bar-h)); --ch: calc(15.5 * var(--u)); --pw: min(20.8cqw, 24.96 * var(--u)); --px: calc(var(--ox) + 79.8 * var(--u) - var(--pw)); --pt: calc(9 * var(--u)); }
   .river .phone { z-index: 5; }
   #heroFlip { z-index: 6; }
   /* The phone sits high on wide screens, so Flip peeks smaller to keep his head inside the scene. */
@@ -321,10 +327,9 @@ h1 { max-width: 11.4em; font-size: clamp(2.3rem, 4.6vw + 1.15rem, 4.5rem); }
 .m-last::before { background: var(--shot-line); }
 /* The friends that sit inside the mockup's Find and Moments screens, as in the mockup. */
 .pal { position: absolute; z-index: 5; height: auto; pointer-events: none; }
-/* --z is the screen's zoom; the frame's corner follows it (the screen's 52pt corner, zoomed, plus the 9px bezel)
+/* --z is the screens' scale; the frame's corner follows it (the screen's 52pt corner, scaled, plus the 9px bezel)
    so the bezel is the same width all the way round. */
 .how { --z: 0.52; }
-.how .screen { zoom: var(--z); }
 .how .device { border-radius: calc(52px * var(--z) + 9px); }
 /* Short laptop screens: smaller phones, so the three still fit in one view. */
 @media (min-width: 1200px) { .how-head { flex-wrap: nowrap; } }

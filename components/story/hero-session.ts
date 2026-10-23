@@ -4,7 +4,7 @@ import { GROUPS, momentShots, photoSrc, type PhotoGroup } from "./photos";
 
 /* Hero phone: a review session in the app, playing through the ten moments from the sorting scene. Each moment comes up,
    a fingertip taps Keep, Later or Skip, the ticks fill in, and the next one arrives. The screen is laid out at the app's
-   390 pt and zoomed to the phone. It is aria-hidden (the phone carries the description), so it is built as markup. */
+   390 pt and scaled to the phone. It is aria-hidden (the phone carries the description), so it is built as markup. */
 
 type Copy = { session: Dictionary["hero"]["session"]; moments: Dictionary["moments"]; acts: { keep: string; later: string; skip: string } };
 type Act = "keep" | "later" | "skip";
@@ -33,12 +33,12 @@ export function heroScreenMarkup(copy: Copy) {
   return `<div class="s-top">${BACK}<div class="s-ticks">${ticks}</div><span class="s-count">${esc(fill(copy.session.count, { n: 1, total: 10 }))}</span></div><div class="hm">${momentMarkup(GROUPS[0], copy)}</div><div class="s-acts">${acts}</div><div class="fs"></div><i class="finger"></i>`;
 }
 
-/** The zoom that fits the 390 pt screen into the phone; also run inline before the first paint. */
-export const FIT_HERO = `(function(){var s=document.getElementById("heroScreen");if(!s)return;var p=s.parentElement,c=getComputedStyle(p);s.style.zoom=((p.clientWidth-parseFloat(c.paddingLeft)-parseFloat(c.paddingRight))/390).toFixed(4)})()`;
+/** The scale (--z) that fits the 390 pt screen into the phone; also run inline before the first paint. */
+export const FIT_HERO = `(function(){var s=document.getElementById("heroScreen");if(!s)return;var p=s.parentElement,c=getComputedStyle(p);s.style.setProperty("--z",((p.clientWidth-parseFloat(c.paddingLeft)-parseFloat(c.paddingRight))/390).toFixed(4))})()`;
 
 export function fitHero(screen: HTMLElement) {
   const phone = screen.parentElement!, cs = getComputedStyle(phone);
-  screen.style.zoom = ((phone.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight)) / 390).toFixed(4);
+  screen.style.setProperty("--z", ((phone.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight)) / 390).toFixed(4));
 }
 
 /** Plays the session in a loop while `visible()` is true; stops for good once `alive()` turns false. */
@@ -57,7 +57,7 @@ export async function runHeroSession(screen: HTMLElement, copy: Copy, visible: (
   const fs = $(".fs"), finger = $(".finger"), ticks = $$(".s-ticks b"), count = $(".s-count"), acts = $(".s-acts");
   // Where an element sits in the screen's own 390-point space.
   const at = (el: Element, fx = 0.5, fy = 0.5): [number, number] => {
-    const z = Number(screen.style.zoom) || 1, s = screen.getBoundingClientRect(), r = el.getBoundingClientRect();
+    const z = Number(screen.style.getPropertyValue("--z")) || 1, s = screen.getBoundingClientRect(), r = el.getBoundingClientRect();
     return [(r.left + r.width * fx - s.left) / z, (r.top + r.height * fy - s.top) / z];
   };
   const moveFinger = (x: number, y: number) => { finger.style.left = `${x}px`; finger.style.top = `${y}px`; };
