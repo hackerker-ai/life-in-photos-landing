@@ -3,7 +3,8 @@
 import { useLayoutEffect, useRef, type MouseEvent, type ReactNode } from "react";
 
 /* The common questions as an accordion: one answer open at a time, sliding open and shut. The list keeps room for its
-   longest answer, so opening or closing one never moves Flip's arch, the heading or the section's edge. Without
+   longest answer, so opening or closing one never moves Flip's arch, the heading or the section's edge, and Flip's arch
+   centres on the questions as they look closed. Without
    JavaScript the questions are plain <details> and still open and close. */
 
 const EASE = "cubic-bezier(0.2, 0.8, 0.2, 1)";
@@ -19,6 +20,9 @@ export function FaqAccordion({ children }: { children: ReactNode }) {
       const items = [...el.querySelectorAll("details")];
       const was = items.map((item) => item.open);
       el.style.minHeight = "";
+      // With every question closed: what Flip's arch centres on, beside the list (see .faq .arch in story.css).
+      items.forEach((item) => { item.open = false; });
+      el.parentElement?.style.setProperty("--faq-rest", `${el.offsetHeight}px`);
       let tallest = 0;
       for (const item of items) {
         items.forEach((other) => { other.open = other === item; });
