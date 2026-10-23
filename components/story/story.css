@@ -343,17 +343,21 @@ h1 { max-width: 11.4em; font-size: clamp(2.3rem, 4.6vw + 1.15rem, 4.5rem); }
   /* The neighbours peek in, faded, so a cut-off caption never reads as broken. */
   .how-steps { -webkit-mask-image: linear-gradient(90deg, transparent, #000 var(--gutter), #000 calc(100% - var(--gutter)), transparent); mask-image: linear-gradient(90deg, transparent, #000 var(--gutter), #000 calc(100% - var(--gutter)), transparent); }
 }
-/* Phones: the section holds still while scrolling down slides the row sideways, so nobody has to swipe. */
-@media (max-width: 759px) {
-  .how.pinned { position: relative; }
-  .how.pinned > .wrap { position: sticky; top: var(--bar-h); }
-  .how.pinned .how-steps { overflow: visible; scroll-snap-type: none; -webkit-mask-image: none; mask-image: none; will-change: transform; }
+/* Phones: the section holds still while scrolling down slides the row sideways, so nobody has to swipe. The scroll room
+   for the slide is reserved here, from the very first frame, so nothing below moves once the page's script starts (that
+   used to send a link to the invitation to Common questions): the row travels two phones (each 76% of the row, 16px
+   apart), then holds for 80px. */
+@media (max-width: 759px) and (prefers-reduced-motion: no-preference) {
+  .how { position: relative; }
+  .how > .wrap { position: sticky; top: var(--bar-h); }
+  .how::after { content: ""; display: block; height: calc(1.52 * (100vw - 2 * var(--gutter)) + 32px + 80px); }
+  .how .how-steps { overflow: visible; scroll-snap-type: none; -webkit-mask-image: none; mask-image: none; will-change: transform; }
 }
 /* Where the browser can, the slide is tied to the page's scroll and runs off the main thread, in step with the finger.
    The scroll offsets and the row's two positions are measured in script (how-pinned.tsx). */
 @supports (animation-timeline: scroll()) {
   @media (max-width: 759px) and (prefers-reduced-motion: no-preference) {
-    .how.pinned .how-steps { animation: how-slide linear both; animation-timeline: scroll(root block); animation-range: var(--how-start, 0px) var(--how-end, 1px); }
+    .how .how-steps { animation: how-slide linear both; animation-timeline: scroll(root block); animation-range: var(--how-start, 0px) var(--how-end, 1px); }
   }
 }
 @keyframes how-slide { from { transform: translateX(var(--how-from, 0px)); } to { transform: translateX(var(--how-to, 0px)); } }
@@ -511,8 +515,9 @@ details p { max-width: 34em; padding-bottom: 22px; color: var(--body); }
   /* Flip's arch would stack below the questions and push the section past a screen; the friends are all over the page. */
   .faq .arch { display: none; }
   .faq-list { padding-bottom: 48px; }
-  /* Likewise the trio beside the invitation: the footer's wordmark, right below, has all three. */
-  .trio { display: none; }
+  /* The trio sits small above the invitation, so the headline, the wall and the email field still fit one screen. No
+     drop shadow at this size: Safari draws it as a faint box around the shrunken picture. */
+  .trio { width: 132px; margin-inline: auto; filter: none; }
   .wall { gap: 8px; }
   .wall .pol { padding: 4px 4px 0; }
   .wall .pol figcaption { font-size: 0.8rem; }

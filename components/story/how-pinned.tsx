@@ -5,15 +5,16 @@ import { useEffect, useRef, type ReactNode } from "react";
 /* How it works on phones: the section holds still while scrolling down slides the three phones sideways, so nobody has
    to swipe. Wider screens, and Reduce Motion, show the plain row.
 
-   Where the browser has scroll-driven animations (Safari 26, Chrome), the slide is a CSS animation tied to the page's
-   scroll (see .how.pinned in story.css), so it moves in step with the finger. Elsewhere a scroll handler moves it.
-   Both only measure when the page's size changes, never while scrolling, and never on the iPhone's toolbar showing or
+   The pinning and the scroll room for the slide are CSS (story.css), there from the first frame. Where the browser has
+   scroll-driven animations (Safari 26, Chrome), the slide itself is a CSS animation tied to the page's scroll, so it
+   moves in step with the finger; elsewhere a scroll handler moves it. This only measures where the slide starts and
+   how far it runs, when the page's size changes: never while scrolling, and never on the iPhone's toolbar showing or
    hiding, which used to make the page jump. */
 export function HowPinned({ labelledBy, children }: { labelledBy: string; children: ReactNode }) {
   const section = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    const how = section.current!, wrap = how.querySelector<HTMLElement>(":scope > .wrap")!, row = how.querySelector<HTMLElement>(".how-steps")!;
+    const how = section.current!, row = how.querySelector<HTMLElement>(".how-steps")!;
     const narrow = matchMedia("(max-width: 759px)");
     const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const timeline = CSS.supports("animation-timeline: scroll()");
@@ -30,19 +31,15 @@ export function HowPinned({ labelledBy, children }: { labelledBy: string; childr
       how.classList.toggle("pinned", on);
       if (!on) {
         row.style.transform = "";
-        how.style.height = "";
         return;
       }
-      const cs = getComputedStyle(how);
-      const pad = [parseFloat(cs.paddingTop), parseFloat(cs.paddingBottom)];
+      const padTop = parseFloat(getComputedStyle(how).paddingTop);
       const barH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--bar-h")) || 64;
       // The slide runs from the first phone centred in the view to the last phone centred in the view.
       const offset = (step: HTMLElement) => step.offsetLeft + step.offsetWidth / 2 - row.clientWidth / 2;
       from = offset(row.firstElementChild as HTMLElement);
       distance = Math.max(0, offset(row.lastElementChild as HTMLElement) - from);
-      // Scroll distance while pinned: the slide itself, then a short hold on the last phone.
-      how.style.height = `${pad[0] + wrap.offsetHeight + distance + 80 + pad[1]}px`;
-      start = how.getBoundingClientRect().top + scrollY - barH + pad[0];
+      start = how.getBoundingClientRect().top + scrollY - barH + padTop;
       how.style.setProperty("--how-from", `${-from}px`);
       how.style.setProperty("--how-to", `${-(from + distance)}px`);
       how.style.setProperty("--how-start", `${start}px`);

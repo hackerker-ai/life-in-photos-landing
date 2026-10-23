@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, type Dispatch, type ReactNode, type SetStateAction } from "react";
 import { capture, getCampaignParameters } from "@/lib/analytics";
+import { steerInPageLinks } from "./anchor-scroll";
 
 /* What the "Now you try" demo and the invitation's wall share: the demo moments the visitor kept (indexes into PLAY, in
    the order kept) and whether they joined the beta, which puts their own Polaroid on the wall. */
@@ -21,6 +22,8 @@ export function StoryProvider({ lang, children }: { lang: string; children: Reac
   useEffect(() => {
     capture("landing_page_viewed", { locale: lang, ...getCampaignParameters() });
   }, [lang]);
+
+  useEffect(() => steerInPageLinks(), []);
 
   return <StoryContext value={{ kept, setKept, signedUp, setSignedUp }}>{children}</StoryContext>;
 }
