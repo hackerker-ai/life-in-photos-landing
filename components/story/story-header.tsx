@@ -11,19 +11,33 @@ export function StoryHeader({ brand, homeLabel, cta }: { brand: string; homeLabe
 
   useEffect(() => {
     const heroCta = document.querySelector(".hero-copy .btn"), invite = document.getElementById("invite");
+    // Page positions, measured only when the page's size changes, so scrolling never forces a layout.
+    let heroCtaBottom = 0, inviteTop = Infinity, barH = 64;
+    const measure = () => {
+      if (!heroCta || !invite || !bar.current) return;
+      heroCtaBottom = heroCta.getBoundingClientRect().bottom + scrollY;
+      inviteTop = invite.getBoundingClientRect().top + scrollY;
+      barH = bar.current.offsetHeight;
+    };
     let queued = false;
     const sync = () => {
       queued = false;
-      if (!bar.current || !barCta.current || !heroCta || !invite) return;
-      const heroGone = heroCta.getBoundingClientRect().bottom < bar.current.offsetHeight;
-      const atInvite = invite.getBoundingClientRect().top < innerHeight * 0.8;
+      if (!bar.current || !barCta.current) return;
+      const heroGone = heroCtaBottom - scrollY < barH;
+      const atInvite = inviteTop - scrollY < innerHeight * 0.8;
       bar.current.classList.toggle("stuck", scrollY > 4);
       barCta.current.classList.toggle("on", heroGone && !atInvite);
     };
     const onScroll = () => { if (!queued) { queued = true; requestAnimationFrame(sync); } };
     addEventListener("scroll", onScroll, { passive: true });
+    const pageSize = new ResizeObserver(() => { measure(); sync(); });
+    pageSize.observe(document.body);
+    measure();
     sync();
-    return () => removeEventListener("scroll", onScroll);
+    return () => {
+      removeEventListener("scroll", onScroll);
+      pageSize.disconnect();
+    };
   }, []);
 
   return (

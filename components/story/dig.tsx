@@ -27,7 +27,7 @@ export function Dig({ dig, moments, lang }: { dig: Dictionary["dig"]; moments: D
 
   useEffect(() => {
     const section = sectionRef.current!;
-    const pin = section.querySelector<HTMLElement>(".dig-pin")!, field = section.querySelector<HTMLElement>(".dig-field")!;
+    const pin = section.querySelector<HTMLElement>(".dig-pin")!, field = section.querySelector<HTMLElement>(".dig-field")!, foot = section.querySelector<HTMLElement>(".dig-foot")!;
     const digNum = section.querySelector<HTMLElement>(".dig-num")!, digUnit = section.querySelector<HTMLElement>(".dig-unit")!;
     const digLines = [...section.querySelectorAll<HTMLElement>(".dig-lines li")];
     const query = new URLSearchParams(location.search);
@@ -111,20 +111,34 @@ export function Dig({ dig, moments, lang }: { dig: Dictionary["dig"]; moments: D
         field.appendChild(el);
         tiles.push({ el, x, y, size, lag: rand(), q: -1, ...tile });
       }
-      paint(still() ? 1 : progress());
+      measure();
+      shown = target = still() ? 1 : progress();
+      paint(shown);
     }
 
+    // Where the scene sits on the page, measured only when the page's size changes, so scrolling never forces a layout.
+    // The view height is the pinned scene's own (the small viewport), not the window's, which grows and shrinks as the
+    // iPhone's toolbar hides and shows and used to make the sort lurch.
+    let top = 0, span = 1, bar = 64;
+    function measure() {
+      const box = section.getBoundingClientRect();
+      bar = document.getElementById("bar")?.offsetHeight ?? 64;
+      top = box.top + scrollY;
+      span = Math.max(1, box.height - pin.offsetHeight);
+    }
     function progress() {
       if (forced !== null) return forced;
-      const box = section.getBoundingClientRect();
-      const bar = document.getElementById("bar")?.offsetHeight ?? 64;
-      return clamp((bar - box.top) / Math.max(1, box.height - innerHeight + bar));
+      return clamp((scrollY + bar - top) / span);
     }
 
     function paint(p: number) {
       if (Math.abs(p - painted) < 0.0004) return;
       painted = p;
-      pin.style.setProperty("--m", ease(clamp((p - 0.4) / 0.5)).toFixed(3));
+      // The ground lightens to paper and the footnote fades in as the moments form. Set on the two elements directly, not
+      // as an inherited variable, so a frame restyles only them rather than every tile.
+      const m = ease(clamp((p - 0.4) / 0.5));
+      pin.style.background = `color-mix(in oklab, var(--dull), var(--paper) ${(m * 100).toFixed(1)}%)`;
+      foot.style.opacity = m.toFixed(3);
       for (const t of tiles) {
         const s = t.el.style;
         if (t.type === 0) {
@@ -159,20 +173,32 @@ export function Dig({ dig, moments, lang }: { dig: Dictionary["dig"]; moments: D
       digLines.forEach((li, i) => li.classList.toggle("on", i === line));
     }
 
-    let queued = false, frame = 0;
+    // The scene eases toward the scroll position rather than jumping to it, so a frame that arrives late on a phone
+    // reads as motion, not a stutter.
+    let shown = 0, target = 0, frame = 0, following = false;
+    const follow = () => {
+      const gap = target - shown;
+      shown = Math.abs(gap) < 0.001 ? target : shown + gap * 0.25;
+      paint(shown);
+      if (shown !== target) frame = requestAnimationFrame(follow);
+      else following = false;
+    };
     const onScroll = () => {
-      if (queued || still()) return;
-      queued = true;
-      frame = requestAnimationFrame(() => { queued = false; paint(progress()); });
+      if (still()) return;
+      target = progress();
+      if (!following) { following = true; frame = requestAnimationFrame(follow); }
     };
     const onResize = () => { if (Math.abs(field.clientWidth - fieldW) > 30) build(); };
     addEventListener("scroll", onScroll, { passive: true });
     addEventListener("resize", onResize);
+    const pageSize = new ResizeObserver(() => { measure(); onScroll(); });
+    pageSize.observe(document.body);
     build();
     return () => {
       cancelAnimationFrame(frame);
       removeEventListener("scroll", onScroll);
       removeEventListener("resize", onResize);
+      pageSize.disconnect();
     };
     // The copy is fixed for the page's lifetime, so this runs once.
   }, []);
