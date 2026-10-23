@@ -66,9 +66,12 @@ export function HeroRiver({ hero, moments, acts, friends }: HeroRiverProps) {
 
   return (
     <div className="river" id="river" ref={riverRef}>
-      <svg className="map wide" viewBox="0 0 1440 965" data-tile="34" data-count="26" aria-hidden="true">
-        <path className="bed in" strokeWidth="62" d="M-80 820C140 740 320 880 500 820c160-55 200-318 360-318" />
-        <path className="bed out" strokeWidth="62" d="M1130 432c80 0 90-150 180-150 60 0 80 30 210 30" />
+      {/* On a short laptop window the scene shrinks and centres, so both beds run on past the grid (from x = -80 and
+          x = 1520 in the design) to reach the screen edges. data-ref-* are the design's own bed lengths: the river keeps
+          the same spacing and speed along the longer beds. */}
+      <svg className="map wide" viewBox="0 0 1440 965" data-tile="34" data-count="26" data-ref-in="1084" data-ref-out="459" aria-hidden="true">
+        <path className="bed in" strokeWidth="62" d="M-800 870C-500 870-300 900-80 820C140 740 320 880 500 820c160-55 200-318 360-318" />
+        <path className="bed out" strokeWidth="62" d="M1130 432c80 0 90-150 180-150 60 0 80 30 210 30h700" />
         <g className="flow" />
       </svg>
       <svg className="map narrow" viewBox="0 0 390 580" data-tile="20" data-count="18" aria-hidden="true">

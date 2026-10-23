@@ -117,24 +117,30 @@ h1 { max-width: 11.4em; font-size: clamp(2.3rem, 4.6vw + 1.15rem, 4.5rem); }
 #tagOut { rotate: 5deg; }
 .river .hill { position: absolute; z-index: 4; left: 0; bottom: -1px; width: 100%; height: clamp(34px, 7cqw, 100px); }
 @media (min-width: 760px) {
-  /* Side by side: the copy on the left, the phone on the right at full height, so the whole review session is in view. */
-  .hero { position: relative; }
-  .hero-copy { position: absolute; z-index: 6; inset: 0; justify-content: center; align-items: flex-start; padding-block: 0 9cqw; text-align: left; pointer-events: none; }
+  /* Side by side: the copy on the left, the phone on the right at full height, so the whole review session is in view.
+     The scene is drawn on a 1440 x 965 grid. --u is one hundredth of its width: the page width, unless the window is too
+     short for that, in which case the scene shrinks to fit under the header and centres, --ox in from each side, so the
+     whole first section shows without scrolling on a laptop. The river beds run on past the grid to the screen edges. */
+  .hero { position: relative; --u: min(1cqw, (100svh - var(--bar-h)) / 67.01); --ox: calc((100cqw - 100 * var(--u)) / 2); }
+  .hero-copy { position: absolute; z-index: 6; inset: 0; justify-content: center; align-items: flex-start; padding-block: 0 calc(9 * var(--u)); text-align: left; pointer-events: none; }
   .hero-copy > * { pointer-events: auto; }
   .hero-copy h1 { max-width: 7.6em; }
   .hero-copy .lede { max-width: 21em; }
-  .river { margin-top: 0; aspect-ratio: 1440 / 965; --ch: 15.5cqw; --px: 59cqw; --pt: 9cqw; --pw: 20.8cqw; }
+  /* An explicit width keeps the max-height from carrying through the aspect ratio and narrowing the river. */
+  .river { width: 100%; margin-top: 0; aspect-ratio: 1440 / 965; max-height: calc(100svh - var(--bar-h)); --ch: calc(15.5 * var(--u)); --px: calc(var(--ox) + 59 * var(--u)); --pt: calc(9 * var(--u)); --pw: calc(20.8 * var(--u)); }
+  .river > svg.map { overflow: visible; }
+  .river .hill { height: clamp(34px, calc(7 * var(--u)), 100px); }
   .river .phone { z-index: 5; }
   #heroFlip { z-index: 6; }
   /* The phone sits high on wide screens, so Flip peeks smaller to keep his head inside the scene. */
   .friend.peek { --fw: calc(var(--pw) * 0.42); }
   .river .wide { display: block; }
   .river .narrow { display: none; }
-  #heroNori { right: auto; left: 44cqw; bottom: 4.5cqw; }
-  #heroMomo { left: 86cqw; bottom: 4.5cqw; }
-  .tag { display: block; font-size: clamp(1.2rem, 2.3cqw, 2.1rem); }
-  #tagIn { left: 30cqw; top: 49cqw; }
-  #tagOut { right: 3.5cqw; top: 12.5cqw; }
+  #heroNori { right: auto; left: calc(var(--ox) + 44 * var(--u)); bottom: calc(4.5 * var(--u)); }
+  #heroMomo { left: calc(var(--ox) + 86 * var(--u)); bottom: calc(4.5 * var(--u)); }
+  .tag { display: block; font-size: clamp(1.2rem, calc(2.3 * var(--u)), 2.1rem); }
+  #tagIn { left: calc(var(--ox) + 30 * var(--u)); top: calc(49 * var(--u)); }
+  #tagOut { right: calc(var(--ox) + 3.5 * var(--u)); top: calc(12.5 * var(--u)); }
 }
 
 /* 2. The dig: a pinned scene that sorts the roll as you scroll */

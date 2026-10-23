@@ -15,6 +15,7 @@ type Point = [number, number];
 
 function sample(path: SVGPathElement, n = 260): Point[] {
   const length = path.getTotalLength();
+  n = Math.round(n * Math.max(1, length / 1100));
   return Array.from({ length: n + 1 }, (_, i) => {
     const p = path.getPointAtLength((length * i) / n);
     return [p.x, p.y];
@@ -31,8 +32,12 @@ function along(points: Point[], t: number): [number, number, number] {
 /** Fills one river map and returns a painter that places every item at a time in seconds. */
 export function makeRiver(svg: SVGSVGElement, rand: () => number) {
   const NS = svg.namespaceURI;
-  const lanes = { in: sample(svg.querySelector<SVGPathElement>(".in")!), out: sample(svg.querySelector<SVGPathElement>(".out")!) };
-  const size = Number(svg.dataset.tile), count = Number(svg.dataset.count);
+  const beds = { in: svg.querySelector<SVGPathElement>(".in")!, out: svg.querySelector<SVGPathElement>(".out")! };
+  const lanes = { in: sample(beds.in), out: sample(beds.out) };
+  // How much longer each bed is than the design's (data-ref-*): tiles and Polaroids keep their spacing and speed.
+  const stretch = (bed: SVGPathElement, ref?: string) => (ref ? bed.getTotalLength() / Number(ref) : 1);
+  const inStretch = stretch(beds.in, svg.dataset.refIn), outStretch = stretch(beds.out, svg.dataset.refOut);
+  const size = Number(svg.dataset.tile), count = Math.round(Number(svg.dataset.count) * inStretch);
   const layer = svg.querySelector(".flow")!;
   layer.replaceChildren();
   svg.querySelector("clipPath")?.remove();
@@ -55,14 +60,15 @@ export function makeRiver(svg: SVGSVGElement, rand: () => number) {
       : `<image href="${photoSrc(POOL[i % POOL.length])}" x="${-h}" y="${-h}" width="${size}" height="${size}" preserveAspectRatio="xMidYMid slice" clip-path="url(#${clip})"/>`;
     add(
       `<rect x="${-h}" y="${-h}" width="${size}" height="${size}" rx="${size * 0.18}" fill="${fill}"/>${picture}<rect x="${-h}" y="${-h}" width="${size}" height="${size}" rx="${size * 0.18}" fill="none" stroke="#fff" stroke-width="${size * 0.09}"/>`,
-      { lane: lanes.in, offset: i / count, period: 30, spin: 1, tilt: 0 }
+      { lane: lanes.in, offset: i / count, period: 30 * inStretch, spin: 1, tilt: 0 }
     );
   }
   const w = size * 2.1, ph = w * 1.2;
-  RIVER_OUT.forEach((id, i) => {
+  const outCount = Math.round(RIVER_OUT.length * outStretch);
+  Array.from({ length: outCount }, (_, i) => RIVER_OUT[i % RIVER_OUT.length]).forEach((id, i) => {
     add(
       `<rect x="${-w / 2}" y="${-ph / 2 + 3}" width="${w}" height="${ph}" rx="${w * 0.04}" fill="rgba(41,36,24,.16)"/><rect x="${-w / 2}" y="${-ph / 2}" width="${w}" height="${ph}" rx="${w * 0.04}" fill="#fff"/><image href="${photoSrc(id)}" x="${-w * 0.43}" y="${-ph / 2 + w * 0.07}" width="${w * 0.86}" height="${w * 0.86}" preserveAspectRatio="xMidYMid slice"/>`,
-      { lane: lanes.out, offset: i / RIVER_OUT.length, period: 22, spin: 0, tilt: i % 2 ? 7 : -6 }
+      { lane: lanes.out, offset: i / outCount, period: 22 * outStretch, spin: 0, tilt: i % 2 ? 7 : -6 }
     );
   });
   return (seconds: number) => {
