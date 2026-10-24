@@ -1,11 +1,15 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { LanguageMenu } from "@/components/site/language-menu";
 import { Logo } from "@/components/site/logo";
+import type { Locale } from "@/lib/i18n";
 
 /* One header that stays at the top. It shares the hero's yellow at rest and turns to frosted paper once the page
    scrolls; its button shows only while neither the hero's button nor the invitation is on screen. */
-export function StoryHeader({ brand, homeLabel, cta }: { brand: string; homeLabel: string; cta: string }) {
+type StoryHeaderProps = { lang: Locale; brand: string; homeLabel: string; cta: string; languageLabel: string };
+
+export function StoryHeader({ lang, brand, homeLabel, cta, languageLabel }: StoryHeaderProps) {
   const bar = useRef<HTMLElement>(null);
   const barCta = useRef<HTMLAnchorElement>(null);
 
@@ -47,7 +51,10 @@ export function StoryHeader({ brand, homeLabel, cta }: { brand: string; homeLabe
           <Logo size={28} />
           {brand}
         </a>
-        <a className="btn small bar-cta" id="barCta" href="#invite" ref={barCta}>{cta}</a>
+        <div className="top-end">
+          <a className="btn small bar-cta" id="barCta" href="#invite" ref={barCta}>{cta}</a>
+          <LanguageMenu lang={lang} path="/" label={languageLabel} />
+        </div>
       </div>
     </header>
   );

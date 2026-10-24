@@ -1,4 +1,5 @@
 import type { Dictionary } from "@/app/[lang]/dictionaries";
+import { LanguageMenu } from "@/components/site/language-menu";
 import { Logo } from "@/components/site/logo";
 import { RichText } from "@/components/site/rich-text";
 import { SiteFooter } from "@/components/site/site-footer";
@@ -19,7 +20,10 @@ export function PrivacyPage({ dict, lang }: { dict: Dictionary; lang: Locale }) 
       <header className="bar">
         <div className="top wrap">
           <a className="lockup" href={home} aria-label={privacy.homeLabel}><Logo size={28} />{dict.brand}</a>
-          <a className="back" href={home}>{privacy.back}</a>
+          <div className="top-end">
+            <a className="back" href={home}>{privacy.back}</a>
+            <LanguageMenu lang={lang} path="/privacy" label={dict.languageLabel} />
+          </div>
         </div>
       </header>
 
@@ -63,7 +67,7 @@ export function PrivacyPage({ dict, lang }: { dict: Dictionary; lang: Locale }) 
         </div>
       </main>
 
-      <SiteFooter footer={dict.footer} brand={dict.brand} home={home} privacyHref={localePath(lang, "/privacy")} onPrivacy />
+      <SiteFooter footer={dict.footer} brand={dict.brand} home={home} privacyHref={localePath(lang, "/privacy")} onPrivacy lang={lang} path="/privacy" languageLabel={dict.languageLabel} />
     </div>
   );
 }

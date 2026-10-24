@@ -6,6 +6,9 @@ export type Locale = (typeof locales)[number];
 
 export const defaultLocale: Locale = "en";
 
+/** Each language's name in its own script, as the language menu lists it on every page. */
+export const localeNames: Record<Locale, string> = { en: "English", "zh-Hant": "繁體中文" };
+
 export const hasLocale = (value: string): value is Locale => (locales as readonly string[]).includes(value);
 
 /** The public path of a page in a locale: `localePath("zh-Hant", "/privacy")` is `/zh-Hant/privacy`. */

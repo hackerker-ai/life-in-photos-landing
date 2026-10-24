@@ -348,7 +348,8 @@ h1 { max-width: 11.4em; font-size: clamp(2.3rem, 4.6vw + 1.15rem, 4.5rem); }
    used to send a link to the invitation to Common questions): the row travels two phones (each 76% of the row, 16px
    apart), then holds for 80px. */
 @media (max-width: 759px) and (prefers-reduced-motion: no-preference) {
-  .how { position: relative; }
+  /* clip, not hidden: the sideways row can't widen the page, and the sticky pin still works. */
+  .how { position: relative; overflow-x: clip; }
   .how > .wrap { position: sticky; top: var(--bar-h); }
   .how::after { content: ""; display: block; height: calc(1.52 * (100vw - 2 * var(--gutter)) + 32px + 80px); }
   .how .how-steps { overflow: visible; scroll-snap-type: none; -webkit-mask-image: none; mask-image: none; will-change: transform; }

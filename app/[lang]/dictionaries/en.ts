@@ -18,6 +18,8 @@ const en = {
   },
 
   brand: "life in photos",
+  /** The globe button's label for screen readers: in both languages, so either reader can find the other language. */
+  languageLabel: "Language · 語言",
   friends: {
     momo: "Momo. Tap to play.",
     flip: "Flip. Tap to play.",

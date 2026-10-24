@@ -21,7 +21,7 @@ export function StoryPage({ dict, lang }: { dict: Dictionary; lang: Locale }) {
 
   return (
     <StoryProvider lang={lang}>
-      <StoryHeader brand={dict.brand} homeLabel={dict.header.homeLabel} cta={dict.header.cta} />
+      <StoryHeader lang={lang} brand={dict.brand} homeLabel={dict.header.homeLabel} cta={dict.header.cta} languageLabel={dict.languageLabel} />
 
       <div className="hero" id="top">
         <div className="wrap hero-copy">
@@ -50,7 +50,7 @@ export function StoryPage({ dict, lang }: { dict: Dictionary; lang: Locale }) {
       <Curve d="M0 92V40c460-60 940 70 1440-10v62z" fill="var(--sun)" background="var(--blush)" />
       <Invite invite={dict.invite} cards={dict.play.cards} lang={lang} />
 
-      <SiteFooter footer={dict.footer} brand={dict.brand} home="" privacyHref={privacyHref} />
+      <SiteFooter footer={dict.footer} brand={dict.brand} home="" privacyHref={privacyHref} lang={lang} path="/" languageLabel={dict.languageLabel} />
     </StoryProvider>
   );
 }

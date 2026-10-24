@@ -22,13 +22,19 @@
   --shot: #E9E5DB;
   --shot-line: #C6BEAD;
   --shade: rgba(41, 36, 24, 0.14);
-  /* Nunito, Figtree and Caveat have no CJK glyphs, so Chinese text falls through to the system font for now. Once a
-     CJK fallback is chosen, it goes into these three stacks under :root:lang(zh-Hant). */
+  /* Nunito, Figtree and Caveat have no CJK glyphs: Traditional Chinese uses the system's own fonts (below). */
   --display: var(--font-nunito), ui-rounded, "Arial Rounded MT Bold", system-ui, sans-serif;
   --text: var(--font-figtree), -apple-system, "Segoe UI", system-ui, sans-serif;
   --hand: var(--font-caveat), "Bradley Hand", "Segoe Print", cursive;
   --gutter: clamp(16px, 4vw, 56px);
   --bar-h: 64px;
+}
+/* Traditional Chinese, the whole page or one link to it: the brand face first for any Latin text, then the system's
+   Traditional Chinese fonts (PingFang TC on Apple devices). */
+:lang(zh-Hant) {
+  --display: var(--font-nunito), "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", ui-rounded, "Arial Rounded MT Bold", system-ui, sans-serif;
+  --text: var(--font-figtree), "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", -apple-system, "Segoe UI", system-ui, sans-serif;
+  --hand: var(--font-caveat), "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", "Bradley Hand", "Segoe Print", cursive;
 }
 *, *::before, *::after { box-sizing: border-box; }
 /* overflow-x on html goes to the window, which leaves body's own clip in force: nothing can scroll the page sideways, even on
@@ -58,6 +64,28 @@ footer { overflow: hidden; background: var(--walnut); color: var(--on-ink); }
 @media (hover: hover) { .foot-nav a:hover, .foot-top:hover { color: var(--sun); } }
 .foot a:focus-visible { outline-color: var(--sun); }
 .foot-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 28px; padding-top: 22px; border-top: 1px solid rgba(243, 232, 196, 0.14); font-size: 0.9rem; color: #9C8E6E; }
+/* Language picker: a globe button in the header and footer. It opens a small card listing each language in its own
+   script, the current one ticked. Down from the header, up from the footer. */
+.top-end { display: flex; align-items: center; gap: 6px; }
+.lang-pick { position: relative; display: inline-flex; }
+.globe-btn { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: none; color: inherit; cursor: pointer; transition: background-color 0.2s; }
+@media (hover: hover) { .globe-btn:hover { background: rgba(41, 36, 24, 0.08); } .foot .globe-btn:hover { background: rgba(243, 232, 196, 0.1); color: var(--sun); } }
+.globe-btn[aria-expanded="true"] { background: rgba(41, 36, 24, 0.1); }
+.foot .globe-btn[aria-expanded="true"] { background: rgba(243, 232, 196, 0.12); }
+.lang-menu { position: absolute; z-index: 40; right: 0; top: calc(100% + 8px); min-width: 196px; margin: 0; padding: 6px; list-style: none; border-radius: 18px; background: var(--card); box-shadow: 0 2px 6px rgba(41, 36, 24, 0.1), 0 18px 40px rgba(41, 36, 24, 0.22); transform-origin: top right; animation: menu-in 0.18s cubic-bezier(0.16, 1, 0.3, 1); }
+.lang-menu[hidden] { display: none; }
+.lang-menu.up { top: auto; bottom: calc(100% + 8px); transform-origin: bottom right; }
+@keyframes menu-in { from { opacity: 0; transform: scale(0.96); } }
+.lang-menu a { display: flex; align-items: center; justify-content: space-between; gap: 18px; min-height: 44px; padding: 0 14px; border-radius: 12px; color: var(--ink); font: 600 1rem var(--text); text-decoration: none; }
+.lang-menu a:hover, .lang-menu a:focus-visible { background: var(--paper); outline-offset: -2px; }
+.lang-menu a svg { color: var(--teal-deep); }
+.lang-menu a:not([aria-current]) svg { visibility: hidden; }
+/* Chinese at a lighter weight, so it sits level with Figtree. */
+.lang-menu a:lang(zh-Hant) { font-weight: 500; letter-spacing: 0.02em; }
+/* Near the left edge (the footer on phones) the menu opens rightward instead, so it stays on screen. */
+.lang-menu.from-left { right: auto; left: 0; transform-origin: bottom left; }
+@media (prefers-reduced-motion: reduce) { .lang-menu { animation: none; } }
+.foot-end { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
 .foot-top { display: inline-flex; align-items: center; gap: 7px; font-weight: 600; transition: color 0.2s; }
 @media (min-width: 860px) {
   .foot { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); column-gap: clamp(40px, 8vw, 140px); }

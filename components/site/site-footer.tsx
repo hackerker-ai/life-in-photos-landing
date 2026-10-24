@@ -1,4 +1,6 @@
 import type { Dictionary } from "@/app/[lang]/dictionaries";
+import type { Locale } from "@/lib/i18n";
+import { LanguageMenu } from "./language-menu";
 import { Logo } from "./logo";
 
 type SiteFooterProps = {
@@ -8,11 +10,15 @@ type SiteFooterProps = {
   home: string;
   privacyHref: string;
   onPrivacy?: boolean;
+  lang: Locale;
+  /** This page's path without a locale, for the language menu. */
+  path: string;
+  languageLabel: string;
 };
 
 /* Footer: what the app is and where to go, then the wordmark as the page's last word, with the three friends standing
    on the tops of its letters. The wordmark is the brand's lowercase name and stays the same in every language. */
-export function SiteFooter({ footer, brand, home, privacyHref, onPrivacy = false }: SiteFooterProps) {
+export function SiteFooter({ footer, brand, home, privacyHref, onPrivacy = false, lang, path, languageLabel }: SiteFooterProps) {
   return (
     <footer id="footer">
       <div className="wrap foot">
@@ -40,10 +46,13 @@ export function SiteFooter({ footer, brand, home, privacyHref, onPrivacy = false
         </nav>
         <div className="foot-row">
           <span>{footer.copyright}</span>
-          <a className="foot-top" href="#top">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6" /></svg>
-            {footer.backToTop}
-          </a>
+          <div className="foot-end">
+            <LanguageMenu lang={lang} path={path} label={languageLabel} up />
+            <a className="foot-top" href="#top">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6" /></svg>
+              {footer.backToTop}
+            </a>
+          </div>
         </div>
       </div>
       <div className="wordmark" aria-hidden="true">
