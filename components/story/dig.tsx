@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import type { Dictionary } from "@/app/[lang]/dictionaries";
 import { InlineScript } from "@/components/site/inline-script";
 import { escapeHtml } from "@/components/site/text";
-import { CLUTTER_COUNT, GROUPS, photoSrc } from "./photos";
+import { ACCIDENTS, GROUPS, JUNK, photoSrc } from "./photos";
 import { clamp, seeded } from "./river";
 
 /* 2. The dig: a pinned scene that sorts the roll as you scroll. Clutter falls away, near-duplicates fold into their
@@ -47,8 +47,9 @@ export function Dig({ dig, moments, lang }: { dig: Dictionary["dig"]; moments: D
       // Every tile is a different photo, so the grid holds at most as many tiles as there are photos.
       const shuffle = <T,>(list: T[]) => { for (let i = list.length - 1; i > 0; i--) { const j = Math.floor(rand() * (i + 1)); [list[i], list[j]] = [list[j], list[i]]; } return list; };
       const extras = shuffle([
-        ...Array.from({ length: CLUTTER_COUNT }, () => ({ id: 0, fall: true, group: -1 })),
-        ...GROUPS.flatMap((g, group) => g.takes.map((id) => ({ id, fall: false, group })))
+        ...JUNK.map((id) => ({ src: photoSrc(id, "x"), fall: true, group: -1 })),
+        ...ACCIDENTS.map((id) => ({ src: photoSrc(id), fall: true, group: -1 })),
+        ...GROUPS.flatMap((g, group) => g.takes.filter((id) => !ACCIDENTS.includes(id)).map((id) => ({ src: photoSrc(id), fall: false, group })))
       ]);
       const total = 30 + extras.length;
       let cell = clamp(Math.floor(Math.sqrt((W * H) / total)), wide ? 48 : 34, wide ? 96 : 64);
@@ -96,12 +97,11 @@ export function Dig({ dig, moments, lang }: { dig: Dictionary["dig"]; moments: D
           tile = { type: 2, slot: slots[group][part] };
         } else {
           const extra = extras[next++];
+          el.innerHTML = `<img src="${extra.src}" alt="" decoding="async">`;
           if (extra.fall) {
-            // Clutter is drawn: a grey card with two bars, nothing readable.
             el.className = "t shot";
             tile = { type: 0, drift: rand() - 0.5 };
           } else {
-            el.innerHTML = `<img src="${photoSrc(extra.id)}" alt="" decoding="async">`;
             const [tx, ty] = spot(keepers[extra.group * 3]);
             el.className = "t dup";
             tile = { type: 1, tx, ty };

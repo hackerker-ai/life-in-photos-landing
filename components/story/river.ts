@@ -1,12 +1,10 @@
-import { POOL, RIVER_OUT, photoSrc } from "./photos";
+import { JUNK, POOL, RIVER_OUT, photoSrc } from "./photos";
 
 /* The river: thumbnails ride the ribbon into the phone, Polaroids ride out. Built straight into the SVG, since it is
-   decorative (aria-hidden) and moves every frame. Photos of stuff are drawn as grey cards with two bars, the same look as
-   the sorting scene's clutter tiles, never photographed. */
+   decorative (aria-hidden) and moves every frame. Most of what flows in is clutter (screenshots, photos of stuff). */
 
 const SHOTS = ["#EAE6DC", "#DDD7CA", "#D2CBBB"];
 const PHOTOS = ["#B9CC92", "#E6B7A6", "#F0D49A", "#B4C2E0", "#9FC0B8", "#CFE0B4"];
-const BAR = "#C6BEAD";
 
 export const seeded = (seed: number) => () => (seed = (seed * 16807) % 2147483647) / 2147483647;
 export const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
@@ -51,13 +49,12 @@ export function makeRiver(svg: SVGSVGElement, rand: () => number) {
     items.push({ g, ...item });
   };
   const h = size / 2;
+  let junk = 0;
   for (let i = 0; i < count; i++) {
     const shot = rand() < 0.6;
     const fill = (shot ? SHOTS : PHOTOS)[Math.floor(rand() * (shot ? 3 : 6))];
-    // The two bars sit where the sorting scene's .t.shot background puts them.
-    const picture = shot
-      ? `<rect x="${-h + size * 0.0864}" y="${-h + size * 0.273}" width="${size * 0.52}" height="${size * 0.09}" fill="${BAR}"/><rect x="${-h + size * 0.1188}" y="${-h + size * 0.4732}" width="${size * 0.34}" height="${size * 0.09}" fill="${BAR}"/>`
-      : `<image href="${photoSrc(POOL[i % POOL.length])}" x="${-h}" y="${-h}" width="${size}" height="${size}" preserveAspectRatio="xMidYMid slice" clip-path="url(#${clip})"/>`;
+    const src = shot ? photoSrc(JUNK[junk++ % JUNK.length], "x") : photoSrc(POOL[i % POOL.length]);
+    const picture = `<image href="${src}" x="${-h}" y="${-h}" width="${size}" height="${size}" preserveAspectRatio="xMidYMid slice" clip-path="url(#${clip})"/>`;
     add(
       `<rect x="${-h}" y="${-h}" width="${size}" height="${size}" rx="${size * 0.18}" fill="${fill}"/>${picture}<rect x="${-h}" y="${-h}" width="${size}" height="${size}" rx="${size * 0.18}" fill="none" stroke="#fff" stroke-width="${size * 0.09}"/>`,
       { lane: lanes.in, offset: i / count, period: 30 * inStretch, spin: 1, tilt: 0 }
