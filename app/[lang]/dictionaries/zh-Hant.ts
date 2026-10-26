@@ -14,9 +14,9 @@ const zhHant: Dictionary = {
   status: "draft",
 
   meta: {
-    title: "Life in Photos｜找回你早已忘記、卻深愛的照片",
+    title: "Life in Photos｜找回那些被遺忘但你深愛的照片",
     description: "一款 iPhone App，幫你找出埋在相簿裡的回憶。",
-    ogTitle: "找回你早已忘記、卻深愛的照片。",
+    ogTitle: "找回那些被遺忘但你深愛的照片。",
     ogDescription: "一款 iPhone App，幫你找出埋在相簿裡的回憶。"
   },
 
@@ -44,7 +44,7 @@ const zhHant: Dictionary = {
       photos: "{n} 張照片",
       count: "{n} / {total}",
       endKept: "段回憶已保留",
-      endRest: "{later} 篇稍後再看 · {skipped} 篇已略過"
+      endRest: "{later} 段稍後再看 · {skipped} 段已略過"
     }
   },
 
@@ -79,9 +79,9 @@ const zhHant: Dictionary = {
     title: "換你試試看。試著決定這三段回憶吧！",
     body: "這就是整個 App 的流程。一段回憶出現，你做決定，然後繼續下一個。",
     cards: [
-      { name: "國王峽谷", title: "夏末的一天，在紅杉與國王峽谷", meta: "200 張照片・2024 年 9 月 15 日（星期日）", why: "我們開車上了紅杉和國王峽谷國家公園。Abby 一路騎在肩膀上走步道，Abby 和 Cody 擠在湖邊的紅椅子上，巨大的樹讓我們每個人都顯得好小。" },
+      { name: "Kings Canyon lake", title: "夏末的一天，在紅杉與國王峽谷", meta: "200 張照片・2024 年 9 月 15 日（星期日）", why: "我們開車上了紅杉和國王峽谷國家公園。Abby 一路騎在肩膀上走步道，Abby 和 Cody 擠在湖邊的紅椅子上，巨大的樹讓我們每個人都顯得好小。" },
       { name: "壽豐", title: "冬日午後，在花蓮壽豐", meta: "133 張照片・2023 年 1 月 8 日（星期日）", why: "我們在壽豐的池塘邊度過慢悠悠的午後。Abby 穿著紫色洋裝轉圈圈，Cody 窩在媽媽懷裡，我們還分吃了一個放著草莓的小蛋糕。" },
-      { name: "花蓮金針花", title: "玉里與富里的金針花季", meta: "60 張照片・2020 年 9 月 6 日（星期日）", why: "我們開車上山去看金針花。我們一路揹著 Abby，放眼望去整片都是橘色，我們要離開時，雲剛好飄了進來。" }
+      { name: "六十石山金針花", title: "玉里與富里的金針花季", meta: "60 張照片・2020 年 9 月 6 日（星期日）", why: "我們開車上山去看金針花。我們一路揹著 Abby，放眼望去整片都是橘色，我們要離開時，雲剛好飄了進來。" }
     ],
     count: "{n} / {total}",
     keep: "保留",
@@ -115,7 +115,7 @@ const zhHant: Dictionary = {
     tabs: { find: "尋找", moments: "回憶", settings: "設定" },
     find: {
       date: "10 月 6 日 星期二",
-      card: "國王峽谷湖畔",
+      card: "Kings Canyon lake",
       ready: "下一批 10 段已經準備好",
       sub: "大約 5 分鐘。你的照片圖庫完全不會被更動。",
       start: "開始這 10 段",
@@ -137,7 +137,7 @@ const zhHant: Dictionary = {
       thisWeekCount: "4 段新的",
       lastWeek: "上週",
       lastWeekCount: "3",
-      captions: ["花蓮金針花", "2019 夏天", "壽豐", "北海道的雪", "台北的冬天", "北門鹽田"]
+      captions: ["六十石山金針花", "2019 夏天", "壽豐", "北海道的雪", "台北的冬天", "北門鹽田"]
     }
   },
 
