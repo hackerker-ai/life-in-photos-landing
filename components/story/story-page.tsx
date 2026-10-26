@@ -1,6 +1,7 @@
 import type { Dictionary } from "@/app/[lang]/dictionaries";
 import { SiteFooter } from "@/components/site/site-footer";
 import { localePath, type Locale } from "@/lib/i18n";
+import { Clauses } from "@/components/site/clauses";
 import { Dig } from "./dig";
 import { HeroRiver } from "./hero-river";
 import { HowItWorks } from "./how-it-works";
@@ -25,7 +26,7 @@ export function StoryPage({ dict, lang }: { dict: Dictionary; lang: Locale }) {
 
       <div className="hero" id="top">
         <div className="wrap hero-copy">
-          <h1 className="display">{dict.hero.title}</h1>
+          <h1 className="display"><Clauses text={dict.hero.title} /></h1>
           <p className="lede">{dict.hero.lede}</p>
           <a className="btn" href="#invite">{dict.hero.cta}</a>
         </div>

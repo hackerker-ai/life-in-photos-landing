@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type CSSProperties, type FormEvent } from 
 import type { Dictionary } from "@/app/[lang]/dictionaries";
 import { Logo } from "@/components/site/logo";
 import { useWaitlistSignup } from "@/components/waitlist-form";
+import { Clauses } from "@/components/site/clauses";
 import { PLAY } from "./photos";
 import { Polaroid } from "./polaroid";
 import { useStory } from "./story-state";
@@ -44,7 +45,7 @@ export function Invite({ invite, cards, lang }: InviteProps) {
     <section className="invite" id="invite">
       <div className="wrap invite-grid">
         <div className="invite-copy">
-          <h2 className="display">{invite.title}</h2>
+          <h2 className="display"><Clauses text={invite.title} /></h2>
           <div className="wall" id="wall" ref={wall} aria-label={invite.wallLabel}>
             {shown.map((i) => {
               const state = !kept.length ? undefined : i in pinned ? "pin" : "waiting";

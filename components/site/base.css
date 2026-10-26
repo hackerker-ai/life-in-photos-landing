@@ -29,17 +29,29 @@
   --gutter: clamp(16px, 4vw, 56px);
   --bar-h: 64px;
 }
-/* Traditional Chinese, the whole page or one link to it: the brand face first for any Latin text, then the system's
-   Traditional Chinese fonts (PingFang TC on Apple devices). */
+/* Chinese characters fill their whole square, while Latin letters fill about half of theirs, so at the same font size
+   Chinese reads a size or more larger. These faces draw only the Chinese characters (and their punctuation) of each
+   role smaller, from the system's own Traditional Chinese font; Latin text and the layout keep their sizes. Headings
+   lose the most next to Nunito's heavy capitals, the handwritten lines more still, since Caveat's letters are tiny for
+   their size; body text only a little, so it stays easy to read. */
+@font-face { font-family: "Display TC"; src: local("PingFangTC-Semibold"), local("PingFang TC Semibold"), local("NotoSansTC-Bold"), local("Noto Sans TC Bold"), local("MicrosoftJhengHeiBold"), local("Microsoft JhengHei Bold"); font-weight: 100 900; size-adjust: 86%; unicode-range: U+2E80-2FDF, U+3000-30FF, U+3100-312F, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FE30-FE4F, U+FF00-FFEF; }
+@font-face { font-family: "Hand TC"; src: local("PingFangTC-Semibold"), local("PingFang TC Semibold"), local("NotoSansTC-Bold"), local("Noto Sans TC Bold"), local("MicrosoftJhengHeiBold"), local("Microsoft JhengHei Bold"); font-weight: 100 900; size-adjust: 78%; unicode-range: U+2E80-2FDF, U+3000-30FF, U+3100-312F, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FE30-FE4F, U+FF00-FFEF; }
+@font-face { font-family: "Text TC"; src: local("PingFangTC-Regular"), local("PingFang TC Regular"), local("NotoSansTC-Regular"), local("Noto Sans TC Regular"), local("MicrosoftJhengHeiRegular"), local("Microsoft JhengHei"); font-weight: 100 450; size-adjust: 95%; unicode-range: U+2E80-2FDF, U+3000-30FF, U+3100-312F, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FE30-FE4F, U+FF00-FFEF; }
+@font-face { font-family: "Text TC"; src: local("PingFangTC-Medium"), local("PingFang TC Medium"), local("NotoSansTC-Medium"), local("Noto Sans TC Medium"), local("MicrosoftJhengHeiRegular"), local("Microsoft JhengHei"); font-weight: 451 550; size-adjust: 95%; unicode-range: U+2E80-2FDF, U+3000-30FF, U+3100-312F, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FE30-FE4F, U+FF00-FFEF; }
+@font-face { font-family: "Text TC"; src: local("PingFangTC-Semibold"), local("PingFang TC Semibold"), local("NotoSansTC-Bold"), local("Noto Sans TC Bold"), local("MicrosoftJhengHeiBold"), local("Microsoft JhengHei Bold"); font-weight: 551 900; size-adjust: 95%; unicode-range: U+2E80-2FDF, U+3000-30FF, U+3100-312F, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FE30-FE4F, U+FF00-FFEF; }
+/* Traditional Chinese, the whole page or one link to it: the brand face first for any Latin text, then the Chinese
+   faces above, then the system's Traditional Chinese fonts at full size where a device has none of those. */
 :lang(zh-Hant) {
-  --display: var(--font-nunito), "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", ui-rounded, "Arial Rounded MT Bold", system-ui, sans-serif;
-  --text: var(--font-figtree), "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", -apple-system, "Segoe UI", system-ui, sans-serif;
-  --hand: var(--font-caveat), "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", "Bradley Hand", "Segoe Print", cursive;
+  --display: var(--font-nunito), "Display TC", "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", ui-rounded, "Arial Rounded MT Bold", system-ui, sans-serif;
+  --text: var(--font-figtree), "Text TC", "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", -apple-system, "Segoe UI", system-ui, sans-serif;
+  --hand: var(--font-caveat), "Hand TC", "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", "Bradley Hand", "Segoe Print", cursive;
 }
 /* Chinese breaks between any two characters, which splits words in headings ("忘記、卻深 / 愛的"). In headings and other
    short display lines, break only at punctuation and spaces, and mid-word only when a line would otherwise overflow.
    Paragraphs keep the usual Chinese line breaking. */
 :lang(zh-Hant) :is(h1, h2, h3, summary, .lede, .dig-lines li, .wall-note, .wall figcaption, .bubble, .s-title, .named) { word-break: keep-all; overflow-wrap: anywhere; }
+/* A headline's clauses (components/site/clauses.tsx): each stays whole on a line when it fits. */
+:lang(zh-Hant) .clause { display: inline-block; }
 *, *::before, *::after { box-sizing: border-box; }
 /* overflow-x on html goes to the window, which leaves body's own clip in force: nothing can scroll the page sideways, even on
    iOS, where a clip passed to the window is ignored by touch. text-size-adjust stops iOS enlarging small text on its own,

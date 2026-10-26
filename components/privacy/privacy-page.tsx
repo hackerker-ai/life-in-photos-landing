@@ -4,6 +4,7 @@ import { Logo } from "@/components/site/logo";
 import { RichText } from "@/components/site/rich-text";
 import { SiteFooter } from "@/components/site/site-footer";
 import { localePath, type Locale } from "@/lib/i18n";
+import { Clauses } from "@/components/site/clauses";
 import "./privacy.css";
 
 const Check = () => (
@@ -30,10 +31,10 @@ export function PrivacyPage({ dict, lang }: { dict: Dictionary; lang: Locale }) 
       <main>
         <div className="wrap head">
           <p className="draft" role="note"><span><RichText text={privacy.draft} /></span></p>
-          <h1>{privacy.title}</h1>
+          <h1><Clauses text={privacy.title} /></h1>
           <p className="updated"><RichText text={privacy.updated} /></p>
           <div className="short">
-            <h2>{privacy.shortTitle}</h2>
+            <h2><Clauses text={privacy.shortTitle} /></h2>
             <ul>
               {privacy.short.map((point) => <li key={point}><Check /><span>{point}</span></li>)}
             </ul>
@@ -50,7 +51,7 @@ export function PrivacyPage({ dict, lang }: { dict: Dictionary; lang: Locale }) 
           <article className="policy">
             {privacy.sections.map((section) => (
               <section key={section.id} id={section.id}>
-                <h2>{section.title}</h2>
+                <h2><Clauses text={section.title} /></h2>
                 {section.blocks.map((block, i) => {
                   if ("p" in block) return <p key={i}><RichText text={block.p} /></p>;
                   if ("h3" in block) return <h3 key={i}>{block.h3}</h3>;

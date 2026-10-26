@@ -1,5 +1,6 @@
 import type { Dictionary } from "@/app/[lang]/dictionaries";
 import { Logo } from "@/components/site/logo";
+import { Clauses } from "@/components/site/clauses";
 import { HowPinned } from "./how-pinned";
 import { Chevron, FindIcon, MomentsIcon, SettingsIcon } from "./icons";
 import { photoSrc } from "./photos";
@@ -36,7 +37,7 @@ export function HowItWorks({ how, brand }: { how: Dictionary["how"]; brand: stri
     <HowPinned labelledBy="howTitle">
       <div className="wrap">
         <div className="how-head">
-          <h2 className="display" id="howTitle">{how.title}</h2>
+          <h2 className="display" id="howTitle"><Clauses text={how.title} /></h2>
           <p>{how.body}</p>
         </div>
         <ol className="how-steps" tabIndex={0} aria-label={how.stepsLabel}>

@@ -3,6 +3,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { Dictionary } from "@/app/[lang]/dictionaries";
 import { fill } from "@/components/site/text";
+import { Clauses } from "@/components/site/clauses";
 import { Friend, type FriendHandle } from "./friend";
 import { PLAY, photoSrc } from "./photos";
 import { Polaroid } from "./polaroid";
@@ -93,7 +94,7 @@ export function Play({ play, friends }: { play: Dictionary["play"]; friends: Dic
     <section className={hinting && inView ? "play hint" : "play"} id="play">
       <div className="wrap play-grid">
         <div className="play-copy">
-          <h2 className="display">{play.title}</h2>
+          <h2 className="display"><Clauses text={play.title} /></h2>
           <p>{play.body}</p>
           <div className="crew">
             <Friend who="nori" id="playNori" label={friends.nori} ref={nori} />

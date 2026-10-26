@@ -1,5 +1,6 @@
 import type { Dictionary } from "@/app/[lang]/dictionaries";
 import { RichText } from "@/components/site/rich-text";
+import { Clauses } from "@/components/site/clauses";
 import { FaqAccordion } from "./faq-accordion";
 import { Friend } from "./friend";
 import { Check, Go, Plus } from "./icons";
@@ -18,7 +19,7 @@ export function Strengths({ strengths }: { strengths: Dictionary["strengths"] })
   return (
     <section className="strengths" id="strengths" aria-labelledby="strengthsTitle">
       <div className="wrap str-wrap">
-        <h2 className="display" id="strengthsTitle">{strengths.title}</h2>
+        <h2 className="display" id="strengthsTitle"><Clauses text={strengths.title} /></h2>
         <ul className="feats">
           <li>
             <div className="art" aria-hidden="true">
@@ -65,7 +66,7 @@ export function Trust({ trust, friends }: { trust: Dictionary["trust"]; friends:
       <div className="wrap">
         <div className="trust-card">
           <div className="trust-copy">
-            <h2 className="display">{trust.title}</h2>
+            <h2 className="display"><Clauses text={trust.title} /></h2>
             <ul className="checks">
               {trust.checks.map((check) => <li key={check}><Check size={26} />{check}</li>)}
             </ul>
@@ -84,7 +85,7 @@ export function Voices({ voices }: { voices: Dictionary["voices"] }) {
   return (
     <section className="voices">
       <div className="wrap">
-        <h2 className="display">{voices.title}</h2>
+        <h2 className="display"><Clauses text={voices.title} /></h2>
         <div className="notes">
           {voices.quotes.map((note, i) => (
             <figure key={i} className="pol">
@@ -105,7 +106,7 @@ export function Faq({ faq, friends, privacyHref }: { faq: Dictionary["faq"]; fri
       <div className="wrap faq-grid">
         <div className="arch"><Friend who="flip" pose="tilt" label={friends.flip} /></div>
         <FaqAccordion>
-          <h2 className="display">{faq.title}</h2>
+          <h2 className="display"><Clauses text={faq.title} /></h2>
           {faq.items.map((item, i) => (
             <details key={item.q} open={i === 0}>
               <summary>{item.q}<Plus /></summary>
