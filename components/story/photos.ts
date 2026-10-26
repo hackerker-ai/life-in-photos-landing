@@ -1,7 +1,7 @@
 /* The photos the page shows: file ids only. Every name, note and caption lives in the locale dictionaries.
-   The family is the face-swapped set (see prototypes/story-real/face-swap). The clutter (/photos/x: screenshots,
-   receipts, flyers) and the accidental frames have nobody in them and are used as they are, tiny and blurred. 15176, a
-   photo of our daughter that the face swap left unchanged, stays out; 15111 takes its place. */
+   The family is the face-swapped set (see prototypes/story-real/face-swap). The clutter (/photos/x) and the accidental
+   frames have nobody in them and are used as they are. 15176, a photo of our daughter that the face swap left
+   unchanged, stays out; 15111 takes its place. */
 
 export type MomentKey =
   | "kingsCanyonLake"
@@ -40,9 +40,9 @@ export const GROUPS: PhotoGroup[] = [
 /** Every camera-roll photo the river carries in, in order. */
 export const POOL = GROUPS.flatMap((group) => group.takes);
 
-/** The pile the app looks past: screenshots, product shots, flyers and other photos of stuff, kept tiny and soft so
-    nothing is readable. */
-export const JUNK = [12681, 18593, 1861, 18873, 1965, 21654, 2466, 2536, 2567, 28388, 31834, 32901, 33338, 34510, 35332, 35542, 3762, 426, 4427, 4796, 4829, 4860, 4950, 4985, 5422, 6967, 7906, 838];
+/** The pile the app looks past, mixed as a camera roll would: sharp screenshots, photos of stuff (menus, labels, price
+    tags) and the odd out-of-focus shot. Square tiles from the owner's library, checked for anything personal. */
+export const JUNK = [12681, 18593, 1861, 22380, 21654, 2466, 1965, 31736, 2536, 28388, 32901, 32598, 33338, 34510, 3762, 33661, 426, 7906, 4427, 12944, 1476, 4796, 1681, 8432, 4829, 35329, 4860, 5422, 838];
 
 /** Accidental shots from those days (the ground, a plate, the sky). They fall away with the clutter. */
 export const ACCIDENTS = [11840, 11897, 11804, 24433, 27026];
