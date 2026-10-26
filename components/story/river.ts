@@ -53,7 +53,8 @@ export function makeRiver(svg: SVGSVGElement, rand: () => number) {
   for (let i = 0; i < count; i++) {
     const shot = rand() < 0.6;
     const fill = (shot ? SHOTS : PHOTOS)[Math.floor(rand() * (shot ? 3 : 6))];
-    const src = shot ? photoSrc(JUNK[junk++ % JUNK.length], "x") : photoSrc(POOL[i % POOL.length]);
+    // Each tile is a different photo: once the clutter runs out, the camera roll fills in.
+    const src = shot && junk < JUNK.length ? photoSrc(JUNK[junk++], "x") : photoSrc(POOL[i % POOL.length]);
     const picture = `<image href="${src}" x="${-h}" y="${-h}" width="${size}" height="${size}" preserveAspectRatio="xMidYMid slice" clip-path="url(#${clip})"/>`;
     add(
       `<rect x="${-h}" y="${-h}" width="${size}" height="${size}" rx="${size * 0.18}" fill="${fill}"/>${picture}<rect x="${-h}" y="${-h}" width="${size}" height="${size}" rx="${size * 0.18}" fill="none" stroke="#fff" stroke-width="${size * 0.09}"/>`,
@@ -61,8 +62,9 @@ export function makeRiver(svg: SVGSVGElement, rand: () => number) {
     );
   }
   const w = size * 2.1, ph = w * 1.2;
-  const outCount = Math.round(RIVER_OUT.length * outStretch);
-  Array.from({ length: outCount }, (_, i) => RIVER_OUT[i % RIVER_OUT.length]).forEach((id, i) => {
+  // Four Polaroids along the design's own stretch of river, as many more as the longer bed holds, each a different photo.
+  const outCount = Math.min(RIVER_OUT.length, Math.round(4 * outStretch));
+  RIVER_OUT.slice(0, outCount).forEach((id, i) => {
     add(
       `<rect x="${-w / 2}" y="${-ph / 2 + 3}" width="${w}" height="${ph}" rx="${w * 0.04}" fill="rgba(41,36,24,.16)"/><rect x="${-w / 2}" y="${-ph / 2}" width="${w}" height="${ph}" rx="${w * 0.04}" fill="#fff"/><image href="${photoSrc(id)}" x="${-w * 0.43}" y="${-ph / 2 + w * 0.07}" width="${w * 0.86}" height="${w * 0.86}" preserveAspectRatio="xMidYMid slice"/>`,
       { lane: lanes.out, offset: i / outCount, period: 22 * outStretch, spin: 0, tilt: i % 2 ? 7 : -6 }

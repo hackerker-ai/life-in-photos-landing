@@ -47,8 +47,9 @@ export const JUNK = [12681, 18593, 1861, 22380, 21654, 2466, 1965, 31736, 2536, 
 /** Accidental shots from those days (the ground, a plate, the sky). They fall away with the clutter. */
 export const ACCIDENTS = [11840, 11897, 11804, 24433, 27026];
 
-/** The Polaroids that ride out of the hero phone. */
-export const RIVER_OUT = [7502, 15113, 24360, 25998];
+/** The Polaroids that ride out of the hero phone: the ten moments' covers, then their second and third photos, so no
+    photo comes out twice however many fit on the river. */
+export const RIVER_OUT = [0, 1, 2].flatMap((n) => GROUPS.map((group) => group.keep[n]));
 
 /** The three moments in the "Now you try" demo: the cover and the five photos its card shows. */
 export const PLAY = [
