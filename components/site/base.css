@@ -39,7 +39,7 @@
 /* Chinese breaks between any two characters, which splits words in headings ("忘記、卻深 / 愛的"). In headings and other
    short display lines, break only at punctuation and spaces, and mid-word only when a line would otherwise overflow.
    Paragraphs keep the usual Chinese line breaking. */
-:lang(zh-Hant) :is(h1, h2, h3, summary, .lede, .dig-lines li, .wall-note, .bubble, .s-title, .named) { word-break: keep-all; overflow-wrap: anywhere; }
+:lang(zh-Hant) :is(h1, h2, h3, summary, .lede, .dig-lines li, .wall-note, .wall figcaption, .bubble, .s-title, .named) { word-break: keep-all; overflow-wrap: anywhere; }
 *, *::before, *::after { box-sizing: border-box; }
 /* overflow-x on html goes to the window, which leaves body's own clip in force: nothing can scroll the page sideways, even on
    iOS, where a clip passed to the window is ignored by touch. text-size-adjust stops iOS enlarging small text on its own,

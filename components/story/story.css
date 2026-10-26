@@ -457,7 +457,10 @@ details p { max-width: 34em; padding-bottom: 22px; color: var(--body); }
 .wall .pol { padding: 7px 7px 0; }
 .wall .pol:nth-child(odd) { rotate: -3deg; }
 .wall .pol:nth-child(even) { rotate: 2.5deg; }
-.wall .pol figcaption { font-size: 1.02rem; }
+/* The frames are small, so a moment's whole name wraps onto a second line instead of being cut short. Every caption
+   keeps room for two lines, so the frames stay one size. */
+.wall .pol figcaption { min-height: calc(2lh + 0.5em); padding: 0.2em 0.1em 0.3em; font-size: 1.02rem; line-height: 1; white-space: normal; overflow: visible; text-wrap: balance; }
+.wall .pol figcaption:lang(zh-Hant) { line-height: 1.12; }
 .wall .empty { display: flex; align-items: center; justify-content: center; aspect-ratio: 1 / 1.2; border: 2px dashed rgba(41, 36, 24, 0.4); border-radius: 4px; font: 600 1.3rem var(--hand); color: var(--body); }
 /* Moments kept in the demo wait off the wall until it comes into view, then get pressed on one by one, lifted close and settling flat. */
 .wall .pol.waiting { opacity: 0; }
@@ -523,7 +526,8 @@ details p { max-width: 34em; padding-bottom: 22px; color: var(--body); }
   .trio { width: 132px; margin-inline: auto; filter: none; }
   .wall { gap: 8px; }
   .wall .pol { padding: 4px 4px 0; }
-  .wall .pol figcaption { font-size: 0.8rem; }
+  .wall .pol figcaption { font-size: 0.76rem; }
+  .invite-copy { gap: 16px; }
   .wall .empty { font-size: 1rem; }
 }
 /* Phones: the beta parents' notes sit in a row you swipe, the neighbours peeking in, like the app's screens above. */

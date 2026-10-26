@@ -18,7 +18,7 @@ function phrased(source: Dictionary, locale: string): Dictionary {
   dict.hero.lede = mark(dict.hero.lede);
   dict.dig.lines = dict.dig.lines.map(mark);
   dict.play.title = mark(dict.play.title);
-  dict.play.cards = dict.play.cards.map((card) => ({ ...card, title: mark(card.title) }));
+  dict.play.cards = dict.play.cards.map((card) => ({ ...card, name: mark(card.name), title: mark(card.title) }));
   dict.play.nudge = mark(dict.play.nudge);
   dict.play.endTitle = mark(dict.play.endTitle);
   dict.how.title = mark(dict.how.title);
