@@ -6,8 +6,8 @@
    - Rich text allows <b>, <strong>, <a href="…"> and <ph> (a highlighted placeholder still to be filled in). Nothing else. */
 
 const en = {
-  /** "translated" once a native speaker has reviewed the whole file. Untranslated locales are kept out of search. */
-  status: "translated" as "translated" | "untranslated",
+  /** "translated" once a native speaker has reviewed the whole file. A draft or untranslated locale is kept out of search. */
+  status: "translated" as "translated" | "draft" | "untranslated",
 
   /** Built from the hero's own words until the owner writes search copy. */
   meta: {

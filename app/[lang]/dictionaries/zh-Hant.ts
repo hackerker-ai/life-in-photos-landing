@@ -1,365 +1,362 @@
-/* Traditional Chinese (zh-Hant) copy. UNTRANSLATED: every string below is still the English text, waiting for the
-   translation pass after the owner reviews the English port. Translate in place, keep the {placeholders} and the
-   <b>, <strong>, <a> and <ph> tags, then set `status` to "translated" so the page can be indexed.
+/* Traditional Chinese (zh-Hant, Taiwan) copy. DRAFT: a first translation for the owner to correct. Once it has been
+   reviewed, set `status` to "translated" so the page can be indexed.
 
-   The structure must match en.ts; TypeScript checks it against the English dictionary. */
+   Keep the {placeholders} and the <b>, <strong>, <a> and <ph> tags. The structure must match en.ts; TypeScript checks it
+   against the English dictionary.
+
+   Terms used throughout, to keep the page consistent (and to match the app's when it is translated):
+   moment(s) 回憶（段）· camera roll 相簿 · Photos library 照片圖庫 · Keep / Later / Skip 保留 / 稍後 / 略過 ·
+   Find / Moments / Settings 尋找 / 回憶 / 設定 · beta Beta 測試 · screenshot 截圖 */
 
 import type { Dictionary } from "./en";
 
 const zhHant: Dictionary = {
-  /** "translated" once a native speaker has reviewed the whole file. Untranslated locales are kept out of search. */
-  status: "untranslated",
+  status: "draft",
 
-  /** Built from the hero's own words until the owner writes search copy. */
   meta: {
-    title: "Life in Photos | Find the photos you forgot you loved",
-    description: "An iPhone app for the moments buried in your camera roll.",
-    ogTitle: "Find the photos you forgot you loved.",
-    ogDescription: "An iPhone app for the moments buried in your camera roll."
+    title: "Life in Photos｜找回你早已忘記、卻深愛的照片",
+    description: "一款 iPhone App，幫你找出埋在相簿裡的回憶。",
+    ogTitle: "找回你早已忘記、卻深愛的照片。",
+    ogDescription: "一款 iPhone App，幫你找出埋在相簿裡的回憶。"
   },
 
   brand: "life in photos",
-  /** The globe button's label for screen readers: in both languages, so either reader can find the other language. */
   languageLabel: "Language · 語言",
   friends: {
-    momo: "Momo. Tap to play.",
-    flip: "Flip. Tap to play.",
-    nori: "Nori. Tap to play."
+    momo: "Momo。點一下來玩。",
+    flip: "Flip。點一下來玩。",
+    nori: "Nori。點一下來玩。"
   },
 
   header: {
-    homeLabel: "Life in Photos, back to top",
-    cta: "Find your moments"
+    homeLabel: "Life in Photos，回到頁首",
+    cta: "找出你的回憶"
   },
 
   hero: {
-    title: "Find the photos you forgot you loved.",
-    lede: "An iPhone app for the moments buried in your camera roll.",
-    cta: "Find your moments",
-    tagIn: "548 photos in",
-    tagOut: "ten moments out",
-    phoneLabel: "The Life in Photos app on an iPhone, going through ten moments one at a time: each comes up with its photos and title, and gets kept, saved for later or skipped.",
+    title: "找回你早已忘記、卻深愛的照片。",
+    lede: "一款 iPhone App，幫你找出埋在相簿裡的回憶。",
+    cta: "找出你的回憶",
+    tagIn: "548 張照片進去",
+    tagOut: "十段回憶出來",
+    phoneLabel: "iPhone 上的 Life in Photos App，正一段一段瀏覽十段回憶：每段回憶連同照片和標題一起出現，然後被保留、留待稍後，或略過。",
     session: {
-      photos: "{n} photos",
-      count: "{n} of {total}",
-      endKept: "moments kept",
-      endRest: "{later} saved for later · {skipped} skipped"
+      photos: "{n} 張照片",
+      count: "{n} / {total}",
+      endKept: "段回憶已保留",
+      endRest: "{later} 段稍後再看 · {skipped} 段已略過"
     }
   },
 
-  /** The ten moments the sorting scene gathers and the hero session plays through. Notes are first-person family
-      journal lines. */
   moments: {
-    kingsCanyonLake: { name: "Kings Canyon lake", note: "We claimed the red chairs by the lake and stayed far longer than we planned. By the drive home, both kids were fast asleep in the back." },
-    sequoiaTrail: { name: "Sequoia trail", note: "We kept tipping our heads back to see the tops of the trees. The best part was all of us squeezing inside a hollow trunk together." },
-    hokkaidoSnow: { name: "Hokkaido snow", note: "Her first real snow. She ran straight into it and didn't want to come back inside, even when her cheeks turned pink." },
-    tamsuiRiverside: { name: "Tamsui riverside", note: "The sky stayed grey, but we didn't mind. We took selfie after selfie by the water, and the kids insisted on a peace sign every time." },
-    shoufeng: { name: "Shoufeng", note: "A slow afternoon by the pond. We shared a little cake with a strawberry on top, and she twirled around in her new purple dress." },
-    hualienDaylilies: { name: "Hualien daylilies", note: "We drove up into the hills just as the daylilies bloomed. The baby rode in the carrier the whole way, and we warmed up in a little café after." },
-    abbyTurnsOne: { name: "Abby turns one", note: "Our girl turned one. We hung the banner, filled the bed with balloons, and she wore the lace bonnet all morning." },
-    beimenSaltFields: { name: "Beimen salt fields", note: "We waited for the sun to set over the salt fields. The baby stayed snug between us while the sky turned soft and pink." },
-    taipeiWinter: { name: "Taipei winter", note: "We bundled up for a chilly day in the city, shared a bunny-shaped dessert at our favourite café, and strolled home through the park." },
-    summer2019: { name: "Summer 2019", note: "Those first slow weeks at home with our newest one. We barely left the bed, and we couldn't stop kissing those cheeks." }
+    kingsCanyonLake: { name: "國王峽谷湖畔", note: "我們佔了湖邊的紅椅子，待得比原本打算的久多了。開車回家的路上，兩個孩子都在後座睡熟了。" },
+    sequoiaTrail: { name: "紅杉步道", note: "我們一直仰著頭，想看清楚樹頂。最棒的是全家一起擠進一棵中空的樹幹裡。" },
+    hokkaidoSnow: { name: "北海道的雪", note: "她第一次看到真正的雪。她直接衝進雪地，臉頰都凍紅了還不肯進屋。" },
+    tamsuiRiverside: { name: "淡水河畔", note: "天空一直灰灰的，但我們不在意。在河邊自拍了一張又一張，孩子們每一張都堅持要比 YA。" },
+    shoufeng: { name: "壽豐", note: "在池塘邊度過慢悠悠的午後。我們分吃一個放著草莓的小蛋糕，她穿著新的紫色洋裝轉圈圈。" },
+    hualienDaylilies: { name: "花蓮金針花", note: "金針花剛開，我們就開車上山。寶寶一路都在揹巾裡，之後我們躲進一間小咖啡館取暖。" },
+    abbyTurnsOne: { name: "Abby 一歲了", note: "我們的女兒滿一歲了。我們掛上生日布條，在床上擺滿氣球，她一整個早上都戴著那頂蕾絲小帽。" },
+    beimenSaltFields: { name: "北門鹽田", note: "我們等著太陽落在鹽田上。寶寶窩在我們中間，天空慢慢變成柔和的粉紅色。" },
+    taipeiWinter: { name: "台北的冬天", note: "我們穿得暖暖的，在城裡度過微涼的一天，在最愛的咖啡館分吃一份兔子造型的甜點，再散步穿過公園回家。" },
+    summer2019: { name: "2019 夏天", note: "家裡剛多了一個小傢伙的那幾週，日子過得好慢。我們幾乎沒下過床，一直忍不住親那圓嘟嘟的臉頰。" }
   },
 
   dig: {
-    label: "How a camera roll becomes ten moments",
+    label: "相簿如何變成十段回憶",
     lines: [
-      "Say your camera roll holds 548 photos.",
-      "Life in Photos looks past the screenshots and the photos of stuff.",
-      "It folds eleven takes of one candle into one.",
-      "It gathers the photos that belong together.",
-      "Ten moments are ready."
+      "假設你的相簿裡有 548 張照片。",
+      "Life in Photos 會略過截圖，和那些拍東西的照片。",
+      "同一根蠟燭拍了十一張，它只留下一張。",
+      "它把屬於同一段時光的照片收在一起。",
+      "十段回憶，準備好了。"
     ],
-    unitPhotos: "photos",
-    unitMoments: "moments",
-    foot: "The rest wait their turn. Nothing is deleted."
+    unitPhotos: "張照片",
+    unitMoments: "段回憶",
+    foot: "其餘的照片等著下一輪。什麼都不會被刪除。"
   },
 
   play: {
-    title: "Now you try. Here are three of ours.",
-    body: "This is the whole app in miniature. A moment comes up, you decide, and the next one arrives.",
+    title: "換你試試看。這是我們的三段回憶。",
+    body: "這就是整個 App 的縮影。一段回憶出現，你做決定，下一段就來了。",
     cards: [
-      { name: "Kings Canyon", title: "A late summer day in Sequoia and Kings Canyon", meta: "200 photos, Sunday, September 15, 2024", why: "We drove up into Sequoia and Kings Canyon. Abby got a shoulder ride up the trail, Abby and Cody squeezed onto the red chairs by the lake, and the giant trees made all of us look tiny." },
-      { name: "Shoufeng", title: "A winter afternoon in Shoufeng, Hualien", meta: "133 photos, Sunday, January 8, 2023", why: "We spent a slow afternoon by the pond in Shoufeng. Abby twirled around in her purple dress, Cody stayed snug in Mom's arms, and we shared a little cake with a strawberry on top." },
-      { name: "Hualien daylilies", title: "Daylily season in Yuli and Fuli", meta: "60 photos, Sunday, September 6, 2020", why: "We drove into the hills to see the daylilies. Abby rode in the carrier the whole way, the fields were orange as far as we could see, and the clouds rolled in just as we left." }
+      { name: "國王峽谷", title: "夏末的一天，在紅杉與國王峽谷", meta: "200 張照片・2024 年 9 月 15 日（星期日）", why: "我們開車上了紅杉和國王峽谷國家公園。Abby 一路騎在肩膀上走步道，Abby 和 Cody 擠在湖邊的紅椅子上，巨大的樹讓我們每個人都顯得好小。" },
+      { name: "壽豐", title: "冬日午後，在花蓮壽豐", meta: "133 張照片・2023 年 1 月 8 日（星期日）", why: "我們在壽豐的池塘邊度過慢悠悠的午後。Abby 穿著紫色洋裝轉圈圈，Cody 窩在媽媽懷裡，我們還分吃了一個放著草莓的小蛋糕。" },
+      { name: "花蓮金針花", title: "玉里與富里的金針花季", meta: "60 張照片・2020 年 9 月 6 日（星期日）", why: "我們開車上山去看金針花。Abby 一路都在揹巾裡，放眼望去整片都是橘色，我們要離開時，雲剛好飄了進來。" }
     ],
-    count: "{n} of {total}",
-    keep: "Keep",
-    later: "Later",
-    skip: "Skip",
-    keepWhy: "Save to Moments",
-    laterWhy: "Decide another time",
-    skipWhy: "Not this moment",
-    nudge: "Your turn! Tap one to decide.",
-    trayLabel: "Moments you kept",
-    trayKept: "Kept",
-    endTitle: "That's the ritual.",
-    endBody: "You {tally}. In the app it's ten moments from your own camera roll, in about five minutes.",
-    tallyKept: "kept {n}",
-    tallyLater: "saved {n} for later",
-    tallyJoin: " and ",
-    tallyNone: "skipped all three",
-    endCta: "Find your moments",
-    again: "Play again"
+    count: "{n} / {total}",
+    keep: "保留",
+    later: "稍後",
+    skip: "略過",
+    keepWhy: "存進回憶",
+    laterWhy: "之後再決定",
+    skipWhy: "不是這一段",
+    nudge: "換你了！點一個來決定。",
+    trayLabel: "你保留的回憶",
+    trayKept: "已保留",
+    endTitle: "這就是每天的小儀式。",
+    endBody: "你{tally}。在 App 裡，會是你自己相簿裡的十段回憶，大約五分鐘就能看完。",
+    tallyKept: "保留了 {n} 段",
+    tallyLater: "留了 {n} 段稍後再看",
+    tallyJoin: "，",
+    tallyNone: "三段都略過了",
+    endCta: "找出你的回憶",
+    again: "再玩一次"
   },
 
   how: {
-    title: "Ten moments at a time. That’s the whole app.",
-    body: "Open it whenever you have five minutes, look through ten moments, and keep the ones that feel like yours.",
-    stepsLabel: "Three screens from the app",
+    title: "一次十段回憶。整個 App 就是這樣。",
+    body: "有五分鐘空檔就打開它，看看十段回憶，留下那些感覺屬於你的。",
+    stepsLabel: "App 裡的三個畫面",
     steps: [
-      { title: "Open Find", body: "Ten moments from your camera roll are ready, about five minutes’ worth." },
-      { title: "Keep, Later or Skip", body: "Each moment arrives with its title and story already written." },
-      { title: "Look back", body: "What you keep becomes your Moments, week by week." }
+      { title: "打開「尋找」", body: "相簿裡的十段回憶已經準備好，大約五分鐘就能看完。" },
+      { title: "保留、稍後或略過", body: "每段回憶出現時，標題和故事都已經寫好了。" },
+      { title: "回顧", body: "你保留的，會一週一週累積成你的「回憶」。" }
     ],
-    tabs: { find: "Find", moments: "Moments", settings: "Settings" },
+    tabs: { find: "尋找", moments: "回憶", settings: "設定" },
     find: {
-      date: "TUESDAY, OCT 6",
-      card: "Kings Canyon lake",
-      ready: "Your next 10 are ready",
-      sub: "About 5 minutes. Your Photos library stays untouched.",
-      start: "Start these 10",
-      later: "Waiting in Later"
+      date: "10 月 6 日 星期二",
+      card: "國王峽谷湖畔",
+      ready: "下一批 10 段已經準備好",
+      sub: "大約 5 分鐘。你的照片圖庫完全不會被更動。",
+      start: "開始這 10 段",
+      later: "稍後再看"
     },
     session: {
-      count: "4 of 10",
-      title: "Sunset at the Beimen salt fields",
-      meta: "11 photos · Saturday · Beimen",
-      notes: "We stayed for the last light at the salt fields. The salt piles turned pink, and the baby slept through the whole sunset in the carrier.",
-      keep: "Keep",
-      later: "Later",
-      skip: "Skip"
+      count: "4 / 10",
+      title: "北門鹽田的夕陽",
+      meta: "11 張照片 · 星期六 · 北門",
+      notes: "我們在鹽田待到最後一道光。鹽堆被染成粉紅色，寶寶在揹巾裡睡過了整場夕陽。",
+      keep: "保留",
+      later: "稍後",
+      skip: "略過"
     },
     moments: {
-      kept: "12 KEPT",
-      title: "Moments",
-      thisWeek: "This week",
-      thisWeekCount: "4 new",
-      lastWeek: "Last week",
+      kept: "已保留 12 段",
+      title: "回憶",
+      thisWeek: "本週",
+      thisWeekCount: "4 段新的",
+      lastWeek: "上週",
       lastWeekCount: "3",
-      captions: ["Hualien daylilies", "Summer 2019", "Shoufeng", "Hokkaido snow", "Taipei winter", "Beimen salt fields"]
+      captions: ["花蓮金針花", "2019 夏天", "壽豐", "北海道的雪", "台北的冬天", "北門鹽田"]
     }
   },
 
   strengths: {
-    title: "Less scrolling, more remembering.",
+    title: "少一點滑動，多一點回味。",
     feats: [
-      { title: "Your photos, already put together.", body: "We gather your photos into moments, like a Saturday at the park or a weekend away, so you see the day, not 400 separate shots." },
-      { title: "Less of the same photo.", body: "Ten almost-identical shots become one, so the good one isn’t buried." },
-      { title: "Only the memories.", body: "Receipts, screenshots and parking-spot photos stay out of the way." },
-      { title: "A name for every moment.", body: "Each moment gets a warm title and a short note, so you remember why you took it." }
+      { title: "你的照片，已經幫你整理好。", body: "我們把照片集合成一段段回憶，像是公園裡的一個星期六，或一趟週末小旅行，讓你看到的是那一天，而不是 400 張零散的照片。" },
+      { title: "同一個畫面，不再重複。", body: "十張幾乎一樣的照片只留一張，好照片不會被埋沒。" },
+      { title: "只留下回憶。", body: "收據、截圖和記停車位置的照片，都不會擋路。" },
+      { title: "每段回憶都有名字。", body: "每段回憶都會有一個溫暖的標題和一段短短的記錄，讓你記得當初為什麼拍下它。" }
     ],
-    gatheredCaption: "Shoufeng",
-    namedTitle: "Sunset at the salt fields",
-    namedNote: "We stayed for the last light…"
+    gatheredCaption: "壽豐",
+    namedTitle: "鹽田的夕陽",
+    namedNote: "我們待到最後一道光…"
   },
 
   trust: {
-    title: "Your Photos library stays untouched.",
+    title: "你的照片圖庫不會被更動。",
     checks: [
-      "Keep, Later and Skip only change what's in this app.",
-      "Nothing is deleted or moved in Photos.",
-      "You look at every moment before you decide."
+      "保留、稍後和略過，只會改變這個 App 裡的內容。",
+      "照片 App 裡的任何東西都不會被刪除或移動。",
+      "每段回憶，都由你看過之後才決定。"
     ]
   },
 
   voices: {
-    title: "From parents in the beta",
+    title: "來自 Beta 測試家長的話",
     /** Placeholders until real beta parents send quotes. Never fill these with invented quotes. */
     quotes: [
-      { quote: "[Quote from a beta parent, one or two sentences in their own words.]", by: "[Name, parent of two]" },
-      { quote: "[Quote from a beta parent, one or two sentences in their own words.]", by: "[Name, parent of three]" },
-      { quote: "[Quote from a beta parent, one or two sentences in their own words.]", by: "[Name, parent of one]" }
+      { quote: "[一位 Beta 家長的推薦，用他們自己的話寫一兩句。]", by: "[姓名，兩個孩子的家長]" },
+      { quote: "[一位 Beta 家長的推薦，用他們自己的話寫一兩句。]", by: "[姓名，三個孩子的家長]" },
+      { quote: "[一位 Beta 家長的推薦，用他們自己的話寫一兩句。]", by: "[姓名，一個孩子的家長]" }
     ]
   },
 
   faq: {
-    title: "Common questions",
+    title: "常見問題",
     items: [
-      { q: "Will it delete my photos?", a: "No. Your photos stay exactly where they are. Choosing which moments to keep never deletes anything from your phone." },
-      { q: "What if I have tens of thousands of photos?", a: "That’s who it’s for. You start seeing moments right away while the rest get ready." },
-      { q: "Do my photos leave my phone?", a: "Your photos stay on your phone and in your own iCloud. To write each moment’s title and note, a few small previews, with location and camera data removed, are sent to an AI model. We don’t run servers that keep your photos. <a href=\"{privacy}\">Read the privacy policy</a>." },
-      { q: "Do I have to organize first?", a: "No setup and no albums to make. Open it and start." },
-      { q: "What does it cost?", a: "We’ll decide pricing after the beta. Everyone who joins the beta gets an exclusive discount offer." }
+      { q: "它會刪掉我的照片嗎？", a: "不會。你的照片會原封不動地待在原處。選擇要保留哪些回憶，絕對不會刪除你手機裡的任何東西。" },
+      { q: "如果我有好幾萬張照片呢？", a: "這正是為你設計的。其餘的照片還在準備時，你就能馬上開始看到回憶。" },
+      { q: "我的照片會離開我的手機嗎？", a: "你的照片會留在你的手機和你自己的 iCloud 裡。為了替每段回憶寫標題和記錄，會把幾張已移除位置與相機資料的小預覽圖傳送給 AI 模型。我們沒有架設保存你照片的伺服器。<a href=\"{privacy}\">閱讀隱私權政策</a>。" },
+      { q: "我需要先整理照片嗎？", a: "不用設定，也不用建相簿。打開就能開始。" },
+      { q: "要多少錢？", a: "我們會在 Beta 測試結束後決定價格。每位加入 Beta 測試的人，都會收到專屬優惠。" }
     ]
   },
 
   invite: {
-    title: "Your family's moments are already in there.",
-    wallLabel: "A wall of kept moments",
-    wallNote: "Three of ours. Yours go in the empty ones.",
-    wallNoteKeptOne: "You kept this one just now. Yours go in the empty ones.",
-    wallNoteKeptMany: "You kept these just now. Yours go in the empty ones.",
-    empty: "yours",
-    mine: "you're in",
-    label: "TestFlight opens soon, for iPhones on iOS 26 or later. Leave your email and we'll send the invite.",
+    title: "你家的回憶，早就都在裡面了。",
+    wallLabel: "一面保留回憶的牆",
+    wallNote: "這三段是我們的。你的會放進空格裡。",
+    wallNoteKeptOne: "你剛剛保留了這一段。你的回憶會放進空格裡。",
+    wallNoteKeptMany: "你剛剛保留了這些。你的回憶會放進空格裡。",
+    empty: "你的",
+    mine: "你加入了",
+    label: "TestFlight 即將開放，適用 iOS 26 以上的 iPhone。留下你的 Email，我們會寄邀請給你。",
     placeholder: "name@example.com",
-    submit: "Send invite",
-    honeypot: "Website",
-    trioAlt: "Nori, Momo and Flip, three painted wood friends, holding a Polaroid frame together",
-    /** What the form says after sending, keyed by the code /api/waitlist returns. */
+    submit: "寄邀請給我",
+    honeypot: "網站",
+    trioAlt: "Nori、Momo 和 Flip，三個彩繪木頭小夥伴，一起捧著一個拍立得相框",
     status: {
-      invalid: "Enter a valid email address.",
-      joined: "You are on the list. Watch your inbox.",
-      alreadyJoined: "You are already on the list. We will keep you posted.",
-      joinedEmailDelayed: "You are on the list. Your confirmation email may take a little longer.",
-      unavailable: "Early access is temporarily unavailable. Please try again later.",
-      failed: "We could not add you right now. Please try again."
+      invalid: "請輸入有效的 Email 地址。",
+      joined: "你已經在名單上了，請留意你的信箱。",
+      alreadyJoined: "你已經在名單上了，有消息我們會通知你。",
+      joinedEmailDelayed: "你已經在名單上了，確認信可能會晚一點才寄到。",
+      unavailable: "搶先體驗暫時無法使用，請稍後再試。",
+      failed: "現在無法把你加入名單，請再試一次。"
     }
   },
 
   footer: {
-    about: "Life in Photos is an iPhone app that finds the moments buried in your camera roll. It gathers your photos into moments, writes each one a title and a short note, and brings them to you ten at a time, so looking back takes minutes, not a whole weekend.",
-    navLabel: "Footer",
-    appHeading: "The app",
-    how: "How it works",
-    strengths: "What it does",
-    faq: "Common questions",
-    invite: "Join the beta",
-    contactHeading: "Get in touch",
+    about: "Life in Photos 是一款 iPhone App，幫你找出埋在相簿裡的回憶。它把照片集合成一段段回憶，為每一段寫上標題和短短的記錄，一次十段送到你面前，回顧只需要幾分鐘，而不是一整個週末。",
+    navLabel: "頁尾",
+    appHeading: "關於 App",
+    how: "運作方式",
+    strengths: "功能特色",
+    faq: "常見問題",
+    invite: "加入 Beta 測試",
+    contactHeading: "聯絡我們",
     email: "contact@hackerker.com",
-    privacy: "Privacy policy",
-    copyright: "© 2026 Life in Photos. All rights reserved.",
-    backToTop: "Back to top"
+    privacy: "隱私權政策",
+    copyright: "© 2026 Life in Photos. 保留所有權利。",
+    backToTop: "回到頁首"
   },
 
   privacy: {
-    meta: { title: "Privacy policy · Life in Photos" },
-    homeLabel: "Life in Photos home",
-    back: "Back to home",
-    draft: "<b>Draft for review.</b> This policy describes the app and site as they work today. The items in <ph>highlighted brackets</ph> are filled in on the day it’s published, and the whole text needs a legal review before then.",
-    title: "Privacy policy",
-    updated: "Last updated <ph>[DATE OF PUBLISHING]</ph>",
-    shortTitle: "The short version",
+    meta: { title: "隱私權政策 · Life in Photos" },
+    homeLabel: "Life in Photos 首頁",
+    back: "回到首頁",
+    draft: "<b>審閱用草稿。</b>本政策說明 App 和網站目前的運作方式。<ph>標示中括號</ph>的項目會在發布當天填入，全文也需要在發布前經過法律審閱。",
+    title: "隱私權政策",
+    updated: "最後更新：<ph>[發布日期]</ph>",
+    shortTitle: "重點摘要",
     short: [
-      "Your photos stay on your phone and in your own iCloud. We don’t run servers that keep your photos.",
-      "The app never deletes, moves or changes anything in your Photos library. Keep, Later and Skip only change what’s in the app.",
-      "To write each moment’s title and note, a few small previews and a short description of the moment are sent to an AI model.",
-      "We don’t sell your information, show ads, or track you across other apps and websites."
+      "你的照片會留在你的手機和你自己的 iCloud 裡。我們沒有架設保存你照片的伺服器。",
+      "App 絕不會刪除、移動或更改你照片圖庫中的任何內容。保留、稍後和略過，只會改變 App 裡的內容。",
+      "為了替每段回憶寫標題和記錄，會把幾張小預覽圖和一段簡短的描述傳送給 AI 模型。",
+      "我們不會販售你的資訊、不放廣告，也不會在其他 App 和網站上追蹤你。"
     ],
-    tocLabel: "On this page",
-    /** Each section is a list of blocks: a paragraph (p), a subheading (h3), a list (ul) or the service providers (who). */
+    tocLabel: "本頁內容",
     sections: [
       {
         id: "covers",
-        title: "What this policy covers",
+        title: "本政策的適用範圍",
         blocks: [
-          { p: "This policy covers the Life in Photos iPhone app, which is in beta through Apple’s TestFlight, and this website. “We” means <ph>[YOUR FULL NAME]</ph>, the independent developer of Life in Photos. “You” means anyone who uses the app or visits the site." }
+          { p: "本政策適用於 Life in Photos iPhone App（目前透過 Apple 的 TestFlight 進行 Beta 測試）以及本網站。「我們」指 Life in Photos 的獨立開發者 <ph>[你的全名]</ph>。「你」指任何使用本 App 或造訪本網站的人。" }
         ]
       },
       {
         id: "photos",
-        title: "Your photos",
+        title: "你的照片",
         blocks: [
-          { p: "The app asks for access to your Photos library so it can find the moments in it. It reads your photos on your iPhone and builds its catalog of moments there. Finding and gathering moments runs on the phone itself." },
-          { p: "Your photos stay where they already are: on your phone, and in your own iCloud if you use iCloud Photos. The app doesn’t copy your library to us, and we don’t run servers that keep your photos." },
-          { p: "The app never deletes, moves or edits anything in your Photos library. Keep, Later and Skip only change what’s in the app. What you keep, and any titles and notes you edit, are saved inside the app on your phone." }
+          { p: "App 會請求取用你的照片圖庫，以便從中找出回憶。它在你的 iPhone 上讀取照片，並在手機上建立回憶目錄。尋找與整理回憶的工作都在手機本身進行。" },
+          { p: "你的照片會留在原本的地方：你的手機，以及你使用 iCloud 照片時你自己的 iCloud。App 不會把你的圖庫複製給我們，我們也沒有架設保存你照片的伺服器。" },
+          { p: "App 絕不會刪除、移動或編輯你照片圖庫中的任何內容。保留、稍後和略過，只會改變 App 裡的內容。你保留的回憶，以及你編輯過的標題和記錄，都儲存在你手機上的 App 裡。" }
         ]
       },
       {
         id: "titles",
-        title: "Titles and notes",
+        title: "標題與記錄",
         blocks: [
-          { p: "Each moment comes with a title and a short note, written by an AI model: Muse Spark, made by Meta. This is on by default. A setting to turn it off is coming in a later version." },
-          { p: "To write them, the app sends the AI model:" },
+          { p: "每段回憶都附有一個標題和一段簡短的記錄，由 AI 模型撰寫：Meta 開發的 Muse Spark。此功能預設開啟，關閉此功能的設定會在之後的版本推出。" },
+          { p: "為了撰寫這些內容，App 會傳送以下資料給 AI 模型：" },
           {
             ul: [
-              "<strong>Up to five small previews</strong> of the moment’s photos, with location and camera data removed.",
-              "<strong>A short description of the moment:</strong> the place name, the time of day, how many people appear, what seems to be happening, and the names of any people you’ve labelled in the Photos app."
+              "<strong>最多五張小預覽圖</strong>，取自該段回憶的照片，已移除位置與相機資料。",
+              "<strong>一段簡短的回憶描述：</strong>地點名稱、時段、照片中有幾個人、看起來在做什麼，以及你在照片 App 中標記過的人名。"
             ]
           },
-          { p: "These requests go through our own account with Meta, so you don’t need an account of your own. The model sends back a title and a note, which you can change. We use the requests only to write that title and note, and Meta handles them under its terms for developers who use its models." }
+          { p: "這些請求透過我們自己的 Meta 帳號送出，所以你不需要有自己的帳號。模型會回傳標題和記錄，你可以自行修改。我們只用這些請求來撰寫標題和記錄，Meta 則依其開發者使用條款處理這些請求。" }
         ]
       },
       {
         id: "places",
-        title: "Place names",
+        title: "地點名稱",
         blocks: [
-          { p: "To name where a moment happened, the app sends the approximate location of a group of photos to Apple’s location service and gets a place name back. The place names are saved inside the app on your phone." }
+          { p: "為了標示回憶發生的地點，App 會把一組照片的大致位置傳送給 Apple 的定位服務，並取回地點名稱。地點名稱會儲存在你手機上的 App 裡。" }
         ]
       },
       {
         id: "website",
-        title: "This website and the beta",
+        title: "本網站與 Beta 測試",
         blocks: [
-          { h3: "The beta waitlist" },
-          { p: "When you join the beta, we keep your email address so we can send you a welcome email and your TestFlight invite. We use it for nothing else, and you can ask us to remove it at any time." },
-          { h3: "Site analytics" },
-          { p: "We count a few events on this site, such as a page view or a waitlist signup, along with the campaign that brought you here, if there was one. These counts include only the domain of an email address, never the full address. We don’t record sessions or set analytics cookies." },
+          { h3: "Beta 測試候補名單" },
+          { p: "你加入 Beta 測試時，我們會保留你的 Email 地址，用來寄送歡迎信和你的 TestFlight 邀請。我們不會將它用於其他用途，你也可以隨時要求我們刪除。" },
+          { h3: "網站分析" },
+          { p: "我們會統計本網站上的少數事件，例如頁面瀏覽或加入候補名單，以及帶你來到這裡的行銷活動（如果有的話）。這些統計只包含 Email 地址的網域，絕不包含完整地址。我們不會錄製瀏覽過程，也不會設定分析用的 Cookie。" },
           { h3: "TestFlight" },
-          { p: "Apple runs TestFlight. When you install the beta, Apple may share information with us as the app’s developer, such as your email address and basic crash and usage reports, under <a href=\"https://www.apple.com/legal/privacy/\">Apple’s privacy policy</a>." }
+          { p: "TestFlight 由 Apple 營運。你安裝 Beta 版時，Apple 可能會依照 <a href=\"https://www.apple.com/tw/legal/privacy/\">Apple 的隱私權政策</a>，與身為 App 開發者的我們分享資訊，例如你的 Email 地址，以及基本的當機與使用報告。" }
         ]
       },
       {
         id: "sharing",
-        title: "Who we share with",
+        title: "我們與誰分享資訊",
         blocks: [
-          { p: "We use a few service providers, only for the jobs below." },
+          { p: "我們只為了下列工作，使用少數幾家服務供應商。" },
           {
             who: [
-              { name: "Meta", job: "Its Muse Spark model writes each moment’s title and note from the previews and description above." },
-              { name: "Apple", job: "Turns approximate photo locations into place names, and runs TestFlight and iCloud." },
-              { name: "Resend", job: "Sends the waitlist welcome email and the TestFlight invite, and stores the waitlist." },
-              { name: "PostHog", job: "Counts the site events described above." }
+              { name: "Meta", job: "它的 Muse Spark 模型會根據上述的預覽圖和描述，撰寫每段回憶的標題和記錄。" },
+              { name: "Apple", job: "將照片的大致位置轉換成地點名稱，並營運 TestFlight 和 iCloud。" },
+              { name: "Resend", job: "寄送候補名單的歡迎信和 TestFlight 邀請，並儲存候補名單。" },
+              { name: "PostHog", job: "統計上述的網站事件。" }
             ]
           },
-          { p: "We don’t sell your information or share it for advertising. We would share it with others only if the law required it." }
+          { p: "我們不會販售你的資訊，也不會為了廣告而分享。只有在法律要求時，我們才會與他人分享。" }
         ]
       },
       {
         id: "keeping",
-        title: "How long we keep things",
+        title: "我們保留資料多久",
         blocks: [
           {
             ul: [
-              "Everything the app saves stays on your phone until you delete it or delete the app.",
-              "We keep your waitlist email until you ask us to remove it.",
-              "Site analytics are kept for PostHog’s standard retention period."
+              "App 儲存的所有內容都會留在你的手機上，直到你刪除它們或刪除 App。",
+              "我們會保留你的候補名單 Email，直到你要求我們刪除。",
+              "網站分析資料依 PostHog 的標準保存期限保留。"
             ]
           }
         ]
       },
       {
         id: "choices",
-        title: "Your choices",
+        title: "你的選擇",
         blocks: [
           {
             ul: [
-              "You can turn off the app’s access to your photos at any time in the iPhone’s Settings.",
-              "Deleting the app removes everything it saved on your phone. Your Photos library is untouched either way.",
-              "You can leave the waitlist through the link in any email we send, or by writing to us.",
-              "Depending on where you live, you may have the right to see, correct or delete the information we hold about you. Write to us and we’ll help."
+              "你隨時可以在 iPhone 的「設定」中，關閉 App 取用照片的權限。",
+              "刪除 App 會移除它儲存在你手機上的所有內容。無論如何，你的照片圖庫都不會被更動。",
+              "你可以透過我們寄出的任何一封 Email 中的連結退出候補名單，或直接寫信給我們。",
+              "依你居住地的不同，你可能有權查看、更正或刪除我們持有的你的資訊。寫信給我們，我們會協助你。"
             ]
           }
         ]
       },
       {
         id: "children",
-        title: "Children",
+        title: "兒童",
         blocks: [
-          { p: "Life in Photos is made for parents. The app and this site are not meant for children under 13, and we don’t knowingly collect information from them. Family photos, including photos of your children, stay on your phone as described above." }
+          { p: "Life in Photos 是為父母設計的。本 App 和本網站並非為 13 歲以下的兒童設計，我們也不會在知情的情況下收集兒童的資訊。家庭照片，包括你孩子的照片，都會如上所述留在你的手機上。" }
         ]
       },
       {
         id: "security",
-        title: "Security",
+        title: "安全性",
         blocks: [
-          { p: "The app keeps its data in its own private storage on your phone, protected by your iPhone’s security. Requests to the services above are sent over encrypted connections." }
+          { p: "App 會把資料存放在你手機上它自己的私人儲存空間中，受到 iPhone 安全機制的保護。傳送給上述服務的請求都經過加密連線。" }
         ]
       },
       {
         id: "changes",
-        title: "Changes to this policy",
+        title: "本政策的變更",
         blocks: [
-          { p: "If we change this policy, we’ll update the date at the top. If the change is significant, we’ll tell you in the app or by email before it takes effect." }
+          { p: "如果我們變更本政策，會更新頁首的日期。如果變更幅度重大，我們會在變更生效前，透過 App 或 Email 通知你。" }
         ]
       },
       {
         id: "contact",
-        title: "Contact us",
+        title: "聯絡我們",
         blocks: [
-          { p: "Questions, or a request about your information: <a href=\"mailto:contact@hackerker.com\">contact@hackerker.com</a>." }
+          { p: "有任何問題，或關於你個人資訊的要求：<a href=\"mailto:contact@hackerker.com\">contact@hackerker.com</a>。" }
         ]
       }
     ]

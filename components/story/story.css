@@ -147,6 +147,8 @@ h1 { max-width: 11.4em; font-size: clamp(2.3rem, 4.6vw + 1.15rem, 4.5rem); }
   .hero-copy { --u: min(1cqw, (100svh - var(--bar-h)) / 67.01); position: absolute; z-index: 6; inset: 0; justify-content: center; align-items: flex-start; padding-block: 0 calc(9 * var(--u)); text-align: left; pointer-events: none; }
   .hero-copy > * { pointer-events: auto; }
   .hero-copy h1 { max-width: 7.6em; }
+  /* Chinese reads larger than Latin at the same size: a tenth smaller, with room for a full phrase per line. */
+  .hero-copy h1:lang(zh-Hant) { max-width: 8.2em; font-size: clamp(2.07rem, 4.14vw + 1.035rem, 4.05rem); }
   .hero-copy .lede { max-width: 21em; }
   /* The explicit width (above) keeps the max-height from carrying through the aspect ratio and narrowing the river. */
   /* When the scene shrinks for a short window, the phone takes back up to a fifth of its size from the empty room between

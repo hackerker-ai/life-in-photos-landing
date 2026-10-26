@@ -24,8 +24,8 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
       canonical: localePath(lang),
       languages: Object.fromEntries(locales.map((locale) => [locale, localePath(locale)]))
     },
-    // A locale whose dictionary is still the English text stays out of search until it is translated.
-    robots: dict.status === "untranslated" ? { index: false, follow: true } : undefined,
+    // A locale still in draft (or not yet translated) stays out of search until a native speaker has reviewed it.
+    robots: dict.status !== "translated" ? { index: false, follow: true } : undefined,
     openGraph: {
       title: dict.meta.ogTitle,
       description: dict.meta.ogDescription,
