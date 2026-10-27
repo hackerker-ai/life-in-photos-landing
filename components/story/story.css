@@ -3,14 +3,6 @@
    few; those land on the wall beside the invitation. One look by choice: the brand's warm paper. */
 .display { font-family: var(--display); font-weight: 900; letter-spacing: -0.03em; line-height: 1.04; text-wrap: balance; }
 h2.display { font-size: clamp(2rem, 2.6vw + 1.3rem, 3.6rem); }
-.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 54px; padding: 0 30px; border: 0; border-radius: 27px; background: var(--ink); color: var(--on-ink); font: 600 1.06rem var(--text); text-decoration: none; cursor: pointer; transition: background-color 0.2s, color 0.2s, box-shadow 0.2s, translate 0.2s cubic-bezier(0.2, 0.8, 0.2, 1); }
-/* Hover: the button turns Nori's teal and lifts off the page; a press pushes it back down. */
-@media (hover: hover) {
-  .btn:hover { background: var(--teal-deep); color: #FFFFFF; translate: 0 -2px; box-shadow: 0 10px 22px rgba(41, 36, 24, 0.26); }
-  .btn.ghost:hover { border-color: var(--teal-deep); }
-}
-.btn:active { translate: 0 1px; box-shadow: 0 2px 6px rgba(41, 36, 24, 0.22); }
-.btn.small { min-height: 44px; padding: 0 15px; font-size: 0.88rem; white-space: nowrap; }
 .curve { display: block; width: 100%; height: clamp(36px, 6vw, 90px); margin-bottom: -1px; }
 
 /* Friends: sharp still poses on a square canvas (figure 80% of it, feet at 96%). The button keeps the figure's
@@ -229,7 +221,6 @@ h1 { max-width: 11.4em; font-size: clamp(2.3rem, 4.6vw + 1.15rem, 4.5rem); }
 .card.end { align-items: flex-start; gap: 14px; padding: 28px 24px; }
 .card.end p { color: var(--body); }
 .card.end .row { display: flex; flex-wrap: wrap; gap: 10px; }
-.btn.ghost { background: none; border: 1.5px solid var(--ink); color: var(--ink); }
 /* Until the first tap the tray holds the hint; Kept appears only once something is kept. */
 .nudge { display: flex; flex-direction: column; align-items: center; gap: 2px; width: 100%; }
 .curl { width: 58px; height: 60px; margin-top: -10px; color: var(--teal-deep); }

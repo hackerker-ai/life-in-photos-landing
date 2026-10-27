@@ -9,7 +9,8 @@ export async function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
 }
 
-export const dynamicParams = false;
+// No dynamicParams = false here: app/[lang]/[...missing] answers addresses no page was built for. A locale that isn't
+// one of ours never gets this far (proxy.ts sends it to English) and RootLayout below calls notFound() for it anyway.
 
 export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Promise<Metadata> {
   const { lang } = await params;

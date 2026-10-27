@@ -222,6 +222,12 @@ const zhHant: Dictionary = {
     backToTop: "回到頁首"
   },
 
+  notFound: {
+    meta: { title: "找不到頁面 · Life in Photos" },
+    title: "這張照片不在相簿裡。",
+    body: "這個頁面可能搬走了，或是連結打錯了。",
+    frameLabel: "一個空的拍立得相框"
+  },
   unsubscribe: {
     meta: { title: "退出候補名單 · Life in Photos" },
     title: "要退出候補名單嗎？",

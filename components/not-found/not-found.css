@@ -1,0 +1,14 @@
+/* The 404: a short centred column on the paper. An empty Polaroid, tilted like the ones on the wall, with Flip peeking
+   over its top edge, his hands resting on the frame (as he peeks over the hero phone), then the heading, the line and
+   two buttons. */
+.lost-page { display: flex; flex-direction: column; min-height: 100dvh; }
+.lost-page .lost { display: grid; justify-items: center; gap: 18px; padding-block: clamp(32px, 6vw, 72px) clamp(64px, 9vw, 120px); text-align: center; }
+.lost-scene { --w: clamp(190px, 26vw, 250px); position: relative; width: var(--w); margin-bottom: 12px; padding-top: calc(var(--w) * 0.5); }
+/* Flip's body ends 13% of his width above the image bottom; that edge sits just inside the frame's top edge, so his
+   hands overlap the frame. */
+.lost-flip { position: absolute; z-index: 1; left: 50%; top: 0; width: 72%; height: auto; translate: -50% calc(var(--w) * 0.5 * -0.06); }
+.lost-pol { rotate: -3deg; padding: 7% 7% 24%; background: var(--card); border-radius: 4px; box-shadow: 0 1px 2px rgba(41, 36, 24, 0.1), 0 14px 30px var(--shade); }
+.lost-photo { aspect-ratio: 1; border-radius: 2px; background: repeating-linear-gradient(-45deg, var(--paper), var(--paper) 10px, var(--butter) 10px, var(--butter) 20px); }
+.lost-page .lost h1 { max-width: 14em; font: 900 clamp(2rem, 2.4vw + 1.2rem, 3.2rem)/1.06 var(--display); letter-spacing: -0.03em; text-wrap: balance; }
+.lost-page .lost p { max-width: 30rem; color: var(--body); font-size: 1.1rem; line-height: 1.6; text-wrap: pretty; }
+.lost-acts { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 8px; }

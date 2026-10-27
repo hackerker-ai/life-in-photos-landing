@@ -223,6 +223,12 @@ const en = {
     backToTop: "Back to top"
   },
 
+  notFound: {
+    meta: { title: "Page not found · Life in Photos" },
+    title: "This photo isn’t in the album.",
+    body: "The page may have moved, or the link has a typo.",
+    frameLabel: "An empty Polaroid frame"
+  },
   unsubscribe: {
     meta: { title: "Leave the waitlist · Life in Photos" },
     title: "Leave the waitlist?",
