@@ -170,7 +170,11 @@ h1 { max-width: 11.4em; font-size: clamp(2.3rem, 4.6vw + 1.15rem, 4.5rem); }
 .dig-lines li.on { opacity: 1; }
 .dig-field { position: relative; flex: 1; min-height: 0; margin: 6px var(--gutter) 0; }
 .dig-foot { padding: 8px var(--gutter) clamp(12px, 3vh, 30px); text-align: center; font-size: 0.95rem; color: var(--muted); opacity: var(--m, 0); }
-.t { position: absolute; left: 0; top: 0; overflow: hidden; border-radius: 16%; background: var(--shot); will-change: transform; }
+.t { position: absolute; left: 0; top: 0; overflow: hidden; border-radius: 16%; background: var(--shot); }
+/* Each tile gets its own layer for the sort only while the scene is on screen (dig.tsx). Off screen they stay part of
+   the page, which Safari draws ahead of the scroll; as ~200 layers of their own, Safari drew them only once they were
+   in view, and they appeared a few rows at a time. */
+.dig-field.live .t { will-change: transform; }
 .t img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .t.shot { background: linear-gradient(var(--shot-line), var(--shot-line)) 18% 30% / 52% 9% no-repeat, linear-gradient(var(--shot-line), var(--shot-line)) 18% 52% / 34% 9% no-repeat, var(--shot); }
 .t.dup::after { content: ""; position: absolute; inset: 0; background: rgba(226, 221, 208, 0.35); }
