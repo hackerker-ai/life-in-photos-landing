@@ -106,12 +106,15 @@ export function PinnedSlide({ className, id, labelledBy, row: rowSelector, hold 
     const onScroll = () => { if (!queued) { queued = true; requestAnimationFrame(() => { queued = false; paint(); }); } };
     addEventListener("scroll", onScroll, { passive: true });
     // The page's own size changing (a new width, fonts arriving, the demo above changing height) moves the section;
-    // the toolbar showing or hiding doesn't change it, so it never triggers a re-measure.
-    const pageSize = new ResizeObserver(layout);
+    // the toolbar showing or hiding doesn't change it, so it never triggers a re-measure. Measured in the next frame,
+    // not in the observer's callback: restyling the page there makes Safari report a ResizeObserver loop error.
+    let measuring = 0;
+    const pageSize = new ResizeObserver(() => { cancelAnimationFrame(measuring); measuring = requestAnimationFrame(layout); });
     pageSize.observe(document.body);
     narrow.addEventListener("change", layout);
     return () => {
       removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(measuring);
       pageSize.disconnect();
       narrow.removeEventListener("change", layout);
       release();
