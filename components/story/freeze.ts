@@ -1,4 +1,4 @@
-/* On phones the whole page below the header holds still while the beta parents' notes slide sideways (pinned-slide.tsx
+/* On phones the whole page below the header holds still while the parents' notes slide sideways (pinned-slide.tsx
    sets it up): the page content (.story-flow) is sticky for that stretch of scroll, so once the page moves on everything
    in it sits that stretch (data-freeze-held) lower than its layout says. These turn an element into the scroll position
    code should use for it, whatever the page is doing at the moment of measuring. */

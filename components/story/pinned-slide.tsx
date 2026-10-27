@@ -8,7 +8,7 @@ import { layoutTop } from "./freeze";
 
    - "section" (How it works, three phones): the section's own content pins under the header (CSS sticky), with the
      scroll room for the slide inside the section.
-   - "page" (the beta parents' notes): the whole page below the header holds still, the sections before and after
+   - "page" (the parents' notes): the whole page below the header holds still, the sections before and after
      staying in sight, with the notes centred in the view. The page content (.story-flow) is sticky, with a top that
      catches it when the notes are centred, and the scroll room after it (.story-room) is how long it holds (see
      freeze.ts). Sticky, not a scroll-linked transform: Safari scrolls a sticky block itself, where a transform lagged

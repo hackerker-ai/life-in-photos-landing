@@ -43,7 +43,7 @@ Ten ready moments at a time, already gathered and written up, instead of a clean
 
 - App mockup screens: `public/screens/find-home.png`, `session.png`, `later.png`, `kept.png`, `moments.png`.
 - Face-swapped photo set (115 photos, an invented family of four), kept out of git.
-- No testimonials yet: the beta quotes on the page are placeholders and must not be filled with invented quotes.
+- Testimonials: three quotes from parents the owner talked to (Tiffany, Sunny, Ami), added 2026-10-27. Only add quotes real parents gave; never invent them.
 
 ## Product Principles
 
