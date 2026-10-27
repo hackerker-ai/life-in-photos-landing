@@ -137,11 +137,9 @@ export function Dig({ dig, moments, lang }: { dig: Dictionary["dig"]; moments: D
       if (Math.abs(p - painted) < 0.0004) return;
       painted = p;
       // The ground lightens to paper and the footnote fades in as the moments form. Set on the two elements directly, not
-      // as an inherited variable, so a frame restyles only them rather than every tile. The ground is the whole section's,
-      // not the pinned scene's: the scene is as tall as the view with Safari's toolbar showing, and when the toolbar
-      // shrinks the section shows below it.
+      // as an inherited variable, so a frame restyles only them rather than every tile.
       const m = ease(clamp((p - 0.4) / 0.5));
-      section.style.background = `color-mix(in oklab, var(--dull), var(--paper) ${(m * 100).toFixed(1)}%)`;
+      pin.style.background = `color-mix(in oklab, var(--dull), var(--paper) ${(m * 100).toFixed(1)}%)`;
       foot.style.opacity = m.toFixed(3);
       for (const t of tiles) {
         const s = t.el.style;

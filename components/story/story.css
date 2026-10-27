@@ -160,10 +160,12 @@ h1 { max-width: 11.4em; font-size: clamp(2.3rem, 4.6vw + 1.15rem, 4.5rem); }
 }
 
 /* 2. The dig: a pinned scene that sorts the roll as you scroll */
-/* The ground is the section's (dig.tsx sets it as the sort runs), so the strip below the scene, where a shrunken
-   Safari toolbar leaves the view taller than 100svh, is the scene's colour too. */
-.dig { position: relative; height: 380vh; background: color-mix(in oklab, var(--dull), var(--paper) calc(var(--m, 0) * 100%)); }
-.dig-pin { position: sticky; top: var(--bar-h); display: flex; flex-direction: column; height: calc(100vh - var(--bar-h)); height: calc(100svh - var(--bar-h)); overflow: hidden; }
+/* The pinned scene lays out in the view with Safari's toolbar showing (100svh), so it never jumps as the toolbar shows
+   and hides, but reaches down to the view with the toolbar shrunk (100lvh): padding below its content fills the strip
+   in its own colour. That strip has to be the scene's own: as part of the page behind, Safari drew it late on a fast
+   scroll, and it blinked white. */
+.dig { position: relative; height: 380vh; }
+.dig-pin { position: sticky; top: var(--bar-h); display: flex; flex-direction: column; height: calc(100vh - var(--bar-h)); height: calc(100lvh - var(--bar-h)); padding-bottom: calc(100lvh - 100svh); overflow: hidden; background: color-mix(in oklab, var(--dull), var(--paper) calc(var(--m, 0) * 100%)); }
 .dig-head { padding: clamp(14px, 3.4vh, 40px) var(--gutter) 0; text-align: center; }
 .dig-count { font: 900 clamp(3rem, 11vw, 7rem)/0.95 var(--display); letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
 .dig-count small { font-size: 0.3em; letter-spacing: -0.01em; }
@@ -184,7 +186,7 @@ h1 { max-width: 11.4em; font-size: clamp(2.3rem, 4.6vw + 1.15rem, 4.5rem); }
 .frame span { position: absolute; left: 7%; right: 4%; bottom: 4%; font-family: var(--hand); font-weight: 600; line-height: 1; white-space: nowrap; overflow: hidden; }
 .dig.still, .dig.forced { height: auto; }
 .dig.forced .dig-pin { position: relative; }
-.dig.still .dig-pin { position: static; height: auto; }
+.dig.still .dig-pin { position: static; height: auto; padding-bottom: 0; }
 .dig.still .dig-field { flex: none; height: min(640px, 150vw); }
 .dig.still .dig-lines { height: auto; }
 .dig.still .dig-lines li { position: static; opacity: 1; }
