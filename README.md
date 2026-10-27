@@ -15,6 +15,18 @@ The marketing site for Life in Photos, built with Next.js, Resend and PostHog. T
 
 Never commit real family photos. Only face-swapped or otherwise approved images belong in this repo.
 
+## Pages and languages
+
+The home page and the privacy policy are the story design from `prototypes/story-real/`, rebuilt as components in `components/story/`, `components/privacy/` and `components/site/`.
+
+| Path | Page |
+|---|---|
+| `/`, `/privacy` | English |
+| `/zh-Hant`, `/zh-Hant/privacy` | Traditional Chinese (still the English text, kept out of search until translated) |
+| `/designs` | The earlier design explorations |
+
+Every user-facing string, alt text included, lives in `app/[lang]/dictionaries/` (one file per locale). `proxy.ts` serves English at the root and redirects `/en/...` there. The page's photos in `public/photos/`: every photo with the family in it is from the face-swapped set (`s/`, `m/`); `x/` holds the clutter (screenshots, photos of stuff, a few blurry shots), small square tiles checked for anything personal, and `s/` also has the few accidental shots with nobody in them. Metadata is stripped.
+
 ## Local setup
 
 1. Run `npm install`.
@@ -29,7 +41,8 @@ Never commit real family photos. Only face-swapped or otherwise approved images 
 - Silently accepts honeypot submissions without adding them to Resend.
 - Creates a Resend Contact and adds it to the configured Segment.
 - Handles an existing Contact without sending duplicate welcome messages.
-- Sends a concise welcome email to new subscribers.
+- Sends a concise welcome email to new subscribers, in the language of the page they joined from (English or Traditional Chinese).
+- Every welcome email has a signed "Leave the list" link to `/unsubscribe`, plus one-click `List-Unsubscribe` headers. Leaving marks the Resend Contact unsubscribed; signing up again brings it back. Links are signed with `WAITLIST_UNSUBSCRIBE_SECRET`, or `RESEND_API_KEY` when that is not set.
 - Optionally sends an anonymous signup notification to `WAITLIST_NOTIFICATION_EMAIL`.
 - Never exposes the Resend API key to the browser.
 
