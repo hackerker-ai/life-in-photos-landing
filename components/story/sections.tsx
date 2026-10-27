@@ -79,13 +79,13 @@ export function Trust({ trust, friends }: { trust: Dictionary["trust"]; friends:
   );
 }
 
-/* 5. Voices: notes from beta parents, still placeholders. On phones the notes slide sideways as you scroll, like How it
-   works. */
+/* 5. Voices: notes from beta parents, still placeholders. On phones the page holds still while the notes slide sideways
+   as you scroll, then moves on. */
 const NOTE_COLOURS = ["var(--blush)", "#F5E6B3", "var(--teal-tint)"];
 
 export function Voices({ voices }: { voices: Dictionary["voices"] }) {
   return (
-    <PinnedSlide className="voices" labelledBy="voicesTitle" row=".notes">
+    <PinnedSlide className="voices" labelledBy="voicesTitle" row=".notes" hold="page">
       <div className="wrap">
         <h2 className="display" id="voicesTitle"><Clauses text={voices.title} /></h2>
         <div className="notes">
