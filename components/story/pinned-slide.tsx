@@ -9,12 +9,14 @@ import { layoutTop } from "./freeze";
    - "section" (How it works, three phones): the section's own content pins under the header (CSS sticky), with the
      scroll room for the slide inside the section.
    - "page" (the beta parents' notes): the whole page below the header holds still, the sections before and after
-     staying in sight, with the notes centred in the view. The page content (.story-flow) is moved down exactly as far
-     as the page scrolls for the stretch of the slide (see freeze.ts), and the scroll room is at the page's end.
+     staying in sight, with the notes centred in the view. The page content (.story-flow) is sticky, with a top that
+     catches it when the notes are centred, and the scroll room after it (.story-room) is how long it holds (see
+     freeze.ts). Sticky, not a scroll-linked transform: Safari scrolls a sticky block itself, where a transform lagged
+     the finger by a frame and the whole page shook.
 
    The scroll room is CSS (story.css), there from the first frame. Where the browser has scroll-driven animations
-   (Safari 26, Chrome), the slide and the hold are CSS animations tied to the page's scroll, so they move in step with
-   the finger; elsewhere a scroll handler moves them. This only measures where the slide starts and how far it runs,
+   (Safari 26, Chrome), the slide is a CSS animation tied to the page's scroll, so it moves in step with the finger;
+   elsewhere a scroll handler moves it. This only measures where the slide starts and how far it runs,
    when the page's size changes: never while scrolling, and never on the iPhone's toolbar showing or hiding, which used
    to make the page jump. */
 
@@ -42,28 +44,27 @@ export function PinnedSlide({ className, id, labelledBy, row: rowSelector, hold 
     const narrow = matchMedia("(max-width: 759px)");
     const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const timeline = CSS.supports("animation-timeline: scroll()");
-    // Where the slide starts and how far it runs, in page scroll, where the row sits at each end, and (holding the page)
-    // how long the page holds.
-    let from = 0, distance = 0, start = 0, held = 0;
+    // Where the slide starts and how far it runs, in page scroll, and where the row sits at each end.
+    let from = 0, distance = 0, start = 0;
 
     function paint() {
       if (timeline || !box.classList.contains("pinned")) return;
       const p = Math.min(1, Math.max(0, (scrollY - start) / Math.max(1, distance)));
       row.style.transform = `translateX(${(-(from + p * distance)).toFixed(1)}px)`;
-      if (flow) flow.style.transform = `translateY(${Math.min(held, Math.max(0, scrollY - start)).toFixed(1)}px)`;
     }
     function release() {
       row.style.transform = "";
       if (!flow) return;
       flow.classList.remove("freezing");
-      flow.style.transform = "";
-      for (const name of ["--freeze-start", "--freeze-end", "--freeze-d"]) flow.style.removeProperty(name);
+      flow.style.removeProperty("--freeze-top");
       room?.style.removeProperty("--freeze-d");
     }
     function layout() {
       const on = narrow.matches && !calm;
       box.classList.toggle("pinned", on);
       if (!on) return release();
+      // Measure the page as laid out, not as held: unstick the content for the measuring (all in this one frame).
+      flow?.classList.remove("freezing");
 
       const barH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--bar-h")) || 64;
       // Where the held block sits in the layout, from the section (a stuck sticky block reports where it is stuck).
@@ -81,11 +82,11 @@ export function PinnedSlide({ className, id, labelledBy, row: rowSelector, hold 
         const view = probe.offsetHeight;
         probe.remove();
         start = pinAt - barH - Math.max(0, (view - barH - pin.offsetHeight) / 2);
-        held = distance + HOLD_AFTER;
-        flow.style.setProperty("--freeze-start", `${start}px`);
-        flow.style.setProperty("--freeze-end", `${start + held}px`);
-        flow.style.setProperty("--freeze-d", `${held}px`);
+        const held = distance + HOLD_AFTER, flowTop = layoutTop(flow);
+        // Sticks once the page has scrolled to `start`, and holds for as long as the room after it.
+        flow.style.setProperty("--freeze-top", `${flowTop - start}px`);
         room?.style.setProperty("--freeze-d", `${held}px`);
+        flow.dataset.layoutTop = String(flowTop);
         flow.dataset.freezeFrom = String(start + barH);
         flow.dataset.freezeHeld = String(held);
         flow.classList.add("freezing");

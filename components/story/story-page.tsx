@@ -55,8 +55,7 @@ export function StoryPage({ dict, lang }: { dict: Dictionary; lang: Locale }) {
 
         <SiteFooter footer={dict.footer} brand={dict.brand} home="" privacyHref={privacyHref} lang={lang} path="/" languageLabel={dict.languageLabel} />
       </div>
-      {/* The scroll room for that hold. Outside the content, which is moved down: room inside would move down with it
-          and leave as much again empty below the footer. */}
+      {/* The scroll room for that hold: the content, sticky, stays put for as long as this takes to scroll past. */}
       <div className="story-room" aria-hidden="true" />
     </StoryProvider>
   );

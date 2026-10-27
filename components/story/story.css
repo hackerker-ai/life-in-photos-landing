@@ -541,19 +541,13 @@ details p { max-width: 34em; padding-bottom: 22px; color: var(--body); }
   .notes blockquote { min-height: 180px; font-size: 1.6rem; }
 }
 /* Phones: the whole page below the header holds still while scrolling slides the notes sideways, the sections before
-   and after staying in sight, then the page moves on (pinned-slide.tsx, freeze.ts). The page content is moved down by
-   as much as the page scrolls over that stretch, so the scroll room for it is reserved at the page's end from the first
-   frame, after the content (.story-room), not in it: the row travels two notes (three placeholders, each
+   and after staying in sight, then the page moves on (pinned-slide.tsx, freeze.ts). The page content is sticky over
+   that stretch, held by the scroll room after it (.story-room), reserved from the first frame: the row travels two notes (three placeholders, each
    min(78%, 340px) of the row, 16px apart), then holds for 80px. */
 .story-room { display: none; }
 @media (max-width: 759px) and (prefers-reduced-motion: no-preference) {
   .voices { overflow-x: clip; }
   .voices .notes { overflow: visible; scroll-snap-type: none; will-change: transform; }
   .story-room { display: block; height: var(--freeze-d, calc(2 * (min(0.78 * (100vw - 2 * var(--gutter)), 340px) + 16px) + 80px)); }
+  .story-flow.freezing { position: sticky; top: var(--freeze-top); }
 }
-@supports (animation-timeline: scroll()) {
-  @media (max-width: 759px) and (prefers-reduced-motion: no-preference) {
-    .story-flow.freezing { animation: page-hold linear both; animation-timeline: scroll(root block); animation-range: var(--freeze-start) var(--freeze-end); }
-  }
-}
-@keyframes page-hold { from { transform: none; } to { transform: translateY(var(--freeze-d)); } }
