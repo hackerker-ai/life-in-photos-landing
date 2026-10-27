@@ -422,7 +422,7 @@ h1 { max-width: 11.4em; font-size: clamp(2.3rem, 4.6vw + 1.15rem, 4.5rem); }
 .notes .pol:nth-child(1) { rotate: -3.5deg; margin-top: 20px; }
 .notes .pol:nth-child(2) { position: relative; z-index: 1; rotate: 1.5deg; margin-inline: -16px; }
 .notes .pol:nth-child(3) { rotate: -2deg; margin-top: 34px; }
-.notes blockquote { display: flex; align-items: center; min-height: 210px; margin: 0; padding: 24px; font: 600 1.85rem/1.16 var(--hand); }
+.notes blockquote { display: flex; align-items: center; min-height: 210px; margin: 0; padding: 24px; font: 600 1.85rem/1.16 var(--hand); text-wrap: pretty; }
 .notes figcaption { padding: 12px 4px 16px; font: 600 0.92rem/1.3 var(--text); color: var(--body); white-space: normal; }
 .faq { position: relative; overflow: hidden; background: var(--blush); }
 .faq-grid { display: flex; flex-wrap: wrap-reverse; align-items: flex-start; gap: clamp(8px, 5vw, 72px); padding-top: clamp(40px, 6vw, 96px); }
@@ -530,7 +530,7 @@ details p { max-width: 34em; padding-bottom: 22px; color: var(--body); }
   .invite-copy { gap: 16px; }
   .wall .empty { font-size: 1rem; }
 }
-/* Phones and narrow windows (the same breakpoint as How it works): the beta parents' notes sit in a row you swipe, the
+/* Phones and narrow windows (the same breakpoint as How it works): the parents' notes sit in a row you swipe, the
    neighbours peeking in, like the app's screens above. */
 @media (max-width: 759px) {
   .notes { flex-wrap: nowrap; justify-content: flex-start; gap: 16px; margin-inline: calc(var(--gutter) * -1); padding: 16px var(--gutter) 24px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
@@ -541,7 +541,7 @@ details p { max-width: 34em; padding-bottom: 22px; color: var(--body); }
 }
 /* Phones: the whole page below the header holds still while scrolling slides the notes sideways, the sections before
    and after staying in sight, then the page moves on (pinned-slide.tsx, freeze.ts). The page content is sticky over
-   that stretch, held by the scroll room after it (.story-room), reserved from the first frame: the row travels two notes (three placeholders, each
+   that stretch, held by the scroll room after it (.story-room), reserved from the first frame: the row travels two notes (three notes, each
    min(78%, 340px) of the row, 16px apart), then holds for 80px. */
 .story-room { display: none; }
 @media (max-width: 759px) and (prefers-reduced-motion: no-preference) {

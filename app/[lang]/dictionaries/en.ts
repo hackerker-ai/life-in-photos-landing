@@ -164,12 +164,12 @@ const en = {
   },
 
   voices: {
-    title: "From parents in the beta",
-    /** Placeholders until real beta parents send quotes. Never fill these with invented quotes. */
+    title: "What parents told us",
+    /** What real parents told the owner, in their words. Never add invented quotes. */
     quotes: [
-      { quote: "[Quote from a beta parent, one or two sentences in their own words.]", by: "[Name, parent of two]" },
-      { quote: "[Quote from a beta parent, one or two sentences in their own words.]", by: "[Name, parent of three]" },
-      { quote: "[Quote from a beta parent, one or two sentences in their own words.]", by: "[Name, parent of one]" }
+      { quote: "Honestly, I would take more photos if I didn’t have to pick my favorites.", by: "Tiffany, parent of two" },
+      { quote: "Just thinking about picking the good ones, I realized it would take a whole day, so I gave up.", by: "Sunny, parent of one" },
+      { quote: "All my pictures, 90% of that is trash. There’s only a few that are really good.", by: "Ami, parent of two" }
     ]
   },
 

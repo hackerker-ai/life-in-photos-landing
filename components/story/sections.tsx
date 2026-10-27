@@ -8,7 +8,7 @@ import { photoSrc } from "./photos";
 import { PinnedSlide } from "./pinned-slide";
 
 /* The quieter sections between the demo and the invitation: what the app does, the promise about the Photos library,
-   the beta parents' notes and the common questions. */
+   the parents' notes and the common questions. */
 
 const Thumb = ({ id, keep = false }: { id: number; keep?: boolean }) => (
   <img className={keep ? "th keep" : "th"} src={photoSrc(id, keep ? "m" : "s")} alt="" />
@@ -79,7 +79,7 @@ export function Trust({ trust, friends }: { trust: Dictionary["trust"]; friends:
   );
 }
 
-/* 5. Voices: notes from beta parents, still placeholders. On phones the page holds still while the notes slide sideways
+/* 5. Voices: what parents told us, in their own words. On phones the page holds still while the notes slide sideways
    as you scroll, then moves on. */
 const NOTE_COLOURS = ["var(--blush)", "#F5E6B3", "var(--teal-tint)"];
 

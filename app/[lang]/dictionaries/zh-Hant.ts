@@ -164,12 +164,12 @@ const zhHant: Dictionary = {
   },
 
   voices: {
-    title: "來自 Beta 測試家長的話",
-    /** Placeholders until real beta parents send quotes. Never fill these with invented quotes. */
+    title: "聽聽家長怎麼說",
+    /** What real parents told the owner, in their words. Never add invented quotes. */
     quotes: [
-      { quote: "[一位 Beta 家長的推薦，用他們自己的話寫一兩句。]", by: "[姓名，兩個孩子的家長]" },
-      { quote: "[一位 Beta 家長的推薦，用他們自己的話寫一兩句。]", by: "[姓名，三個孩子的家長]" },
-      { quote: "[一位 Beta 家長的推薦，用他們自己的話寫一兩句。]", by: "[姓名，一個孩子的家長]" }
+      { quote: "老實說，如果不用自己挑最喜歡的，我會拍更多照片。", by: "Tiffany，兩個孩子的媽媽" },
+      { quote: "你光想到要去挑那些好的照片，就發現可能要耗時一整天，就放棄了。", by: "Sunny，一個孩子的媽媽" },
+      { quote: "我所有的照片，90% 都是垃圾，真正好的只有幾張。", by: "Ami，兩個孩子的媽媽" }
     ]
   },
 

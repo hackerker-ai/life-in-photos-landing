@@ -24,7 +24,7 @@ export function StoryPage({ dict, lang }: { dict: Dictionary; lang: Locale }) {
     <StoryProvider lang={lang}>
       <StoryHeader lang={lang} brand={dict.brand} homeLabel={dict.header.homeLabel} cta={dict.header.cta} languageLabel={dict.languageLabel} />
 
-      {/* Everything below the header, which holds still on phones while the beta parents' notes slide (freeze.ts). */}
+      {/* Everything below the header, which holds still on phones while the parents' notes slide (freeze.ts). */}
       <div className="story-flow">
         <div className="hero" id="top">
           <div className="wrap hero-copy">
