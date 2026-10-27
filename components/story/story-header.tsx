@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { LanguageMenu } from "@/components/site/language-menu";
 import { Logo } from "@/components/site/logo";
 import type { Locale } from "@/lib/i18n";
+import { pageTop } from "./freeze";
 
 /* One header that stays at the top. It shares the hero's yellow at rest and turns to frosted paper once the page
    scrolls; its button shows only while neither the hero's button nor the invitation is on screen. */
@@ -19,8 +20,8 @@ export function StoryHeader({ lang, brand, homeLabel, cta, languageLabel }: Stor
     let heroCtaBottom = 0, inviteTop = Infinity, barH = 64;
     const measure = () => {
       if (!heroCta || !invite || !bar.current) return;
-      heroCtaBottom = heroCta.getBoundingClientRect().bottom + scrollY;
-      inviteTop = invite.getBoundingClientRect().top + scrollY;
+      heroCtaBottom = pageTop(heroCta as HTMLElement) + (heroCta as HTMLElement).offsetHeight;
+      inviteTop = pageTop(invite);
       barH = bar.current.offsetHeight;
     };
     let queued = false;

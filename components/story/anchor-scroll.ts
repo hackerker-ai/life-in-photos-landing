@@ -1,3 +1,5 @@
+import { pageTop } from "./freeze";
+
 /* In-page links (Find your moments, the footer's links) that always arrive. The browser's own smooth scroll aims at
    where the section was when the link was tapped; on an iPhone the toolbar can collapse and the page shift under it on
    the way, and it stops short. Here the page scrolls to the section, checks where it came to rest, and goes on from
@@ -15,7 +17,8 @@ export function steerInPageLinks() {
     const mine = ++journey;
     const smooth = !jump && !matchMedia("(prefers-reduced-motion: reduce)").matches;
     const padding = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
-    const aim = () => (target ? Math.max(0, Math.round(target.getBoundingClientRect().top + scrollY - padding)) : 0);
+    // Where the target shows once scrolled to, whatever the page is doing now (it may be holding still, freeze.ts).
+    const aim = () => (target ? Math.max(0, Math.round(pageTop(target) - padding)) : 0);
     scrollTo({ top: aim(), behavior: smooth ? "smooth" : "auto" });
 
     let last = -1, steady = 0, corrections = 0;

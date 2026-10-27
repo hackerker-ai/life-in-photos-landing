@@ -6,6 +6,7 @@ import { InlineScript } from "@/components/site/inline-script";
 import { escapeHtml } from "@/components/site/text";
 import { ACCIDENTS, GROUPS, JUNK, photoSrc } from "./photos";
 import { clamp, seeded } from "./river";
+import { pageTop } from "./freeze";
 
 /* 2. The dig: a pinned scene that sorts the roll as you scroll. Clutter falls away, near-duplicates fold into their
    moment, and the kept photos settle into ten Polaroids. With Reduce Motion, or on a screen tall enough to show it all,
@@ -121,10 +122,9 @@ export function Dig({ dig, moments, lang }: { dig: Dictionary["dig"]; moments: D
     // iPhone's toolbar hides and shows and used to make the sort lurch.
     let top = 0, span = 1, bar = 64;
     function measure() {
-      const box = section.getBoundingClientRect();
       bar = document.getElementById("bar")?.offsetHeight ?? 64;
-      top = box.top + scrollY;
-      span = Math.max(1, box.height - pin.offsetHeight);
+      top = pageTop(section);
+      span = Math.max(1, section.offsetHeight - pin.offsetHeight);
     }
     function progress() {
       if (forced !== null) return forced;
