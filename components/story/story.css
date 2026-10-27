@@ -160,8 +160,10 @@ h1 { max-width: 11.4em; font-size: clamp(2.3rem, 4.6vw + 1.15rem, 4.5rem); }
 }
 
 /* 2. The dig: a pinned scene that sorts the roll as you scroll */
-.dig { position: relative; height: 380vh; }
-.dig-pin { position: sticky; top: var(--bar-h); display: flex; flex-direction: column; height: calc(100vh - var(--bar-h)); height: calc(100svh - var(--bar-h)); overflow: hidden; background: color-mix(in oklab, var(--dull), var(--paper) calc(var(--m, 0) * 100%)); }
+/* The ground is the section's (dig.tsx sets it as the sort runs), so the strip below the scene, where a shrunken
+   Safari toolbar leaves the view taller than 100svh, is the scene's colour too. */
+.dig { position: relative; height: 380vh; background: color-mix(in oklab, var(--dull), var(--paper) calc(var(--m, 0) * 100%)); }
+.dig-pin { position: sticky; top: var(--bar-h); display: flex; flex-direction: column; height: calc(100vh - var(--bar-h)); height: calc(100svh - var(--bar-h)); overflow: hidden; }
 .dig-head { padding: clamp(14px, 3.4vh, 40px) var(--gutter) 0; text-align: center; }
 .dig-count { font: 900 clamp(3rem, 11vw, 7rem)/0.95 var(--display); letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
 .dig-count small { font-size: 0.3em; letter-spacing: -0.01em; }
