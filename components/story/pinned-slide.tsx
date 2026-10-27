@@ -43,12 +43,18 @@ export function PinnedSlide({ className, id, labelledBy, row: rowSelector, child
         return;
       }
       const padTop = parseFloat(getComputedStyle(box).paddingTop);
+      // The block that holds still, and where it holds: under the header (How it works) or centred in the view below
+      // it (the notes), which needs its height (--pin-h, see story.css). Its sticky top, read back, is where the slide
+      // starts.
+      const pin = box.firstElementChild as HTMLElement;
+      box.style.setProperty("--pin-h", `${pin.offsetHeight}px`);
       const barH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--bar-h")) || 64;
+      const pinTop = parseFloat(getComputedStyle(pin).top) || barH;
       // The slide runs from the first item centred in the view to the last one centred in the view.
       const offset = (step: HTMLElement) => step.offsetLeft + step.offsetWidth / 2 - row.clientWidth / 2;
       from = offset(row.firstElementChild as HTMLElement);
       distance = Math.max(0, offset(row.lastElementChild as HTMLElement) - from);
-      start = box.getBoundingClientRect().top + scrollY - barH + padTop;
+      start = box.getBoundingClientRect().top + scrollY - pinTop + padTop;
       box.style.setProperty("--slide-from", `${-from}px`);
       box.style.setProperty("--slide-to", `${-(from + distance)}px`);
       box.style.setProperty("--slide-start", `${start}px`);
