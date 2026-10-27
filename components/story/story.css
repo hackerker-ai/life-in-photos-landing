@@ -530,11 +530,12 @@ details p { max-width: 34em; padding-bottom: 22px; color: var(--body); }
   .invite-copy { gap: 16px; }
   .wall .empty { font-size: 1rem; }
 }
-/* Phones: the beta parents' notes sit in a row you swipe, the neighbours peeking in, like the app's screens above. */
-@media (max-width: 640px) {
+/* Phones and narrow windows (the same breakpoint as How it works): the beta parents' notes sit in a row you swipe, the
+   neighbours peeking in, like the app's screens above. */
+@media (max-width: 759px) {
   .notes { flex-wrap: nowrap; justify-content: flex-start; gap: 16px; margin-inline: calc(var(--gutter) * -1); padding: 16px var(--gutter) 24px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
   .notes::-webkit-scrollbar { display: none; }
-  .notes .pol { flex: 0 0 78%; scroll-snap-align: center; }
+  .notes .pol { flex: 0 0 min(78%, 340px); scroll-snap-align: center; }
   .notes .pol:nth-child(n) { margin: 0; }
   .notes blockquote { min-height: 180px; font-size: 1.6rem; }
 }
