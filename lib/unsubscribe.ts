@@ -21,8 +21,10 @@ export function isValidUnsubscribeToken(email: string, token: string) {
 }
 
 /** The Resend SDK puts a contact's email straight into the request path (contacts/<email>), so an address with # ? / or %
-    in it, which the signup form accepts, would reach the wrong URL. Pass contacts.update this instead of the raw email. */
-export const contactPath = (email: string) => encodeURIComponent(email);
+    in it, which the signup form accepts, would reach the wrong URL. Pass this instead of the raw email to the calls that
+    take one (contacts.update, contacts.segments.add). "@" is fine in a path and stays as is, so an ordinary address
+    makes exactly the request it always did. */
+export const contactPath = (email: string) => encodeURIComponent(email).replaceAll("%40", "@");
 
 /* The links point at the site's own address, never at whatever host a signup request claims to come from, so a forged
    request can't send someone an email whose link leads elsewhere. SITE_URL overrides it for previews. */

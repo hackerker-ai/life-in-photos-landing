@@ -9,15 +9,6 @@ export const runtime = "nodejs";
    token and lang, answered with a redirect back to that page), and a mail app's own Unsubscribe button (RFC 8058: the
    email and token are in the List-Unsubscribe URL, answered with a status only). The contact stays in Resend, marked
    unsubscribed, so it gets no more email and a later signup can bring it back. */
-/* Someone opening the List-Unsubscribe address itself (an older mail app, or a copied link) lands on the confirm page,
-   in the email's language, instead of an empty 405. */
-export function GET(request: Request) {
-  const url = new URL(request.url);
-  const hl = url.searchParams.get("hl") ?? "";
-  const query = new URLSearchParams({ email: url.searchParams.get("email") ?? "", token: url.searchParams.get("token") ?? "" });
-  return new NextResponse(null, { status: 303, headers: { Location: `${localePath(hasLocale(hl) ? hl : defaultLocale, "/unsubscribe")}?${query}` } });
-}
-
 export async function POST(request: Request) {
   const url = new URL(request.url);
   const form = await request.formData().catch(() => null);
@@ -40,4 +31,13 @@ export async function POST(request: Request) {
 
   const result = await new Resend(apiKey).contacts.update({ email: contactPath(email), unsubscribed: true });
   return answer(!result.error);
+}
+
+/* Someone opening the List-Unsubscribe address itself (an older mail app, or a copied link) lands on the confirm page,
+   in the email's language, instead of an empty 405. */
+export function GET(request: Request) {
+  const url = new URL(request.url);
+  const hl = url.searchParams.get("hl") ?? "";
+  const query = new URLSearchParams({ email: url.searchParams.get("email") ?? "", token: url.searchParams.get("token") ?? "" });
+  return new NextResponse(null, { status: 303, headers: { Location: `${localePath(hasLocale(hl) ? hl : defaultLocale, "/unsubscribe")}?${query}` } });
 }
