@@ -111,6 +111,8 @@ export function Dig({ dig, moments, lang }: { dig: Dictionary["dig"]; moments: D
         field.appendChild(el);
         tiles.push({ el, x, y, size, lag: rand(), q: -1, ...tile });
       }
+      // Decode every photo now, while the page is still on the hero, so none is decoded only as it scrolls into view.
+      for (const img of field.querySelectorAll("img")) img.decode().catch(() => {});
       measure();
       shown = target = still() ? 1 : progress();
       paint(shown);
@@ -193,12 +195,16 @@ export function Dig({ dig, moments, lang }: { dig: Dictionary["dig"]; moments: D
     addEventListener("resize", onResize);
     const pageSize = new ResizeObserver(() => { measure(); onScroll(); });
     pageSize.observe(document.body);
+    // The tiles' own layers, only while the scene is on screen (story.css, .dig-field.live).
+    const onScreen = new IntersectionObserver(([entry]) => field.classList.toggle("live", entry.isIntersecting && !still()));
+    onScreen.observe(field);
     build();
     return () => {
       cancelAnimationFrame(frame);
       removeEventListener("scroll", onScroll);
       removeEventListener("resize", onResize);
       pageSize.disconnect();
+      onScreen.disconnect();
     };
     // The copy is fixed for the page's lifetime, so this runs once.
   }, []);

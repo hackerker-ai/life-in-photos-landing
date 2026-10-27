@@ -44,7 +44,10 @@ export function LanguageMenu({ lang, path, label, up = false }: LanguageMenuProp
       className="lang-pick"
       ref={pick}
       onKeyDown={(event) => { if (event.key === "Escape" && open) { setOpen(false); button.current?.focus(); } }}
-      onBlur={(event) => { if (!pick.current?.contains(event.relatedTarget as Node | null)) setOpen(false); }}
+      // Closes when focus moves to something else on the page. Focus going nowhere (relatedTarget null) is left to the
+      // click handler: Safari doesn't focus a link it's tapped on, so tapping a language drops focus to nothing, and
+      // closing then would hide the menu before the tap's click lands on the link.
+      onBlur={(event) => { if (event.relatedTarget && !pick.current?.contains(event.relatedTarget as Node)) setOpen(false); }}
     >
       <button
         ref={button}
