@@ -196,7 +196,8 @@ export function Dig({ dig, moments, lang }: { dig: Dictionary["dig"]; moments: D
     const pageSize = new ResizeObserver(() => { measure(); onScroll(); });
     pageSize.observe(document.body);
     // The tiles' own layers, only while the scene is on screen (story.css, .dig-field.live).
-    const onScreen = new IntersectionObserver(([entry]) => field.classList.toggle("live", entry.isIntersecting && !still()));
+    // The last entry is the newest, when a fast scroll brings more than one at once.
+    const onScreen = new IntersectionObserver((entries) => field.classList.toggle("live", entries.at(-1)!.isIntersecting && !still()));
     onScreen.observe(field);
     build();
     return () => {
