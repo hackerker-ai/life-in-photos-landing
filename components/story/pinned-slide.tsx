@@ -38,6 +38,7 @@ export function PinnedSlide({ className, id, labelledBy, row: rowSelector, hold 
     const box = section.current!, row = box.querySelector<HTMLElement>(rowSelector)!;
     const pin = box.firstElementChild as HTMLElement;
     const flow = hold === "page" ? box.closest<HTMLElement>(".story-flow") : null;
+    const room = flow ? document.querySelector<HTMLElement>(".story-room") : null;
     const narrow = matchMedia("(max-width: 759px)");
     const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const timeline = CSS.supports("animation-timeline: scroll()");
@@ -57,6 +58,7 @@ export function PinnedSlide({ className, id, labelledBy, row: rowSelector, hold 
       flow.classList.remove("freezing");
       flow.style.transform = "";
       for (const name of ["--freeze-start", "--freeze-end", "--freeze-d"]) flow.style.removeProperty(name);
+      room?.style.removeProperty("--freeze-d");
     }
     function layout() {
       const on = narrow.matches && !calm;
@@ -83,6 +85,7 @@ export function PinnedSlide({ className, id, labelledBy, row: rowSelector, hold 
         flow.style.setProperty("--freeze-start", `${start}px`);
         flow.style.setProperty("--freeze-end", `${start + held}px`);
         flow.style.setProperty("--freeze-d", `${held}px`);
+        room?.style.setProperty("--freeze-d", `${held}px`);
         flow.dataset.freezeFrom = String(start + barH);
         flow.dataset.freezeHeld = String(held);
         flow.classList.add("freezing");
