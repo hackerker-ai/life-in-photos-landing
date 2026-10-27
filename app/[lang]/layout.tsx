@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
     },
     // A locale still in draft (or not yet translated) stays out of search until a native speaker has reviewed it.
     robots: dict.status !== "translated" ? { index: false, follow: true } : undefined,
-    // The share image is the hero, captured at 1200×630 in each language (public/og/).
+    // The share image (public/og/): the friends in their Polaroid beside the headline, 1200×630, one per language.
     openGraph: {
       title: dict.meta.ogTitle,
       description: dict.meta.ogDescription,

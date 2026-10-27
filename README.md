@@ -63,4 +63,4 @@ Deploy the directory as a Next.js project on Vercel. Add the environment variabl
 
 The site's address, `https://lifeinphotos.app`, lives in `lib/site.ts`: canonical links, share images, `robots.txt`, `sitemap.xml` and (unless `SITE_URL` is set) the links in welcome emails.
 
-Icons are `app/favicon.ico`, `app/icon.svg` (the tilted-frame mark on the brand yellow) and `app/apple-icon.png` (the app icon). Each language's share image is `public/og/<locale>.jpg`, the hero captured at 1200×630; recapture it if the hero changes. The sitemap lists only locales whose dictionary `status` is `"translated"`.
+Icons are `app/favicon.ico`, `app/icon.svg` (the tilted-frame mark on the brand yellow) and `app/apple-icon.png` (the app icon). Each language's share image is `public/og/<locale>.jpg` (1200×630): the three friends in their Polaroid beside the headline and description, on the brand yellow. It was designed on the "Life in Photos share image" Design canvas (board E); re-render it if the headline or description changes. The sitemap lists only locales whose dictionary `status` is `"translated"`.
