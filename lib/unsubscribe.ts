@@ -1,5 +1,6 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { localePath, type Locale } from "@/lib/i18n";
+import { SITE_ORIGIN } from "@/lib/site";
 
 /* Every welcome email carries a link that takes its reader off the waitlist. The link names the address and carries a
    signature only this server can make, so nobody can take someone else off the list by guessing their address. The
@@ -28,7 +29,7 @@ export const contactPath = (email: string) => encodeURIComponent(email).replaceA
 
 /* The links point at the site's own address, never at whatever host a signup request claims to come from, so a forged
    request can't send someone an email whose link leads elsewhere. SITE_URL overrides it for previews. */
-const siteOrigin = () => process.env.SITE_URL || "https://lifeinphotos.app";
+const siteOrigin = () => process.env.SITE_URL || SITE_ORIGIN;
 
 /**
  * The two ways out for one address: `page` asks the reader to confirm (link scanners open links, so opening it alone
