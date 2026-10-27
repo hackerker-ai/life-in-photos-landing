@@ -90,7 +90,7 @@ const zhHant: Dictionary = {
     keepWhy: "存進回憶",
     laterWhy: "之後再決定",
     skipWhy: "捨棄這一段",
-    nudge: "換你了！點一個來決定。",
+    nudge: "換你了！做個決定吧！",
     trayLabel: "保留的回憶",
     trayKept: "已保留",
     endTitle: "這就是每天的小儀式。",
@@ -104,8 +104,8 @@ const zhHant: Dictionary = {
   },
 
   how: {
-    title: "一次回顧十段回憶。整個 App 就是這樣。",
-    body: "只需要五分鐘空檔，回顧十段回憶，留下那些有感覺的。",
+    title: "每次就回顧幾段回憶，完全沒有壓力。",
+    body: "只需要五分鐘空檔，回顧十段回憶，把你有感覺的留下來。",
     stepsLabel: "App 裡的三個畫面",
     steps: [
       { title: "打開「尋找」", body: "相簿裡的十段回憶已經準備好，大約五分鐘就能看完。" },
