@@ -1,7 +1,7 @@
 import type { Dictionary } from "@/app/[lang]/dictionaries";
 import { Logo } from "@/components/site/logo";
 import { Clauses } from "@/components/site/clauses";
-import { HowPinned } from "./how-pinned";
+import { PinnedSlide } from "./pinned-slide";
 import { Chevron, FindIcon, MomentsIcon, SettingsIcon } from "./icons";
 import { photoSrc } from "./photos";
 
@@ -34,7 +34,7 @@ function ScreenPol({ id, caption }: { id: number; caption: string }) {
 export function HowItWorks({ how, brand }: { how: Dictionary["how"]; brand: string }) {
   const [find, session, moments] = how.steps;
   return (
-    <HowPinned labelledBy="howTitle">
+    <PinnedSlide className="how" id="how" labelledBy="howTitle" row=".how-steps">
       <div className="wrap">
         <div className="how-head">
           <h2 className="display" id="howTitle"><Clauses text={how.title} /></h2>
@@ -103,6 +103,6 @@ export function HowItWorks({ how, brand }: { how: Dictionary["how"]; brand: stri
           </li>
         </ol>
       </div>
-    </HowPinned>
+    </PinnedSlide>
   );
 }

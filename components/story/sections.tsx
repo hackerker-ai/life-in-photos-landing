@@ -5,6 +5,7 @@ import { FaqAccordion } from "./faq-accordion";
 import { Friend } from "./friend";
 import { Check, Go, Plus } from "./icons";
 import { photoSrc } from "./photos";
+import { PinnedSlide } from "./pinned-slide";
 
 /* The quieter sections between the demo and the invitation: what the app does, the promise about the Photos library,
    the beta parents' notes and the common questions. */
@@ -78,14 +79,15 @@ export function Trust({ trust, friends }: { trust: Dictionary["trust"]; friends:
   );
 }
 
-/* 5. Voices: notes from beta parents, still placeholders. */
+/* 5. Voices: notes from beta parents, still placeholders. On phones the notes slide sideways as you scroll, like How it
+   works. */
 const NOTE_COLOURS = ["var(--blush)", "#F5E6B3", "var(--teal-tint)"];
 
 export function Voices({ voices }: { voices: Dictionary["voices"] }) {
   return (
-    <section className="voices">
+    <PinnedSlide className="voices" labelledBy="voicesTitle" row=".notes">
       <div className="wrap">
-        <h2 className="display"><Clauses text={voices.title} /></h2>
+        <h2 className="display" id="voicesTitle"><Clauses text={voices.title} /></h2>
         <div className="notes">
           {voices.quotes.map((note, i) => (
             <figure key={i} className="pol">
@@ -95,7 +97,7 @@ export function Voices({ voices }: { voices: Dictionary["voices"] }) {
           ))}
         </div>
       </div>
-    </section>
+    </PinnedSlide>
   );
 }
 
