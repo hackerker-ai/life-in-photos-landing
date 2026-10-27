@@ -41,7 +41,8 @@ Every user-facing string, alt text included, lives in `app/[lang]/dictionaries/`
 - Silently accepts honeypot submissions without adding them to Resend.
 - Creates a Resend Contact and adds it to the configured Segment.
 - Handles an existing Contact without sending duplicate welcome messages.
-- Sends a concise welcome email to new subscribers.
+- Sends a concise welcome email to new subscribers, in the language of the page they joined from (English or Traditional Chinese).
+- Every welcome email has a signed "Leave the list" link to `/unsubscribe`, plus one-click `List-Unsubscribe` headers. Leaving marks the Resend Contact unsubscribed; signing up again brings it back. Links are signed with `WAITLIST_UNSUBSCRIBE_SECRET`, or `RESEND_API_KEY` when that is not set.
 - Optionally sends an anonymous signup notification to `WAITLIST_NOTIFICATION_EMAIL`.
 - Never exposes the Resend API key to the browser.
 

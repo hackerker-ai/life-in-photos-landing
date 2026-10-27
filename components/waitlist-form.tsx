@@ -33,7 +33,7 @@ export function useWaitlistSignup(placement: Placement, locale?: string) {
       const response = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, website, campaign })
+        body: JSON.stringify({ email, website, campaign, locale })
       });
 
       const result = (await response.json()) as { message?: string; error?: string; code?: WaitlistResult["code"] };

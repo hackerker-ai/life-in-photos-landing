@@ -222,6 +222,17 @@ const zhHant: Dictionary = {
     backToTop: "回到頁首"
   },
 
+  unsubscribe: {
+    meta: { title: "退出候補名單 · Life in Photos" },
+    title: "要退出候補名單嗎？",
+    body: "我們會把 {email} 從 Life in Photos 的 Beta 測試候補名單中移除，不再寄信給你。",
+    button: "退出候補名單",
+    doneTitle: "你已經退出候補名單了。",
+    doneBody: "我們不會再寄信給你。如果改變心意，隨時都可以從首頁重新加入。",
+    failedTitle: "這個連結沒有成功。",
+    failedBody: "請再按一次按鈕，或寫信到 <a href=\"mailto:contact@hackerker.com\">contact@hackerker.com</a>，我們會親自幫你移除。",
+    brokenBody: "這個連結不完整。請寫信到 <a href=\"mailto:contact@hackerker.com\">contact@hackerker.com</a>，我們會親自幫你移除。"
+  },
   privacy: {
     meta: { title: "隱私權政策 · Life in Photos" },
     homeLabel: "Life in Photos 首頁",

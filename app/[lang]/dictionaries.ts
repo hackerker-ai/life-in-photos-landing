@@ -33,6 +33,9 @@ function phrased(source: Dictionary, locale: string): Dictionary {
   dict.invite.wallNote = mark(dict.invite.wallNote);
   dict.invite.wallNoteKeptOne = mark(dict.invite.wallNoteKeptOne);
   dict.invite.wallNoteKeptMany = mark(dict.invite.wallNoteKeptMany);
+  dict.unsubscribe.title = mark(dict.unsubscribe.title);
+  dict.unsubscribe.doneTitle = mark(dict.unsubscribe.doneTitle);
+  dict.unsubscribe.failedTitle = mark(dict.unsubscribe.failedTitle);
   dict.privacy.title = mark(dict.privacy.title);
   dict.privacy.shortTitle = mark(dict.privacy.shortTitle);
   dict.privacy.sections = dict.privacy.sections.map((section) => ({

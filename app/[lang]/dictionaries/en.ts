@@ -223,6 +223,17 @@ const en = {
     backToTop: "Back to top"
   },
 
+  unsubscribe: {
+    meta: { title: "Leave the waitlist · Life in Photos" },
+    title: "Leave the waitlist?",
+    body: "We’ll take {email} off the Life in Photos beta waitlist and stop emailing you.",
+    button: "Leave the waitlist",
+    doneTitle: "You’re off the list.",
+    doneBody: "We won’t email you again. If you change your mind, you can join again from the home page any time.",
+    failedTitle: "That link didn’t work.",
+    failedBody: "Try the button again, or write to us at <a href=\"mailto:contact@hackerker.com\">contact@hackerker.com</a> and we’ll take you off the list ourselves.",
+    brokenBody: "This link is missing part of its address. Write to us at <a href=\"mailto:contact@hackerker.com\">contact@hackerker.com</a> and we’ll take you off the list ourselves."
+  },
   privacy: {
     meta: { title: "Privacy policy · Life in Photos" },
     homeLabel: "Life in Photos home",

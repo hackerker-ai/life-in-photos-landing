@@ -2,6 +2,8 @@ import { createHash } from "node:crypto";
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { welcomeEmail } from "@/emails/welcome-email";
+import { defaultLocale, hasLocale } from "@/lib/i18n";
+import { unsubscribeLinks } from "@/lib/unsubscribe";
 
 export const runtime = "nodejs";
 
@@ -31,9 +33,9 @@ export async function POST(request: Request) {
     return response({ error: "That request is too large.", code: "failed" }, 413);
   }
 
-  let payload: { email?: unknown; website?: unknown };
+  let payload: { email?: unknown; website?: unknown; locale?: unknown };
   try {
-    payload = (await request.json()) as { email?: unknown; website?: unknown };
+    payload = (await request.json()) as { email?: unknown; website?: unknown; locale?: unknown };
   } catch {
     return response({ error: "Please enter a valid email address.", code: "invalid" }, 400);
   }
@@ -75,10 +77,15 @@ export async function POST(request: Request) {
   }
 
   if (alreadyJoined) {
+    // Someone who left the list and signs up again wants to hear from us again.
+    await resend.contacts.update({ email, unsubscribed: false });
     return response({ message: "You are already on the list. We will keep you posted.", code: "alreadyJoined", alreadyJoined: true });
   }
 
-  const welcome = welcomeEmail();
+  // The welcome email speaks the language of the page they joined from.
+  const locale = typeof payload.locale === "string" && hasLocale(payload.locale) ? payload.locale : defaultLocale;
+  const leave = unsubscribeLinks(locale, email);
+  const welcome = welcomeEmail(locale, leave.page);
   const emailKey = createHash("sha256").update(email).digest("hex").slice(0, 48);
   const welcomeResult = await resend.emails.send(
     {
@@ -87,7 +94,11 @@ export async function POST(request: Request) {
       replyTo: process.env.WAITLIST_REPLY_TO,
       subject: welcome.subject,
       text: welcome.text,
-      html: welcome.html
+      html: welcome.html,
+      headers: {
+        "List-Unsubscribe": `<${leave.oneClick}>`,
+        "List-Unsubscribe-Post": "List-Unsubscribe=One-Click"
+      }
     },
     { idempotencyKey: `life-in-photos-welcome-${emailKey}` }
   );
