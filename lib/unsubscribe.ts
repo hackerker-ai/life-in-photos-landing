@@ -20,6 +20,10 @@ export function isValidUnsubscribeToken(email: string, token: string) {
   return given.length === expected.length && timingSafeEqual(given, expected);
 }
 
+/** The Resend SDK puts a contact's email straight into the request path (contacts/<email>), so an address with # ? / or %
+    in it, which the signup form accepts, would reach the wrong URL. Pass contacts.update this instead of the raw email. */
+export const contactPath = (email: string) => encodeURIComponent(email);
+
 /* The links point at the site's own address, never at whatever host a signup request claims to come from, so a forged
    request can't send someone an email whose link leads elsewhere. SITE_URL overrides it for previews. */
 const siteOrigin = () => process.env.SITE_URL || "https://lifeinphotos.app";
@@ -30,9 +34,10 @@ const siteOrigin = () => process.env.SITE_URL || "https://lifeinphotos.app";
  */
 export function unsubscribeLinks(locale: Locale, email: string) {
   const origin = siteOrigin();
-  const query = new URLSearchParams({ email, token: signature(email) }).toString();
+  const query = new URLSearchParams({ email, token: signature(email) });
   return {
     page: `${origin}${localePath(locale, "/unsubscribe")}?${query}`,
-    oneClick: `${origin}/api/unsubscribe?${query}`
+    // `hl` only says which language's page a plain visit (GET) should land on.
+    oneClick: `${origin}/api/unsubscribe?${query}&hl=${locale}`
   };
 }

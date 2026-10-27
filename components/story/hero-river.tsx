@@ -52,7 +52,7 @@ export function HeroRiver({ hero, moments, acts, friends }: HeroRiverProps) {
     phoneWatch.observe(phone);
 
     // With Reduce Motion the phone shows the first moment and holds.
-    if (!calm) runHeroSession(screen, copy, () => heroOn, () => alive);
+    if (!calm) runHeroSession(screen, copy, () => heroOn, () => alive).catch((error) => console.error("Hero session stopped:", error));
 
     return () => {
       alive = false;

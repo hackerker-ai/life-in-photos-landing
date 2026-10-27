@@ -67,14 +67,17 @@ export async function runHeroSession(screen: HTMLElement, copy: Copy, visible: (
   };
   const hm = () => $(".hm");
 
-  // Every photo the session shows, decoded ahead so a moment never arrives half-loaded.
-  GROUPS.forEach((g) => momentShots(g).forEach((s) => { new Image().src = photoSrc(s.id, s.size); }));
+  // The next moment's photos, fetched while this one plays, so a moment never arrives half-loaded without the page
+  // downloading the whole loop up front.
+  const preload = (i: number) => momentShots(GROUPS[i % GROUPS.length]).forEach((s) => { new Image().src = photoSrc(s.id, s.size); });
+  preload(0);
 
   try {
     for (;;) {
       const results: Act[] = [];
       for (let i = 0; i < 10; i++) {
         heroAt(i, results);
+        preload(i + 1);
         const body = hm();
         body.className = "hm in";
         body.innerHTML = momentMarkup(GROUPS[i], copy);

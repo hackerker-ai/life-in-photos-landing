@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { welcomeEmail } from "@/emails/welcome-email";
 import { defaultLocale, hasLocale } from "@/lib/i18n";
-import { unsubscribeLinks } from "@/lib/unsubscribe";
+import { contactPath, unsubscribeLinks } from "@/lib/unsubscribe";
 
 export const runtime = "nodejs";
 
@@ -70,15 +70,16 @@ export async function POST(request: Request) {
       return response({ error: "We could not add you right now. Please try again.", code: "failed" }, 502);
     }
 
-    const segmentResult = await resend.contacts.segments.add({ email, segmentId });
+    const segmentResult = await resend.contacts.segments.add({ email: contactPath(email), segmentId });
     if (segmentResult.error && !isAlreadyRegistered(segmentResult.error as ResendError)) {
       return response({ error: "We could not add you right now. Please try again.", code: "failed" }, 502);
     }
   }
 
   if (alreadyJoined) {
-    // Someone who left the list and signs up again wants to hear from us again.
-    await resend.contacts.update({ email, unsubscribed: false });
+    // Someone who left the list and signs up again wants to hear from us again. (The owner chose this over a confirm
+    // email, knowing anyone who types the address can put it back.)
+    await resend.contacts.update({ email: contactPath(email), unsubscribed: false });
     return response({ message: "You are already on the list. We will keep you posted.", code: "alreadyJoined", alreadyJoined: true });
   }
 
