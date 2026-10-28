@@ -50,7 +50,7 @@ export function StoryHeader({ lang, brand, homeLabel, cta, languageLabel }: Stor
       <div className="top wrap">
         <a className="lockup" href="#top" aria-label={homeLabel}>
           <Logo size={28} />
-          {brand}
+          <span className="lockup-word">{brand}</span>
         </a>
         <div className="top-end">
           <a className="btn small bar-cta" id="barCta" href="#invite" ref={barCta}>{cta}</a>

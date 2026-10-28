@@ -4,9 +4,10 @@
    with the home page. The tokens, reset and footer come from components/site/base.css. */
 html:has(.privacy-page) { scroll-padding-top: calc(var(--bar-h) + 16px); }
 .privacy-page ::selection { background: var(--sun); color: var(--ink); }
-.privacy-page .bar { position: sticky; top: 0; z-index: 30; background: color-mix(in oklab, var(--paper) 88%, transparent); -webkit-backdrop-filter: blur(12px) saturate(1.2); backdrop-filter: blur(12px) saturate(1.2); box-shadow: 0 1px 0 var(--line); }
+/* Opaque, so iPhone Safari colours the strip behind the status bar to match (see .bar in story.css). */
+.privacy-page .bar { position: sticky; top: 0; z-index: 30; background: var(--paper); box-shadow: 0 1px 0 var(--line); }
 .privacy-page .top { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: var(--bar-h); }
-.privacy-page .lockup { display: flex; align-items: center; gap: 9px; color: var(--ink); text-decoration: none; font: 800 1.35rem/1 var(--display); letter-spacing: -0.025em; }
+.privacy-page .lockup { flex: none; display: flex; align-items: center; gap: 9px; color: var(--ink); text-decoration: none; font: 800 1.35rem/1 var(--display); letter-spacing: -0.025em; white-space: nowrap; }
 .privacy-page .back { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 16px; border-radius: 22px; background: var(--ink); color: var(--on-ink); font-size: 0.9rem; font-weight: 600; text-decoration: none; }
 @media (hover: hover) { .privacy-page .back:hover { background: var(--teal-deep); color: #fff; } }
 
