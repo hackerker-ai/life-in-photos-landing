@@ -62,7 +62,6 @@ Stable handles:
 - Honeypot: hidden `Website` input (`name="website"`), `aria-hidden`
 - API: `POST /api/waitlist` JSON `{ email, website?, campaign? }`
 - Trust copy: `Review before changes`, `No silent deletion`
-- Internal gallery (optional): `/designs`
 
 Browser: open `http://127.0.0.1:$PORT/`, click by accessible name. Do not use coordinates.
 

@@ -29,4 +29,3 @@ Preconditions:
 ## Gotchas
 
 - Step 03 is about review-before-change, not a second waitlist form.
-- `/designs` is an internal gallery, not this section.
