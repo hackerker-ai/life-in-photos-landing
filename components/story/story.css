@@ -33,12 +33,11 @@ h2.display { font-size: clamp(2rem, 2.6vw + 1.3rem, 3.6rem); }
 
 /* 1. Hero */
 .hero { background: var(--sun); }
-/* One header that stays at the top. It shares the hero's yellow at rest and turns to paper once the page scrolls. The paper
-   is opaque: iPhone Safari colours the strip behind the status bar from a header at the top, but only an opaque one; through
-   a see-through header it took the hero's yellow underneath. */
+/* One header that stays at the top. It shares the hero's yellow at rest and turns to paper once the page scrolls. On an
+   iPhone it reaches up behind the status bar, so that strip changes colour with it, as one piece. */
 .bar { position: sticky; top: 0; z-index: 30; padding-top: env(safe-area-inset-top, 0px); background: var(--sun); transition: background-color 0.25s, box-shadow 0.25s; }
 .bar.stuck { background: var(--paper); box-shadow: 0 1px 0 var(--line); }
-.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: var(--bar-h); }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: var(--bar-row); }
 /* The wordmark always stays on one line. */
 .lockup { flex: none; color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: 9px; font: 800 1.35rem/1 var(--display); letter-spacing: -0.025em; white-space: nowrap; }
 /* On phones the wordmark, the header button and the language globe share one row: the gaps tighten, the button slims, the
