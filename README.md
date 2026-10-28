@@ -61,4 +61,6 @@ Events include placement and UTM campaign parameters. Only the email domain, not
 
 Deploy the directory as a Next.js project on Vercel. Add the environment variables in the Vercel project settings and apply platform-level rate limiting to `/api/waitlist` before promoting the page broadly.
 
-The placeholder metadata domain in `app/layout.tsx` must be replaced if the production URL is not `https://lifeinphotos.app`.
+The site's address, `https://lifeinphotos.app`, lives in `lib/site.ts`: canonical links, share images, `robots.txt`, `sitemap.xml` and (unless `SITE_URL` is set) the links in welcome emails.
+
+Icons are `app/favicon.ico`, `app/icon.svg` (the tilted-frame mark on the brand yellow) and `app/apple-icon.png` (the app icon). Each language's share image is `public/og/<locale>.jpg` (1200×630): the logo, headline and description beside the three friends in their Polaroid, on the brand yellow. It was designed on the "Life in Photos share image" Design canvas (board E); re-render it if the headline or description changes. The sitemap lists only locales whose dictionary `status` is `"translated"`.

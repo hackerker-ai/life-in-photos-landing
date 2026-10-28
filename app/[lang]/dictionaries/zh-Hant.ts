@@ -17,7 +17,8 @@ const zhHant: Dictionary = {
     title: "Life in Photos｜找回那些被遺忘但你深愛的照片",
     description: "一款 iPhone App，幫你找出埋在相簿裡的回憶。",
     ogTitle: "找回那些被遺忘但你深愛的照片。",
-    ogDescription: "一款 iPhone App，幫你找出埋在相簿裡的回憶。"
+    ogDescription: "一款 iPhone App，幫你找出埋在相簿裡的回憶。",
+    ogImageAlt: "三個木雕小夥伴在拍立得相框裡，旁邊寫著：找回那些被遺忘但你深愛的照片。"
   },
 
   brand: "life in photos",

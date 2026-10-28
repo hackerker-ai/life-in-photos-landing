@@ -14,7 +14,8 @@ const en = {
     title: "Life in Photos | Find the photos you forgot you loved",
     description: "An iPhone app for the moments buried in your camera roll.",
     ogTitle: "Find the photos you forgot you loved.",
-    ogDescription: "An iPhone app for the moments buried in your camera roll."
+    ogDescription: "An iPhone app for the moments buried in your camera roll.",
+    ogImageAlt: "Three wooden friends in a Polaroid frame beside the words: Find the photos you forgot you loved."
   },
 
   brand: "life in photos",
