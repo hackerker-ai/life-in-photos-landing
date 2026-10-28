@@ -6,8 +6,8 @@ import { Logo } from "@/components/site/logo";
 import type { Locale } from "@/lib/i18n";
 import { pageTop } from "./freeze";
 
-/* One header that stays at the top. It shares the hero's yellow at rest and blends to paper over its own height of
-   scroll; its button shows only while neither the hero's button nor the invitation is on screen. */
+/* One header that stays at the top. It shares the hero's yellow at rest and turns to paper once the page scrolls; its
+   button shows only while neither the hero's button nor the invitation is on screen. */
 type StoryHeaderProps = { lang: Locale; brand: string; homeLabel: string; cta: string; languageLabel: string };
 
 export function StoryHeader({ lang, brand, homeLabel, cta, languageLabel }: StoryHeaderProps) {
@@ -25,16 +25,17 @@ export function StoryHeader({ lang, brand, homeLabel, cta, languageLabel }: Stor
       inviteTop = pageTop(invite);
       barH = bar.current.offsetHeight;
     };
-    let queued = false;
+    let queued = false, synced = false;
     const sync = () => {
       queued = false;
       if (!bar.current || !barCta.current) return;
       const heroGone = heroCtaBottom - scrollY < barH;
       const atInvite = inviteTop - scrollY < innerHeight * 0.8;
-      // How far the header has blended from yellow to paper: in step with the scroll, done one header-height down.
-      const mix = Math.min(1, Math.max(0, scrollY / (barH || 64)));
-      bar.current.style.setProperty("--paper-mix", mix.toFixed(3));
-      bar.current.classList.toggle("stuck", mix === 1);
+      const stuck = scrollY > 4;
+      // The colour fade (story.css) plays from the first change after the page opens, not for the opening state.
+      if (synced && stuck !== bar.current.classList.contains("stuck")) bar.current.classList.add("moved");
+      bar.current.classList.toggle("stuck", stuck);
+      synced = true;
       // What a pull past either end of the page shows: the hero's yellow above the top, the footer's walnut below the end.
       document.documentElement.classList.toggle("page-lower", scrollY > halfway);
       barCta.current.classList.toggle("on", heroGone && !atInvite);
