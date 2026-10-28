@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { hasLocale, localePath, locales } from "@/lib/i18n";
 import { SITE_ORIGIN } from "@/lib/site";
@@ -42,6 +42,9 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
     twitter: { card: "summary_large_image" }
   };
 }
+
+// The page runs up under the iPhone's status bar, so the header's own colour fills the strip there (see --bar-h).
+export const viewport: Viewport = { width: "device-width", initialScale: 1, viewportFit: "cover" };
 
 export default async function RootLayout({ children, params }: LayoutProps<"/[lang]">) {
   const { lang } = await params;

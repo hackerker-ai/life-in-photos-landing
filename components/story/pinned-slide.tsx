@@ -66,7 +66,8 @@ export function PinnedSlide({ className, id, labelledBy, row: rowSelector, hold 
       // Measure the page as laid out, not as held: unstick the content for the measuring (all in this one frame).
       flow?.classList.remove("freezing");
 
-      const barH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--bar-h")) || 64;
+      // The header as drawn, the status-bar strip included.
+      const barH = document.getElementById("bar")?.offsetHeight ?? 64;
       // Where the held block sits in the layout, from the section (a stuck sticky block reports where it is stuck).
       const pinAt = layoutTop(box) + parseFloat(getComputedStyle(box).paddingTop);
       // The slide runs from the first item centred in the view to the last one centred in the view.

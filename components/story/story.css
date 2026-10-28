@@ -33,11 +33,41 @@ h2.display { font-size: clamp(2rem, 2.6vw + 1.3rem, 3.6rem); }
 
 /* 1. Hero */
 .hero { background: var(--sun); }
-/* One header that stays at the top. It shares the hero's yellow at rest and turns to frosted paper once the page scrolls. */
-.bar { position: sticky; top: 0; z-index: 30; padding-top: env(safe-area-inset-top, 0px); background: var(--sun); transition: background-color 0.25s, box-shadow 0.25s; }
-.bar.stuck { background: color-mix(in oklab, var(--paper) 86%, transparent); -webkit-backdrop-filter: blur(12px) saturate(1.2); backdrop-filter: blur(12px) saturate(1.2); box-shadow: 0 1px 0 var(--line); }
-.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: var(--bar-h); }
-.lockup { color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: 9px; font: 800 1.35rem/1 var(--display); letter-spacing: -0.025em; }
+/* One header that stays at the top. It shares the hero's yellow at rest and turns to paper once the page scrolls.
+   On an iPhone, Safari paints the strip behind the status bar itself, copying the header's background colour, and fades it
+   to a new colour in its own short fade. It only copies promptly when the colour changes at once: given a fade, or a colour
+   blended with the scroll, it copied a colour from partway through and held it for half a second (a pale band over the
+   yellow header). So the header's own background switches at once, for Safari to copy, and the fade you see is a layer
+   above it (::before) that starts in the old colour and clears in about the time Safari's strip takes. Where the page
+   runs under the status bar instead (viewport-fit=cover), the header reaches up behind it and the strip is the header. */
+.bar { position: sticky; top: 0; z-index: 30; padding-top: env(safe-area-inset-top, 0px); background: var(--sun); transition: box-shadow 0.25s; }
+.bar.stuck { background: var(--paper); box-shadow: 0 1px 0 var(--line); }
+.bar::before { content: ""; position: absolute; inset: 0; z-index: -1; opacity: 0; pointer-events: none; }
+/* Only after the first change, so the page doesn't open with a fade. Two names for the same fade, so it restarts each way. */
+.bar.moved::before { background: var(--paper); animation: bar-clear 0.15s ease-out both; }
+.bar.moved.stuck::before { background: var(--sun); animation-name: bar-clear-again; }
+@keyframes bar-clear { from { opacity: 1; } to { opacity: 0; } }
+@keyframes bar-clear-again { from { opacity: 1; } to { opacity: 0; } }
+/* A pull past the top of the page (iPhone Safari's bounce) carries the header down and shows the page's backdrop above it,
+   behind the status bar. That backdrop is the hero's yellow, so the bounce reads as more header; past halfway the
+   script switches it to the footer's walnut for a pull past the end. The body's paper covers it everywhere else. */
+html:has(.story-flow) { background: var(--sun); }
+html:has(.story-flow).page-lower { background: var(--walnut); }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: var(--bar-row); }
+/* The wordmark always stays on one line. */
+.lockup { flex: none; color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: 9px; font: 800 1.35rem/1 var(--display); letter-spacing: -0.025em; white-space: nowrap; }
+/* On phones the wordmark, the header button and the language globe share one row: the gaps tighten, the button slims, the
+   globe's 44px target reaches into the margin, and the wordmark eases down a little on narrower phones so the row fits from
+   360px. Below that the English button is too long to sit beside the words, so the mark stands alone. */
+@media (max-width: 480px) {
+  .top { gap: 10px; }
+  .lockup { gap: 7px; font-size: clamp(1.05rem, 14vw - 2.1rem, 1.35rem); }
+  .lockup svg { width: 24px; height: 24px; }
+  .top-end { gap: 2px; }
+  .top-end .globe-btn { margin-right: -8px; }
+  .bar-cta.small { padding: 0 12px; font-size: 0.84rem; }
+}
+@media (max-width: 359px) { .lockup-word:lang(en) { display: none; } }
 .hero-copy { display: flex; flex-direction: column; align-items: center; gap: 16px; padding-block: clamp(14px, 3vw, 36px) 0; text-align: center; }
 h1 { max-width: 11.4em; font-size: clamp(2.3rem, 4.6vw + 1.15rem, 4.5rem); }
 .lede { max-width: 30em; font-size: clamp(1rem, 0.4vw + 0.95rem, 1.2rem); color: var(--body); text-wrap: balance; }
@@ -490,6 +520,7 @@ details p { max-width: 34em; padding-bottom: 22px; color: var(--body); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .bar, .bar-cta, .bar-cta.on { transition: none; transform: none; }
+  .bar::before { animation: none !important; }
   .hm.in, .hm[class*="out-"] { animation: fade 0.2s linear backwards; }
   .friend img { animation: none !important; }
   .play.hint .acts button, .play.hint .curl, .play.hint .bubble { animation: none; }
