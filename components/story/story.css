@@ -33,12 +33,13 @@ h2.display { font-size: clamp(2rem, 2.6vw + 1.3rem, 3.6rem); }
 
 /* 1. Hero */
 .hero { background: var(--sun); }
-/* One header that stays at the top. It shares the hero's yellow while the hero is under it and turns to paper once the
-   hero has scrolled out from beneath it (story-header.tsx). On an iPhone the strip behind the status bar takes its colour:
-   where the page runs under the status bar, the header reaches up behind it; where Safari paints the strip itself, it
-   copies the header's colour. */
-.bar { position: sticky; top: 0; z-index: 30; padding-top: env(safe-area-inset-top, 0px); background: var(--sun); transition: background-color 0.25s, box-shadow 0.25s; }
-.bar.stuck { background: var(--paper); box-shadow: 0 1px 0 var(--line); }
+/* One header that stays at the top. It shares the hero's yellow at rest and blends to paper over the first header-height
+   of scroll, following the finger (--paper-mix, from story-header.tsx), not a timed fade. On an iPhone the strip behind
+   the status bar takes its colour: where the page runs under the status bar, the header reaches up behind it; where
+   Safari paints the strip itself, it copies the header's colour. Safari keeps pace while the page moves but can lag once
+   it stops; tied to the scroll, the colour is already settled by then, so there is nothing left for it to catch up on. */
+.bar { position: sticky; top: 0; z-index: 30; padding-top: env(safe-area-inset-top, 0px); background: color-mix(in srgb, var(--sun), var(--paper) calc(var(--paper-mix, 0) * 100%)); transition: box-shadow 0.25s; }
+.bar.stuck { box-shadow: 0 1px 0 var(--line); }
 /* A pull past the top of the page (iPhone Safari's bounce) carries the header down and shows the page's backdrop above it,
    behind the status bar. That backdrop is the hero's yellow, so the bounce reads as more header; past halfway the
    script switches it to the footer's walnut for a pull past the end. The body's paper covers it everywhere else. */
