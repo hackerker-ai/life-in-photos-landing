@@ -6,8 +6,8 @@ import { Logo } from "@/components/site/logo";
 import type { Locale } from "@/lib/i18n";
 import { pageTop } from "./freeze";
 
-/* One header that stays at the top. It shares the hero's yellow at rest and turns to frosted paper once the page
-   scrolls; its button shows only while neither the hero's button nor the invitation is on screen. */
+/* One header that stays at the top. It shares the hero's yellow at rest and turns to paper once the page scrolls; its
+   button shows only while neither the hero's button nor the invitation is on screen. */
 type StoryHeaderProps = { lang: Locale; brand: string; homeLabel: string; cta: string; languageLabel: string };
 
 export function StoryHeader({ lang, brand, homeLabel, cta, languageLabel }: StoryHeaderProps) {
@@ -17,8 +17,9 @@ export function StoryHeader({ lang, brand, homeLabel, cta, languageLabel }: Stor
   useEffect(() => {
     const heroCta = document.querySelector(".hero-copy .btn"), invite = document.getElementById("invite");
     // Page positions, measured only when the page's size changes, so scrolling never forces a layout.
-    let heroCtaBottom = 0, inviteTop = Infinity, barH = 64;
+    let heroCtaBottom = 0, inviteTop = Infinity, barH = 64, halfway = Infinity;
     const measure = () => {
+      halfway = (document.documentElement.scrollHeight - innerHeight) / 2;
       if (!heroCta || !invite || !bar.current) return;
       heroCtaBottom = pageTop(heroCta as HTMLElement) + (heroCta as HTMLElement).offsetHeight;
       inviteTop = pageTop(invite);
@@ -31,6 +32,8 @@ export function StoryHeader({ lang, brand, homeLabel, cta, languageLabel }: Stor
       const heroGone = heroCtaBottom - scrollY < barH;
       const atInvite = inviteTop - scrollY < innerHeight * 0.8;
       bar.current.classList.toggle("stuck", scrollY > 4);
+      // What a pull past either end of the page shows: the hero's yellow above the top, the footer's walnut below the end.
+      document.documentElement.classList.toggle("page-lower", scrollY > halfway);
       barCta.current.classList.toggle("on", heroGone && !atInvite);
     };
     const onScroll = () => { if (!queued) { queued = true; requestAnimationFrame(sync); } };
@@ -42,6 +45,7 @@ export function StoryHeader({ lang, brand, homeLabel, cta, languageLabel }: Stor
     return () => {
       removeEventListener("scroll", onScroll);
       pageSize.disconnect();
+      document.documentElement.classList.remove("page-lower");
     };
   }, []);
 
