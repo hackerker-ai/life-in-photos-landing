@@ -11,7 +11,7 @@ const Check = () => (
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#36686D" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
 );
 
-/* The draft privacy policy. Ported from prototypes/story-real/privacy.html. */
+/* The privacy policy. Ported from prototypes/story-real/privacy.html. */
 export function PrivacyPage({ dict, lang }: { dict: Dictionary; lang: Locale }) {
   const { privacy } = dict;
   const home = localePath(lang);
@@ -30,7 +30,6 @@ export function PrivacyPage({ dict, lang }: { dict: Dictionary; lang: Locale }) 
 
       <main>
         <div className="wrap head">
-          <p className="draft" role="note"><span><RichText text={privacy.draft} /></span></p>
           <h1><Clauses text={privacy.title} /></h1>
           <p className="updated"><RichText text={privacy.updated} /></p>
           <div className="short">

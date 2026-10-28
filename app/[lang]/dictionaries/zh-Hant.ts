@@ -244,9 +244,8 @@ const zhHant: Dictionary = {
     meta: { title: "隱私權政策 · Life in Photos" },
     homeLabel: "Life in Photos 首頁",
     back: "回到首頁",
-    draft: "<b>審閱用草稿。</b>本政策說明 App 和網站目前的運作方式。<ph>標示中括號</ph>的項目會在發布當天填入，全文也需要在發布前經過法律審閱。",
     title: "隱私權政策",
-    updated: "最後更新：<ph>[發布日期]</ph>",
+    updated: "最後更新：2026 年 10 月 28 日",
     shortTitle: "重點摘要",
     short: [
       "你的照片會留在你的手機和你自己的 iCloud 裡。我們不會保存你的照片在任何伺服器。",
@@ -260,7 +259,7 @@ const zhHant: Dictionary = {
         id: "covers",
         title: "本政策的適用範圍",
         blocks: [
-          { p: "本政策適用於 Life in Photos iPhone App（目前透過 Apple 的 TestFlight 進行 Beta 測試）以及本網站。「我們」指 Life in Photos 的獨立開發者 <ph>[你的全名]</ph>。「你」指任何使用本 App 或造訪本網站的人。" }
+          { p: "本政策適用於 Life in Photos iPhone App（目前透過 Apple 的 TestFlight 進行 Beta 測試）以及本網站。「我們」指 Life in Photos 的獨立開發者 Roy Lo。「你」指任何使用本 App 或造訪本網站的人。" }
         ]
       },
       {

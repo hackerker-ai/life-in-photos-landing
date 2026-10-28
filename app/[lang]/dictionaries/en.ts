@@ -245,9 +245,8 @@ const en = {
     meta: { title: "Privacy policy · Life in Photos" },
     homeLabel: "Life in Photos home",
     back: "Back to home",
-    draft: "<b>Draft for review.</b> This policy describes the app and site as they work today. The items in <ph>highlighted brackets</ph> are filled in on the day it’s published, and the whole text needs a legal review before then.",
     title: "Privacy policy",
-    updated: "Last updated <ph>[DATE OF PUBLISHING]</ph>",
+    updated: "Last updated October 28, 2026",
     shortTitle: "The short version",
     short: [
       "Your photos stay on your phone and in your own iCloud. We don’t run servers that keep your photos.",
@@ -262,7 +261,7 @@ const en = {
         id: "covers",
         title: "What this policy covers",
         blocks: [
-          { p: "This policy covers the Life in Photos iPhone app, which is in beta through Apple’s TestFlight, and this website. “We” means <ph>[YOUR FULL NAME]</ph>, the independent developer of Life in Photos. “You” means anyone who uses the app or visits the site." }
+          { p: "This policy covers the Life in Photos iPhone app, which is in beta through Apple’s TestFlight, and this website. “We” means Roy Lo, the independent developer of Life in Photos. “You” means anyone who uses the app or visits the site." }
         ]
       },
       {
