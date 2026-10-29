@@ -170,7 +170,7 @@ const en = {
     quotes: [
       { quote: "Honestly, I would take more photos if I didn’t have to pick my favorites.", by: "Tiffany, parent of two" },
       { quote: "Just thinking about picking the good ones, I realized it would take a whole day, so I gave up.", by: "Sunny, parent of one" },
-      { quote: "All my pictures, 90% of that is trash. There’s only a few that are really good.", by: "Ami, parent of two" }
+      { quote: "of all my pictures there are just a few good one that truly captures the real memories", by: "Ami, parent of two" }
     ]
   },
 
