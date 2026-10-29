@@ -18,10 +18,15 @@ import { layoutTop } from "./freeze";
    (Safari 26, Chrome), the slide is a CSS animation tied to the page's scroll, so it moves in step with the finger;
    elsewhere a scroll handler moves it. This only measures where the slide starts and how far it runs,
    when the page's size changes: never while scrolling, and never on the iPhone's toolbar showing or hiding, which used
-   to make the page jump. */
+   to make the page jump.
+
+   Some visitors swipe the row sideways anyway, so that works too: while the row is held, a sideways swipe scrolls the
+   page by as much as the finger moves, which slides the row with it, and letting go glides to the nearest item. */
 
 // After the last item arrives, the view stays held this much longer before the page moves on.
 const HOLD_AFTER = 80;
+// A sideways swipe slides the row from this close to where the slide starts or ends.
+const SWIPE_SLACK = 40;
 
 type PinnedSlideProps = {
   className: string;
@@ -44,8 +49,9 @@ export function PinnedSlide({ className, id, labelledBy, row: rowSelector, hold 
     const narrow = matchMedia("(max-width: 759px)");
     const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const timeline = CSS.supports("animation-timeline: scroll()");
-    // Where the slide starts and how far it runs, in page scroll, and where the row sits at each end.
-    let from = 0, distance = 0, start = 0;
+    // Where the slide starts and how far it runs, in page scroll, and where the row sits at each end; and the page
+    // scroll that centres each item.
+    let from = 0, distance = 0, start = 0, stops: number[] = [];
 
     function paint() {
       if (timeline || !box.classList.contains("pinned")) return;
@@ -78,7 +84,7 @@ export function PinnedSlide({ className, id, labelledBy, row: rowSelector, hold 
         // Hold when the content is centred in the view below the header (the small viewport, which the iPhone's
         // toolbar doesn't change), or right under the header if it's taller than that.
         const probe = document.createElement("div");
-        probe.style.cssText = "position:absolute;top:0;height:100svh;visibility:hidden;pointer-events:none";
+        probe.style.cssText = "position:absolute;top:0;height:var(--view-s,100svh);visibility:hidden;pointer-events:none";
         document.body.append(probe);
         const view = probe.offsetHeight;
         probe.remove();
@@ -96,6 +102,7 @@ export function PinnedSlide({ className, id, labelledBy, row: rowSelector, hold 
         const pinTop = parseFloat(getComputedStyle(pin).top) || barH;
         start = pinAt - pinTop;
       }
+      stops = [...row.children].map((step) => start + offset(step as HTMLElement) - from);
       box.style.setProperty("--slide-from", `${-from}px`);
       box.style.setProperty("--slide-to", `${-(from + distance)}px`);
       box.style.setProperty("--slide-start", `${start}px`);
@@ -106,6 +113,43 @@ export function PinnedSlide({ className, id, labelledBy, row: rowSelector, hold 
     let queued = false;
     const onScroll = () => { if (!queued) { queued = true; requestAnimationFrame(() => { queued = false; paint(); }); } };
     addEventListener("scroll", onScroll, { passive: true });
+
+    // The swipe: where the finger was, whether it's going sideways (null until it has moved far enough to tell), and
+    // how fast, in page scroll per millisecond.
+    let swipe: { x: number; y: number; t: number; v: number; sideways: boolean | null } | null = null;
+    const onTouchStart = (event: TouchEvent) => {
+      const held = box.classList.contains("pinned") && scrollY > start - SWIPE_SLACK && scrollY < start + distance + SWIPE_SLACK;
+      const { clientX: x, clientY: y } = event.touches[0];
+      swipe = held && event.touches.length === 1 ? { x, y, t: event.timeStamp, v: 0, sideways: null } : null;
+    };
+    const onTouchMove = (event: TouchEvent) => {
+      if (!swipe) return;
+      const { clientX: x, clientY: y } = event.touches[0];
+      if (swipe.sideways === null) {
+        if (Math.hypot(x - swipe.x, y - swipe.y) < 8) return;
+        swipe.sideways = Math.abs(x - swipe.x) > Math.abs(y - swipe.y);
+      }
+      if (!swipe.sideways) { swipe = null; return; }
+      // The page doesn't also scroll up or down with the finger (story.css lets it only pan up and down here anyway).
+      if (event.cancelable) event.preventDefault();
+      const moved = swipe.x - x;
+      scrollBy(0, moved);
+      swipe.v = 0.8 * (moved / Math.max(1, event.timeStamp - swipe.t)) + 0.2 * swipe.v;
+      swipe.x = x;
+      swipe.t = event.timeStamp;
+    };
+    const onTouchEnd = (event: TouchEvent) => {
+      if (!swipe?.sideways || !stops.length) { swipe = null; return; }
+      // A flick carries on a little before settling; a finger that stopped before lifting doesn't.
+      const aim = scrollY + (event.timeStamp - swipe.t > 80 ? 0 : swipe.v * 250);
+      swipe = null;
+      const stop = stops.reduce((best, at) => (Math.abs(at - aim) < Math.abs(best - aim) ? at : best));
+      scrollTo({ top: stop, behavior: "smooth" });
+    };
+    box.addEventListener("touchstart", onTouchStart, { passive: true });
+    box.addEventListener("touchmove", onTouchMove, { passive: false });
+    box.addEventListener("touchend", onTouchEnd);
+    box.addEventListener("touchcancel", onTouchEnd);
     // The page's own size changing (a new width, fonts arriving, the demo above changing height) moves the section;
     // the toolbar showing or hiding doesn't change it, so it never triggers a re-measure. Measured in the next frame,
     // not in the observer's callback: restyling the page there makes Safari report a ResizeObserver loop error.
@@ -115,6 +159,10 @@ export function PinnedSlide({ className, id, labelledBy, row: rowSelector, hold 
     narrow.addEventListener("change", layout);
     return () => {
       removeEventListener("scroll", onScroll);
+      box.removeEventListener("touchstart", onTouchStart);
+      box.removeEventListener("touchmove", onTouchMove);
+      box.removeEventListener("touchend", onTouchEnd);
+      box.removeEventListener("touchcancel", onTouchEnd);
       cancelAnimationFrame(measuring);
       pageSize.disconnect();
       narrow.removeEventListener("change", layout);
