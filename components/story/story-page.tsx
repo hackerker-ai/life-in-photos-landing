@@ -8,6 +8,7 @@ import { HowItWorks } from "./how-it-works";
 import { Curve } from "./icons";
 import { Invite } from "./invite";
 import { Play } from "./play";
+import { FixedView } from "./fixed-view";
 import { Faq, Strengths, Trust, Voices } from "./sections";
 import { StoryHeader } from "./story-header";
 import { StoryProvider } from "./story-state";
@@ -22,6 +23,7 @@ export function StoryPage({ dict, lang }: { dict: Dictionary; lang: Locale }) {
 
   return (
     <StoryProvider lang={lang}>
+      <FixedView />
       <StoryHeader lang={lang} brand={dict.brand} homeLabel={dict.header.homeLabel} cta={dict.header.cta} languageLabel={dict.languageLabel} />
 
       {/* Everything below the header, which holds still on phones while the parents' notes slide (freeze.ts). */}

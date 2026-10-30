@@ -51,7 +51,8 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
   if (!hasLocale(lang)) notFound();
 
   return (
-    <html lang={lang} className={`${nunito.variable} ${figtree.variable} ${caveat.variable}`}>
+    // The home page sets the view's height on <html> before React loads (components/story/fixed-view.tsx).
+    <html lang={lang} className={`${nunito.variable} ${figtree.variable} ${caveat.variable}`} suppressHydrationWarning>
       <body>{children}</body>
     </html>
   );
