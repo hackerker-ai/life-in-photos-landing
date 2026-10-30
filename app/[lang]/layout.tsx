@@ -28,7 +28,8 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
     },
     // A locale still in draft (or not yet translated) stays out of search until a native speaker has reviewed it.
     robots: dict.status !== "translated" ? { index: false, follow: true } : undefined,
-    // The share image (public/og/): the logo and headline beside the friends in their Polaroid, 1200×630, one per language.
+    // The share image (public/og/): the logo and headline beside the friends in their Polaroid, one per language.
+    // 2400×1260: twice the 1200×630 the sites ask for, so previews stay sharp on phones.
     openGraph: {
       title: dict.meta.ogTitle,
       description: dict.meta.ogDescription,
@@ -37,7 +38,7 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
       // policy, the 404) would otherwise all claim the home page's address.
       siteName: "Life in Photos",
       locale: lang === "zh-Hant" ? "zh_TW" : "en_US",
-      images: [{ url: `/og/${lang}.jpg`, width: 1200, height: 630, alt: dict.meta.ogImageAlt }]
+      images: [{ url: `/og/${lang}.jpg`, width: 2400, height: 1260, alt: dict.meta.ogImageAlt }]
     },
     twitter: { card: "summary_large_image" }
   };
