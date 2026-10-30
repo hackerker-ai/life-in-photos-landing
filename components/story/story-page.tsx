@@ -17,14 +17,15 @@ import "./story.css";
 /* The home page: one story told by scrolling. A river of camera-roll thumbnails flows into the phone and comes out as
    Polaroids; a pinned scene sorts 548 photos into ten moments; the visitor keeps a few; those land on the wall beside
    the invitation. Ported from prototypes/story-real/index.html. */
-export function StoryPage({ dict, lang }: { dict: Dictionary; lang: Locale }) {
+export function StoryPage({ dict, lang, offer }: { dict: Dictionary; lang: Locale; offer?: { lang: Locale; dict: Dictionary } }) {
   const privacyHref = localePath(lang, "/privacy");
   const acts = { keep: dict.play.keep, later: dict.play.later, skip: dict.play.skip };
+  const hint = offer && { to: offer.lang, ...offer.dict.languageHint, title: offer.dict.hero.title, brand: offer.dict.brand, stay: dict.languageHint.stay };
 
   return (
     <StoryProvider lang={lang}>
       <FixedView />
-      <StoryHeader lang={lang} brand={dict.brand} homeLabel={dict.header.homeLabel} cta={dict.header.cta} languageLabel={dict.languageLabel} />
+      <StoryHeader lang={lang} brand={dict.brand} homeLabel={dict.header.homeLabel} cta={dict.header.cta} languageLabel={dict.languageLabel} hint={hint} />
 
       {/* Everything below the header, which holds still on phones while the parents' notes slide (freeze.ts). */}
       <div className="story-flow">

@@ -5,12 +5,21 @@ import { LanguageMenu } from "@/components/site/language-menu";
 import { Logo } from "@/components/site/logo";
 import type { Locale } from "@/lib/i18n";
 import { pageTop } from "./freeze";
+import { LanguageHint, type LanguageHintCopy } from "./language-hint";
 
 /* One header that stays at the top. It shares the hero's yellow at rest and turns to paper once the page scrolls; its
    button shows only while neither the hero's button nor the invitation is on screen. */
-type StoryHeaderProps = { lang: Locale; brand: string; homeLabel: string; cta: string; languageLabel: string };
+type StoryHeaderProps = {
+  lang: Locale;
+  brand: string;
+  homeLabel: string;
+  cta: string;
+  languageLabel: string;
+  /** Another language this page offers to browsers that prefer it (language-hint.tsx). */
+  hint?: LanguageHintCopy;
+};
 
-export function StoryHeader({ lang, brand, homeLabel, cta, languageLabel }: StoryHeaderProps) {
+export function StoryHeader({ lang, brand, homeLabel, cta, languageLabel, hint }: StoryHeaderProps) {
   const bar = useRef<HTMLElement>(null);
   const barCta = useRef<HTMLAnchorElement>(null);
 
@@ -62,7 +71,9 @@ export function StoryHeader({ lang, brand, homeLabel, cta, languageLabel }: Stor
         </a>
         <div className="top-end">
           <a className="btn small bar-cta" id="barCta" href="#invite" ref={barCta}>{cta}</a>
-          <LanguageMenu lang={lang} path="/" label={languageLabel} />
+          <LanguageMenu lang={lang} path="/" label={languageLabel}>
+            {hint && <LanguageHint lang={lang} path="/" copy={hint} />}
+          </LanguageMenu>
         </div>
       </div>
     </header>

@@ -21,6 +21,15 @@ const en = {
   brand: "life in photos",
   /** The globe button's label for screen readers: in both languages, so either reader can find the other language. */
   languageLabel: "Language · 語言",
+  /** The note that offers this language to a visitor whose browser prefers it, on another language's page: written in
+      this language, since that is the one they read. Today only the English page offers Chinese, so the English offer
+      and the Chinese stay are ready for the other direction but not shown. */
+  languageHint: {
+    offer: "This site is also in English",
+    go: "Switch to English",
+    /** Turning down the offer, in the language of the page it is on. */
+    stay: "Stay in English"
+  },
   friends: {
     momo: "Momo. Tap to play.",
     flip: "Flip. Tap to play.",
