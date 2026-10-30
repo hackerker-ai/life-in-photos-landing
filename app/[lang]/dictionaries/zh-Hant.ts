@@ -23,6 +23,11 @@ const zhHant: Dictionary = {
 
   brand: "life in photos",
   languageLabel: "Language · 語言",
+  languageHint: {
+    offer: "這個網站有繁體中文版",
+    go: "切換到中文版",
+    stay: "留在中文版"
+  },
   friends: {
     momo: "Momo。點一下來玩。",
     flip: "Flip。點一下來玩。",

@@ -68,6 +68,42 @@ html:has(.story-flow).page-lower { background: var(--walnut); }
   .bar-cta.small { padding: 0 12px; font-size: 0.84rem; }
 }
 @media (max-width: 359px) { .lockup-word:lang(en) { display: none; } }
+/* The note that the page is also in the visitor's language (language-hint.tsx), in that language. Flip brings it: he
+   hangs upside down by his feet from the globe (where the languages live) and holds out a Polaroid of the other page.
+   The two swing down together and settle like something hung on a hook; "Stay" swings them back up into the globe. It
+   never moves the page and never takes focus. */
+.lang-hint { position: absolute; z-index: 39; right: -2px; top: calc(100% - 12px); width: min(318px, calc(100vw - 2 * var(--gutter) + 2px)); pointer-events: none; transform-origin: calc(100% - 24px) 0; animation: hint-swing 1.25s cubic-bezier(0.2, 0.7, 0.3, 1) both; }
+.lang-hint > * { pointer-events: auto; }
+.hint-flip { position: relative; z-index: 2; display: block; width: 60px; height: auto; margin: 0 -6px -20px auto; filter: drop-shadow(0 6px 8px rgba(41, 36, 24, 0.22)); pointer-events: none; }
+/* Held by its top right corner, the card hangs a little lower on the left. */
+.hint-pol { margin: 0; padding: 10px 10px 0; rotate: -2.5deg; transform-origin: calc(100% - 22px) 0; border-radius: 4px; background: var(--card); box-shadow: 0 2px 4px rgba(41, 36, 24, 0.1), 0 22px 44px rgba(41, 36, 24, 0.26); }
+/* The photo: the other page's own opening, in miniature. */
+.hint-snap { position: relative; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; overflow: hidden; padding: 12px 84px 16px 14px; border-radius: 2px; background: var(--sun); color: var(--ink); }
+/* The hero's phone, rising out of the corner as it sits beside the headline on the page. */
+.snap-phone { position: absolute; right: 14px; bottom: -22px; width: 58px; padding: 3px; border-radius: 13px; background: #1F1B14; rotate: 6deg; box-shadow: 0 8px 16px rgba(41, 36, 24, 0.25); }
+.snap-phone img { display: block; width: 100%; height: 88px; border-radius: 10px; object-fit: cover; }
+.snap-lockup { display: flex; align-items: center; gap: 5px; font: 800 0.72rem/1 var(--display); letter-spacing: -0.02em; }
+.snap-head { position: relative; z-index: 1; margin: 0; font: 900 1.42rem/1.22 var(--display); letter-spacing: 0.01em; word-break: keep-all; overflow-wrap: anywhere; }
+.snap-head span { display: block; }
+.hint-pol figcaption { display: flex; flex-direction: column; gap: 10px; padding: 13px 4px 14px; }
+.hint-pol strong { font-size: 1.08rem; font-weight: 600; line-height: 1.35; }
+.hint-acts { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; }
+.hint-acts .btn { min-height: 44px; padding: 0 20px; font-size: 0.98rem; }
+.hint-stay { min-height: 44px; padding: 0 2px; border: 0; background: none; color: var(--body); font: 600 0.94rem var(--text); text-decoration: underline; text-decoration-color: var(--line); text-decoration-thickness: 2px; text-underline-offset: 4px; cursor: pointer; }
+@media (hover: hover) { .hint-stay:hover { color: var(--ink); text-decoration-color: currentColor; } }
+.globe-btn.hinted { background: rgba(41, 36, 24, 0.1); }
+/* Dropped from the globe, it overshoots, swings back and settles, each swing smaller. */
+@keyframes hint-swing {
+  0% { opacity: 0; transform: translateY(-46px) scale(0.6) rotate(18deg); }
+  22% { opacity: 1; transform: rotate(-9deg); }
+  42% { transform: rotate(5deg); }
+  60% { transform: rotate(-2.4deg); }
+  78% { transform: rotate(1deg); }
+  100% { transform: none; }
+}
+.lang-hint.out { animation: hint-out 0.4s cubic-bezier(0.5, 0, 0.75, 0) forwards; }
+@keyframes hint-out { 30% { transform: rotate(-7deg); } 100% { opacity: 0; transform: translateY(-30px) scale(0.12) rotate(14deg); } }
+@media (prefers-reduced-motion: reduce) { .lang-hint { animation: fade 0.2s linear both; } .lang-hint.out { animation: fade 0.15s linear reverse forwards; } }
 .hero-copy { display: flex; flex-direction: column; align-items: center; gap: 16px; padding-block: clamp(14px, 3vw, 36px) 0; text-align: center; }
 h1 { max-width: 11.4em; font-size: clamp(2.3rem, 4.6vw + 1.15rem, 4.5rem); }
 .lede { max-width: 30em; font-size: clamp(1rem, 0.4vw + 0.95rem, 1.2rem); color: var(--body); text-wrap: balance; }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { localeNames, localePath, locales, type Locale } from "@/lib/i18n";
 
 /* Language picker: a globe button in the header and footer. It opens a small card listing each language in its own
@@ -14,9 +14,11 @@ type LanguageMenuProps = {
   path: string;
   label: string;
   up?: boolean;
+  /** Anything that hangs from the globe: the home page's note that it's also in the visitor's language. */
+  children?: ReactNode;
 };
 
-export function LanguageMenu({ lang, path, label, up = false }: LanguageMenuProps) {
+export function LanguageMenu({ lang, path, label, up = false, children }: LanguageMenuProps) {
   const [open, setOpen] = useState(false);
   const [fromLeft, setFromLeft] = useState(false);
   const pick = useRef<HTMLDivElement>(null);
@@ -70,6 +72,7 @@ export function LanguageMenu({ lang, path, label, up = false }: LanguageMenuProp
           </li>
         ))}
       </ul>
+      {children}
     </div>
   );
 }
