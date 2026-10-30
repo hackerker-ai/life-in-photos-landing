@@ -111,7 +111,7 @@ const en = {
     tallyLater: "saved {n} for later",
     tallyJoin: " and ",
     tallyNone: "skipped all three",
-    endCta: "Find your moments",
+    endCta: "Join Beta",
     again: "Play again"
   },
 

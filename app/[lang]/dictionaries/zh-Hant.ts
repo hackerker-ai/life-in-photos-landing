@@ -107,7 +107,7 @@ const zhHant: Dictionary = {
     tallyLater: "留了 {n} 段稍後再看",
     tallyJoin: "，",
     tallyNone: "三段都略過了",
-    endCta: "找出你的回憶",
+    endCta: "加入 Beta 測試",
     again: "再玩一次"
   },
 
