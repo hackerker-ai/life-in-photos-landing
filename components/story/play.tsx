@@ -128,7 +128,7 @@ export function Play({ play, friends }: { play: Dictionary["play"]; friends: Dic
                 <h3>{play.endTitle}</h3>
                 <p>{fill(play.endBody, { tally })}</p>
                 <div className="row">
-                  <a className="btn" href="#invite">{play.endCta}</a>
+                  <a className="btn" href="#invite" data-cta="play_end">{play.endCta}</a>
                   <button className="btn ghost" type="button" data-act="again" onClick={() => choose("again")}>{play.again}</button>
                 </div>
               </article>

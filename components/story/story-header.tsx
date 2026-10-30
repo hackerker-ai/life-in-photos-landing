@@ -70,7 +70,7 @@ export function StoryHeader({ lang, brand, homeLabel, cta, languageLabel, hint }
           <span className="lockup-word">{brand}</span>
         </a>
         <div className="top-end">
-          <a className="btn small bar-cta" id="barCta" href="#invite" ref={barCta}>{cta}</a>
+          <a className="btn small bar-cta" id="barCta" href="#invite" data-cta="header" ref={barCta}>{cta}</a>
           <LanguageMenu lang={lang} path="/" label={languageLabel}>
             {hint && <LanguageHint lang={lang} path="/" copy={hint} />}
           </LanguageMenu>
