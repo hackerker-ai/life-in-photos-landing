@@ -1,5 +1,5 @@
-/* Traditional Chinese (zh-Hant, Taiwan) copy. DRAFT: a first translation for the owner to correct. Once it has been
-   reviewed, set `status` to "translated" so the page can be indexed.
+/* Traditional Chinese (zh-Hant, Taiwan) copy. Roy approved it for search indexing on 2026-10-29,
+   so `status` is "translated" and the page is indexable.
 
    Keep the {placeholders} and the <b>, <strong>, <a> and <ph> tags. The structure must match en.ts; TypeScript checks it
    against the English dictionary.
@@ -11,7 +11,7 @@
 import type { Dictionary } from "./en";
 
 const zhHant: Dictionary = {
-  status: "draft",
+  status: "translated",
 
   meta: {
     title: "Life in Photos｜找回那些被遺忘但你深愛的照片",
