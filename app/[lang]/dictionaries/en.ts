@@ -311,7 +311,7 @@ const en = {
           { h3: "The beta waitlist" },
           { p: "When you join the beta, we keep your email address so we can send you a welcome email and your TestFlight invite. We use it for nothing else, and you can ask us to remove it at any time." },
           { h3: "Site analytics" },
-          { p: "We count a few events on this site, such as a page view or a waitlist signup, along with the campaign that brought you here, if there was one. These counts include only the domain of an email address, never the full address. We don’t record sessions or set analytics cookies." },
+          { p: "We count visits to this site anonymously: page views, how long a page stays open, the buttons and links you click, a waitlist signup, and the campaign that brought you here, if there was one. A random ID kept in your browser, not a cookie, tells a return visit from a new one. These counts include only the domain of an email address, never the full address, and nothing you type. We don’t record sessions, set analytics cookies, or keep your IP address." },
           { h3: "TestFlight" },
           { p: "Apple runs TestFlight. When you install the beta, Apple may share information with us as the app’s developer, such as your email address and basic crash and usage reports, under <a href=\"https://www.apple.com/legal/privacy/\">Apple’s privacy policy</a>." }
         ]

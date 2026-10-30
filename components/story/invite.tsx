@@ -92,7 +92,7 @@ function InviteForm({ invite, lang, onJoined }: { invite: Dictionary["invite"]; 
       </div>
       <label htmlFor="inviteEmail">{invite.label}</label>
       <div className="field">
-        <input id="inviteEmail" name="email" type="email" placeholder={invite.placeholder} autoComplete="email" required disabled={state === "submitting"} />
+        <input id="inviteEmail" className="ph-no-capture" name="email" type="email" placeholder={invite.placeholder} autoComplete="email" required disabled={state === "submitting"} />
         <button className="btn" type="submit" disabled={state === "submitting"}>{invite.submit}</button>
       </div>
       <p className="status" id="inviteStatus" role="status">{status}</p>

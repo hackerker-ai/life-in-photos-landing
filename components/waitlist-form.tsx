@@ -86,6 +86,7 @@ export function WaitlistForm({ placement }: WaitlistFormProps) {
       <div className="form-row">
         <input
           id={emailId}
+          className="ph-no-capture"
           name="email"
           type="email"
           inputMode="email"

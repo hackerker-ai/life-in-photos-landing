@@ -33,7 +33,7 @@ export function StoryPage({ dict, lang, offer }: { dict: Dictionary; lang: Local
           <div className="wrap hero-copy">
             <h1 className="display"><Clauses text={dict.hero.title} /></h1>
             <p className="lede">{dict.hero.lede}</p>
-            <a className="btn" href="#invite">{dict.hero.cta}</a>
+            <a className="btn" href="#invite" data-cta="hero">{dict.hero.cta}</a>
           </div>
           <HeroRiver hero={dict.hero} moments={dict.moments} acts={acts} friends={dict.friends} />
         </div>
