@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { hasLocale, localePath, locales } from "@/lib/i18n";
 import { SITE_ORIGIN } from "@/lib/site";
+import { VercelAnalytics } from "@/components/site/vercel-analytics";
 import { getDictionary } from "./dictionaries";
 import { caveat, figtree, nunito } from "./fonts";
 import "@/components/site/base.css";
@@ -54,7 +55,10 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
   return (
     // The home page sets the view's height on <html> before React loads (components/story/fixed-view.tsx).
     <html lang={lang} className={`${nunito.variable} ${figtree.variable} ${caveat.variable}`} suppressHydrationWarning>
-      <body>{children}</body>
+      <body>
+        {children}
+        <VercelAnalytics />
+      </body>
     </html>
   );
 }

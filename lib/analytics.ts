@@ -41,7 +41,7 @@ function siteEnv() {
   return "preview";
 }
 
-function isInternal() {
+export function isInternal() {
   try {
     const flag = new URLSearchParams(window.location.search).get("internal");
     if (flag === "1") localStorage.setItem(INTERNAL_KEY, "1");
@@ -53,7 +53,7 @@ function isInternal() {
 }
 
 /** A URL with the unsubscribe link's email and token taken out; anything else comes back as it was. */
-function scrub(value: unknown) {
+export function scrub(value: unknown) {
   if (typeof value !== "string" || !PRIVATE_PARAMS.some((name) => value.includes(`${name}=`))) return value;
   try {
     const url = new URL(value);
