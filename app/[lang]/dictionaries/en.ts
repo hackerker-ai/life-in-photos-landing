@@ -38,13 +38,15 @@ const en = {
 
   header: {
     homeLabel: "Life in Photos, back to top",
+    /** Sticky header button on the home page. The 404 still reads `cta`. */
+    joinCta: "Join Beta",
     cta: "Find your moments"
   },
 
   hero: {
     title: "Find the photos you forgot you loved.",
     lede: "An iPhone app for the moments buried in your camera roll.",
-    cta: "Find your moments",
+    cta: "Join Beta",
     tagIn: "548 photos in",
     tagOut: "ten moments out",
     phoneLabel: "The Life in Photos app on an iPhone, going through ten moments one at a time: each comes up with its photos and title, and gets kept, saved for later or skipped.",

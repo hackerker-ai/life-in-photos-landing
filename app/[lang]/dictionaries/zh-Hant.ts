@@ -36,13 +36,15 @@ const zhHant: Dictionary = {
 
   header: {
     homeLabel: "Life in Photos，回到頁首",
+    /** Sticky header button on the home page. The 404 still reads `cta`. */
+    joinCta: "加入 Beta 測試",
     cta: "找出你的回憶"
   },
 
   hero: {
     title: "找回那些被遺忘但你深愛的照片。",
     lede: "一款 iPhone App，幫你找出埋在相簿裡的回憶。",
-    cta: "找出你的回憶",
+    cta: "加入 Beta 測試",
     tagIn: "輸入 548 張照片",
     tagOut: "找回十段回憶",
     phoneLabel: "iPhone 上的 Life in Photos App，正一段一段瀏覽十段回憶：每段回憶連同照片和標題一起出現，然後被保留、留待稍後，或略過。",

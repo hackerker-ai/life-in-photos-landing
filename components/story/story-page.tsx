@@ -25,7 +25,7 @@ export function StoryPage({ dict, lang, offer }: { dict: Dictionary; lang: Local
   return (
     <StoryProvider lang={lang}>
       <FixedView />
-      <StoryHeader lang={lang} brand={dict.brand} homeLabel={dict.header.homeLabel} cta={dict.header.cta} languageLabel={dict.languageLabel} hint={hint} />
+      <StoryHeader lang={lang} brand={dict.brand} homeLabel={dict.header.homeLabel} cta={dict.header.joinCta} languageLabel={dict.languageLabel} hint={hint} />
 
       {/* Everything below the header, which holds still on phones while the parents' notes slide (freeze.ts). */}
       <div className="story-flow">
