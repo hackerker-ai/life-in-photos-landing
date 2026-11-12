@@ -48,7 +48,7 @@ const en = {
     lede: "An iPhone app for the moments buried in your camera roll.",
     cta: "Join Beta",
     tagIn: "548 photos in",
-    tagOut: "ten moments out",
+    tagOut: "five moments out",
     phoneLabel: "The Life in Photos app on an iPhone, going through five moments one at a time: each comes up with its photos and title, and gets kept, saved for later or skipped.",
     session: {
       photos: "{n} photos",
@@ -58,8 +58,8 @@ const en = {
     }
   },
 
-  /** The ten moments the sorting scene gathers. The hero phone plays the first five, one app session. Notes are
-      first-person family journal lines. */
+  /** The moments the page can show. The sorting scene gathers the first five, and the hero phone plays those five as
+      one session. Notes are first-person family journal lines. */
   moments: {
     kingsCanyonLake: { name: "Kings Canyon lake", note: "We claimed the red chairs by the lake and stayed far longer than we planned. By the drive home, both kids were fast asleep in the back." },
     sequoiaTrail: { name: "Sequoia trail", note: "We kept tipping our heads back to see the tops of the trees. The best part was all of us squeezing inside a hollow trunk together." },
@@ -74,13 +74,13 @@ const en = {
   },
 
   dig: {
-    label: "How a camera roll becomes ten moments",
+    label: "How a camera roll becomes five moments",
     lines: [
       "Say your camera roll holds 548 photos.",
       "Life in Photos looks past the screenshots and the photos of stuff.",
       "It folds eleven takes of one candle into one.",
       "It gathers the photos that belong together.",
-      "Ten moments are ready."
+      "Five moments are ready."
     ],
     unitPhotos: "photos",
     unitMoments: "moments",

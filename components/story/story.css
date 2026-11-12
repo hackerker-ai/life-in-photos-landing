@@ -1,5 +1,5 @@
 /* Layout: one story told by scrolling. A river of camera-roll thumbnails flows into the phone and
-   comes out as Polaroids; a pinned scene sorts 548 photos into ten moments; the visitor keeps a
+   comes out as Polaroids; a pinned scene sorts 548 photos into five moments; the visitor keeps a
    few; those land on the wall beside the invitation. One look by choice: the brand's warm paper. */
 .display { font-family: var(--display); font-weight: 900; letter-spacing: -0.03em; line-height: 1.04; text-wrap: balance; }
 h2.display { font-size: clamp(2rem, 2.6vw + 1.3rem, 3.6rem); }

@@ -46,7 +46,7 @@ const zhHant: Dictionary = {
     lede: "一款 iPhone App，幫你找出埋在相簿裡的回憶。",
     cta: "加入 Beta 測試",
     tagIn: "輸入 548 張照片",
-    tagOut: "找回十段回憶",
+    tagOut: "找回五段回憶",
     phoneLabel: "iPhone 上的 Life in Photos App，正一段一段瀏覽五段回憶：每段回憶連同照片和標題一起出現，然後被保留、留待稍後，或略過。",
     session: {
       photos: "{n} 張照片",
@@ -70,13 +70,13 @@ const zhHant: Dictionary = {
   },
 
   dig: {
-    label: "相簿如何變成十段回憶",
+    label: "相簿如何變成五段回憶",
     lines: [
       "假設你的相簿裡有 548 張照片。",
       "Life in Photos 會自動略過截圖，和其他雜訊照片。",
       "同一個姿勢拍了十一張，它只留下一張。",
       "它把屬於同一段回憶的照片收在一起。",
-      "找回那十段回憶。"
+      "找回那五段回憶。"
     ],
     unitPhotos: "張照片",
     unitMoments: "段回憶",

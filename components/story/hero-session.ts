@@ -9,7 +9,7 @@ import { GROUPS, momentShots, photoSrc, type PhotoGroup } from "./photos";
 type Copy = { session: Dictionary["hero"]["session"]; moments: Dictionary["moments"]; acts: { keep: string; later: string; skip: string } };
 type Act = "keep" | "later" | "skip";
 
-/** One Find session is five moments. The sorting scene still gathers ten. */
+/** One Find session is five moments, the same five the sorting scene gathers. */
 const CHOICES: Act[] = ["keep", "keep", "later", "keep", "skip"];
 const SESSION = CHOICES.length;
 // The moments that also get opened full screen.
