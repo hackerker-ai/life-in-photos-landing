@@ -49,7 +49,7 @@ const en = {
     cta: "Join Beta",
     tagIn: "548 photos in",
     tagOut: "ten moments out",
-    phoneLabel: "The Life in Photos app on an iPhone, going through ten moments one at a time: each comes up with its photos and title, and gets kept, saved for later or skipped.",
+    phoneLabel: "The Life in Photos app on an iPhone, going through five moments one at a time: each comes up with its photos and title, and gets kept, saved for later or skipped.",
     session: {
       photos: "{n} photos",
       count: "{n} of {total}",
@@ -58,8 +58,8 @@ const en = {
     }
   },
 
-  /** The ten moments the sorting scene gathers and the hero session plays through. Notes are first-person family
-      journal lines. */
+  /** The ten moments the sorting scene gathers. The hero phone plays the first five, one app session. Notes are
+      first-person family journal lines. */
   moments: {
     kingsCanyonLake: { name: "Kings Canyon lake", note: "We claimed the red chairs by the lake and stayed far longer than we planned. By the drive home, both kids were fast asleep in the back." },
     sequoiaTrail: { name: "Sequoia trail", note: "We kept tipping our heads back to see the tops of the trees. The best part was all of us squeezing inside a hollow trunk together." },
@@ -106,7 +106,7 @@ const en = {
     trayLabel: "Moments you kept",
     trayKept: "Kept",
     endTitle: "That's the ritual.",
-    endBody: "You {tally}. In the app it's ten moments from your own camera roll, in about five minutes.",
+    endBody: "You {tally}. In the app it's five moments from your own camera roll, in about three minutes.",
     tallyKept: "kept {n}",
     tallyLater: "saved {n} for later",
     tallyJoin: " and ",
@@ -116,11 +116,11 @@ const en = {
   },
 
   how: {
-    title: "Ten moments at a time. That’s the whole app.",
-    body: "Open it whenever you have five minutes, look through ten moments, and keep the ones that feel like yours.",
+    title: "Five moments at a time. That’s the whole app.",
+    body: "Open it whenever you have five minutes, look through five moments, and keep the ones that feel like yours.",
     stepsLabel: "Three screens from the app",
     steps: [
-      { title: "Open Find", body: "Ten moments from your camera roll are ready, about five minutes’ worth." },
+      { title: "Open Find", body: "Five moments from your camera roll are ready, about three minutes’ worth." },
       { title: "Keep, Later or Skip", body: "Each moment arrives with its title and story already written." },
       { title: "Look back", body: "What you keep becomes your Moments, week by week." }
     ],
@@ -128,13 +128,13 @@ const en = {
     find: {
       date: "TUESDAY, OCT 6",
       card: "Kings Canyon lake",
-      ready: "Your next 10 are ready",
-      sub: "About 5 minutes. Your Photos library stays untouched.",
-      start: "Start these 10",
+      ready: "Your next 5 are ready",
+      sub: "About 3 minutes. Your Photos library stays untouched.",
+      start: "Start these 5",
       later: "Waiting in Later"
     },
     session: {
-      count: "4 of 10",
+      count: "4 of 5",
       title: "Sunset at the Beimen salt fields",
       meta: "11 photos · Saturday · Beimen",
       notes: "We stayed for the last light at the salt fields. The salt piles turned pink, and the baby slept through the whole sunset in the carrier.",
@@ -221,7 +221,7 @@ const en = {
   },
 
   footer: {
-    about: "Life in Photos is an iPhone app that finds the moments buried in your camera roll. It gathers your photos into moments, writes each one a title and a short note, and brings them to you ten at a time, so looking back takes minutes, not a whole weekend.",
+    about: "Life in Photos is an iPhone app that finds the moments buried in your camera roll. It gathers your photos into moments, writes each one a title and a short note, and brings them to you five at a time, so looking back takes minutes, not a whole weekend.",
     navLabel: "Footer",
     appHeading: "The app",
     how: "How it works",
@@ -257,12 +257,13 @@ const en = {
     homeLabel: "Life in Photos home",
     back: "Back to home",
     title: "Privacy policy",
-    updated: "Last updated October 28, 2026",
+    updated: "Last updated November 12, 2026",
     shortTitle: "The short version",
     short: [
       "Your photos stay on your phone and in your own iCloud. We don’t run servers that keep your photos.",
       "The app never deletes, moves or changes anything in your Photos library. Keep, Later and Skip only change what’s in the app.",
       "To write each moment’s title and note, a few small previews and a short description of the moment are sent to an AI model.",
+      "The app counts how it’s used, anonymously, and sends those counts to PostHog. They are always on, and there is no setting to turn them off. They aren’t tied to who you are, and no photos or photo content are included.",
       "We don’t sell your information, show ads, or track you across other apps and websites."
     ],
     tocLabel: "On this page",
@@ -307,6 +308,14 @@ const en = {
         ]
       },
       {
+        id: "usage",
+        title: "Usage in the app",
+        blocks: [
+          { p: "The app counts how it is used, anonymously, and sends those counts to PostHog. This is always on. There is no setting in the app to turn it off. We count opening the app, starting a session of moments in Find and finishing it (how many moments you went through, how many you kept, and how long it took), the first time you keep one in that session and how long that took, and a completed share. A share doesn’t include where it went. Coming back to the app while it’s already open doesn’t count as opening it again." },
+          { p: "These counts are numbers. They aren’t tied to your name, your email, or your Apple ID. A random ID kept on the phone tells one install from another, and the app never tells PostHog who you are. The counts don’t include your photos, or anything in a photo: no titles, notes, places, dates, people’s names, or file names. We don’t record the screen or the buttons you tap, and we ask PostHog not to work out where you are from the connection." }
+        ]
+      },
+      {
         id: "website",
         title: "This website and the beta",
         blocks: [
@@ -328,7 +337,7 @@ const en = {
               { name: "Meta", job: "Its Muse Spark model writes each moment’s title and note from the previews and description above." },
               { name: "Apple", job: "Turns approximate photo locations into place names, and runs TestFlight and iCloud." },
               { name: "Resend", job: "Sends the waitlist welcome email and the TestFlight invite, and stores the waitlist." },
-              { name: "PostHog", job: "Counts the site events described above." }
+              { name: "PostHog", job: "Counts visits to this site, and the anonymous usage counts from the app." }
             ]
           },
           { p: "We don’t sell your information or share it for advertising. We would share it with others only if the law required it." }
@@ -342,7 +351,7 @@ const en = {
             ul: [
               "Everything the app saves stays on your phone until you delete it or delete the app.",
               "We keep your waitlist email until you ask us to remove it.",
-              "Site analytics are kept for PostHog’s standard retention period."
+              "Site and app analytics are kept for PostHog’s standard retention period."
             ]
           }
         ]

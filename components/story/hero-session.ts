@@ -2,16 +2,18 @@ import type { Dictionary } from "@/app/[lang]/dictionaries";
 import { escapeHtml as esc, fill } from "@/components/site/text";
 import { GROUPS, momentShots, photoSrc, type PhotoGroup } from "./photos";
 
-/* Hero phone: a review session in the app, playing through the ten moments from the sorting scene. Each moment comes up,
-   a fingertip taps Keep, Later or Skip, the ticks fill in, and the next one arrives. The screen is laid out at the app's
-   390 pt and scaled to the phone. It is aria-hidden (the phone carries the description), so it is built as markup. */
+/* Hero phone: one review session in the app, five moments. Each moment comes up, a fingertip taps Keep, Later or Skip,
+   the ticks fill in, and the next one arrives. The screen is laid out at the app's 390 pt and scaled to the phone. It is
+   aria-hidden (the phone carries the description), so it is built as markup. */
 
 type Copy = { session: Dictionary["hero"]["session"]; moments: Dictionary["moments"]; acts: { keep: string; later: string; skip: string } };
 type Act = "keep" | "later" | "skip";
 
-const CHOICES: Act[] = ["keep", "keep", "later", "keep", "skip", "keep", "keep", "later", "keep", "keep"];
+/** One Find session is five moments. The sorting scene still gathers ten. */
+const CHOICES: Act[] = ["keep", "keep", "later", "keep", "skip"];
+const SESSION = CHOICES.length;
 // The moments that also get opened full screen.
-const FULL = [0, 3, 6];
+const FULL = [0, 3];
 const SPANS = [4, 3, 3, 3, 4, 3, 3, 3, 4, 3, 4, 3];
 const BACK = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>';
 const photo = (id: number, size: "s" | "m") => `<img src="${photoSrc(id, size)}" alt="" decoding="async">`;
@@ -28,9 +30,9 @@ function fullMarkup(g: PhotoGroup, copy: Copy) {
 
 /** The screen as it first appears (the first moment, waiting), rendered on the server. */
 export function heroScreenMarkup(copy: Copy) {
-  const ticks = Array.from({ length: 10 }, (_, k) => (k ? "<b></b>" : '<b class="now"></b>')).join("");
+  const ticks = Array.from({ length: SESSION }, (_, k) => (k ? "<b></b>" : '<b class="now"></b>')).join("");
   const acts = (["keep", "later", "skip"] as const).map((a) => `<span data-a="${a}">${esc(copy.acts[a])}<i class="tap"></i></span>`).join("");
-  return `<div class="s-top">${BACK}<div class="s-ticks">${ticks}</div><span class="s-count">${esc(fill(copy.session.count, { n: 1, total: 10 }))}</span></div><div class="hm">${momentMarkup(GROUPS[0], copy)}</div><div class="s-acts">${acts}</div><div class="fs"></div><i class="finger"></i>`;
+  return `<div class="s-top">${BACK}<div class="s-ticks">${ticks}</div><span class="s-count">${esc(fill(copy.session.count, { n: 1, total: SESSION }))}</span></div><div class="hm">${momentMarkup(GROUPS[0], copy)}</div><div class="s-acts">${acts}</div><div class="fs"></div><i class="finger"></i>`;
 }
 
 /** The scale (--z) that fits the 390 pt screen into the phone; also run inline before the first paint. */
@@ -63,7 +65,7 @@ export async function runHeroSession(screen: HTMLElement, copy: Copy, visible: (
   const moveFinger = (x: number, y: number) => { finger.style.left = `${x}px`; finger.style.top = `${y}px`; };
   const heroAt = (i: number, results: Act[]) => {
     ticks.forEach((b, k) => { b.className = k < i ? { keep: "k", later: "l", skip: "s" }[results[k]] : k === i ? "now" : ""; });
-    count.textContent = fill(copy.session.count, { n: Math.min(i + 1, 10), total: 10 });
+    count.textContent = fill(copy.session.count, { n: Math.min(i + 1, SESSION), total: SESSION });
   };
   const hm = () => $(".hm");
 
@@ -75,7 +77,7 @@ export async function runHeroSession(screen: HTMLElement, copy: Copy, visible: (
   try {
     for (;;) {
       const results: Act[] = [];
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < SESSION; i++) {
         heroAt(i, results);
         preload(i + 1);
         const body = hm();
@@ -146,11 +148,11 @@ export async function runHeroSession(screen: HTMLElement, copy: Copy, visible: (
         results.push(act);
         await sleep(340);
       }
-      heroAt(10, results);
+      heroAt(SESSION, results);
       const kept = results.filter((r) => r === "keep").length, later = results.filter((r) => r === "later").length;
       const body = hm();
       body.className = "hm in";
-      body.innerHTML = `<div class="hm-end"><b>${kept}</b><strong>${esc(copy.session.endKept)}</strong><span>${esc(fill(copy.session.endRest, { later, skipped: 10 - kept - later }))}</span></div>`;
+      body.innerHTML = `<div class="hm-end"><b>${kept}</b><strong>${esc(copy.session.endKept)}</strong><span>${esc(fill(copy.session.endRest, { later, skipped: SESSION - kept - later }))}</span></div>`;
       await wait(2600);
       body.className = "hm out-keep";
       await sleep(340);

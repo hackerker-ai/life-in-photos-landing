@@ -12,15 +12,15 @@ Parents with children of different ages, not only newborns, whose iPhone camera 
 
 ## Product Purpose
 
-Life in Photos is an iPhone app (iOS 26 or later, in beta through TestFlight) that finds the moments buried in a camera roll. It serves moments in small sessions of ten, about five minutes each, so a review never gets long. Keep saves a moment to Moments, Later holds it to decide another time, and Skip leaves it out. Over weeks the kept moments become a wall you can flip through and share. This site collects emails for the TestFlight invite.
+Life in Photos is an iPhone app (iOS 26 or later, in beta through TestFlight) that finds the moments buried in a camera roll. It serves moments in small sessions of five, about three minutes each, so a review never gets long. Keep saves a moment to Moments, Later holds it to decide another time, and Skip leaves it out. Over weeks the kept moments become a wall you can flip through and share. This site collects emails for the TestFlight invite.
 
 ## Positioning
 
-Ten ready moments at a time, already gathered and written up, instead of a cleanup chore. The library itself is never changed: Keep, Later and Skip only change what is in the app.
+Five ready moments at a time, already gathered and written up, instead of a cleanup chore. The library itself is never changed: Keep, Later and Skip only change what is in the app.
 
 ## Capabilities and Constraints
 
-- Ten moments per session (not a daily quota), about five minutes; you can stop partway and come back. Later keeps what you can't decide on.
+- Five moments per session (not a daily quota), about three minutes; you can stop partway and come back. Later keeps what you can't decide on.
 - Near-duplicate takes fold into one; screenshots and utility frames stay out of a moment.
 - Finding moments runs on the iPhone. Indexing pauses when the phone gets warm and picks up where it left off.
 - Each moment gets a title and notes by default, written by Meta's Muse Spark model through the developer's own account. The request carries up to five small previews (location and camera data removed) plus a short text description: place name, time of day, number of people, activity, and the names of people labelled in Photos. An off switch is planned for a later version; the visitor can edit what comes back.
@@ -31,7 +31,8 @@ Ten ready moments at a time, already gathered and written up, instead of a clean
 ## Legal and contact
 
 - Published under the developer's own name (exact name still to be filled in on the privacy page). Privacy and general contact: contact@hackerker.com. No postal address on the site.
-- Retention: waitlist emails are kept until the person asks to be removed; site analytics follow PostHog's standard retention.
+- In-app analytics (PostHog) are anonymous usage counts, always on, with no setting in the app to turn them off. They are not linked to identity. No photos or photo content are sent. The app counts an open, a Find session start and finish (moments reviewed, moments kept, duration), the first keep in a session and how long it took, and a completed share with no destination.
+- Retention: waitlist emails are kept until the person asks to be removed; site and app analytics follow PostHog's standard retention.
 
 ## Brand Commitments
 
