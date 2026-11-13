@@ -15,7 +15,7 @@ import { StoryProvider } from "./story-state";
 import "./story.css";
 
 /* The home page: one story told by scrolling. A river of camera-roll thumbnails flows into the phone and comes out as
-   Polaroids; a pinned scene sorts 548 photos into ten moments; the visitor keeps a few; those land on the wall beside
+   Polaroids; a pinned scene sorts 548 photos into five moments; the visitor keeps a few; those land on the wall beside
    the invitation. Ported from prototypes/story-real/index.html. */
 export function StoryPage({ dict, lang, offer }: { dict: Dictionary; lang: Locale; offer?: { lang: Locale; dict: Dictionary } }) {
   const privacyHref = localePath(lang, "/privacy");

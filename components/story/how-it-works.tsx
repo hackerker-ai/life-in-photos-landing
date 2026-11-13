@@ -66,7 +66,7 @@ export function HowItWorks({ how, brand }: { how: Dictionary["how"]; brand: stri
               <div className="s-top">
                 <Chevron back />
                 <div className="s-ticks">
-                  {Array.from({ length: 10 }, (_, i) => <b key={i} className={i < 3 ? "done" : i === 3 ? "now" : undefined} />)}
+                  {Array.from({ length: 5 }, (_, i) => <b key={i} className={i < 3 ? "done" : i === 3 ? "now" : undefined} />)}
                 </div>
                 <span className="s-count">{how.session.count}</span>
               </div>

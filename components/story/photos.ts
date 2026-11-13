@@ -23,7 +23,7 @@ export type PhotoGroup = {
   takes: number[];
 };
 
-/** Ten real moments from our own library, in the order the sorting scene and the hero session show them. */
+/** Real moments from our own library. The sorting scene and the hero session use the first five. */
 export const GROUPS: PhotoGroup[] = [
   { key: "kingsCanyonLake", keep: [11914, 11900, 11986], takes: [11947, 11840, 11897, 11998, 12001, 11910] },
   { key: "sequoiaTrail", keep: [11983, 11819, 11863], takes: [11941, 11804, 11981, 11891, 11890] },
@@ -47,7 +47,7 @@ export const JUNK = [12681, 18593, 1861, 22380, 21654, 2466, 1965, 31736, 2536, 
 /** Accidental shots from those days (the ground, a plate, the sky). They fall away with the clutter. */
 export const ACCIDENTS = [11840, 11897, 11804, 24433, 27026];
 
-/** The Polaroids that ride out of the hero phone: the ten moments' covers, then their second and third photos, so no
+/** The Polaroids that ride out of the hero phone: each moment's cover, then its second and third photos, so no
     photo comes out twice however many fit on the river. */
 export const RIVER_OUT = [0, 1, 2].flatMap((n) => GROUPS.map((group) => group.keep[n]));
 

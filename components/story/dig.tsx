@@ -9,10 +9,12 @@ import { clamp, seeded } from "./river";
 import { pageTop } from "./freeze";
 
 /* 2. The dig: a pinned scene that sorts the roll as you scroll. Clutter falls away, near-duplicates fold into their
-   moment, and the kept photos settle into ten Polaroids. With Reduce Motion, or on a screen tall enough to show it all,
+   moment, and the kept photos settle into five Polaroids. With Reduce Motion, or on a screen tall enough to show it all,
    it shows the finished sort and doesn't pin. ?p=0.5 holds the scene at a set progress, for screenshots. */
 
-const STOPS = [[0, 548], [0.12, 548], [0.36, 331], [0.58, 152], [0.84, 10], [1, 10]];
+/** One Find session, and the moments this scene gathers. */
+const MOMENTS = 5;
+const STOPS = [[0, 548], [0.12, 548], [0.36, 331], [0.58, 152], [0.84, MOMENTS], [1, MOMENTS]];
 const ease = (t: number) => 1 - Math.pow(1 - t, 3);
 
 /** Marks the scene still or held before the first paint, so it never pins and then jumps. */
@@ -47,23 +49,24 @@ export function Dig({ dig, moments, lang }: { dig: Dictionary["dig"]; moments: D
       const wide = W > 700;
       // Every tile is a different photo, so the grid holds at most as many tiles as there are photos.
       const shuffle = <T,>(list: T[]) => { for (let i = list.length - 1; i > 0; i--) { const j = Math.floor(rand() * (i + 1)); [list[i], list[j]] = [list[j], list[i]]; } return list; };
+      const scene = GROUPS.slice(0, MOMENTS);
       const extras = shuffle([
         ...JUNK.map((id) => ({ src: photoSrc(id, "x"), fall: true, group: -1 })),
         ...ACCIDENTS.map((id) => ({ src: photoSrc(id), fall: true, group: -1 })),
-        ...GROUPS.flatMap((g, group) => g.takes.filter((id) => !ACCIDENTS.includes(id)).map((id) => ({ src: photoSrc(id), fall: false, group })))
+        ...scene.flatMap((g, group) => g.takes.filter((id) => !ACCIDENTS.includes(id)).map((id) => ({ src: photoSrc(id), fall: false, group })))
       ]);
-      const total = 30 + extras.length;
+      const total = MOMENTS * 3 + extras.length;
       let cell = clamp(Math.floor(Math.sqrt((W * H) / total)), wide ? 48 : 34, wide ? 96 : 64);
       while (Math.floor(W / cell) * Math.floor(H / cell) > total) cell++;
       const cols = Math.floor(W / cell), rows = Math.floor(H / cell);
       const ox = (W - cols * cell) / 2, oy = (H - rows * cell) / 2, size = cell - Math.max(4, Math.round(cell * 0.09));
       const order = shuffle(Array.from({ length: cols * rows }, (_, i) => i));
-      const keepers = order.slice(0, 30);
+      const keepers = order.slice(0, MOMENTS * 3);
       let next = 0;
       const spot = (i: number) => [ox + (i % cols) * cell + 3, oy + Math.floor(i / cols) * cell + 3];
 
-      // Where the ten Polaroids sit, and the three photo slots inside each one.
-      const layout = wide ? [5, 5] : [2, 3, 3, 2];
+      // Where the five Polaroids sit, and the three photo slots inside each one.
+      const layout = wide ? [5] : [3, 2];
       const colW = Math.min(W / Math.max(...layout), wide ? 220 : 150), rowH = H / layout.length;
       const pw = Math.min(colW * 0.88, (rowH * 0.9) / 1.08), ph = pw * 1.08;
       const pad = pw * 0.065, cw = pw - pad * 2, chh = cw * 0.86, gap = pw * 0.02;
@@ -80,7 +83,7 @@ export function Dig({ dig, moments, lang }: { dig: Dictionary["dig"]; moments: D
           const frame = document.createElement("div");
           frame.className = "frame";
           frame.style.cssText = `width:${pw}px;height:${ph}px;transform:translate(${x}px,${y}px)`;
-          frame.innerHTML = `<span style="font-size:${Math.max(11, pw * 0.125)}px">${escapeHtml(moments[GROUPS[slots.length - 1].key].name)}</span>`;
+          frame.innerHTML = `<span style="font-size:${Math.max(11, pw * 0.125)}px">${escapeHtml(moments[scene[slots.length - 1].key].name)}</span>`;
           field.appendChild(frame);
           frames.push(frame);
         }
@@ -94,7 +97,7 @@ export function Dig({ dig, moments, lang }: { dig: Dictionary["dig"]; moments: D
         if (k >= 0) {
           const group = Math.floor(k / 3), part = k % 3;
           el.className = "t keep";
-          el.innerHTML = `<img src="${photoSrc(GROUPS[group].keep[part], "m")}" alt="" decoding="async">`;
+          el.innerHTML = `<img src="${photoSrc(scene[group].keep[part], "m")}" alt="" decoding="async">`;
           tile = { type: 2, slot: slots[group][part] };
         } else {
           const extra = extras[next++];
@@ -165,12 +168,12 @@ export function Dig({ dig, moments, lang }: { dig: Dictionary["dig"]; moments: D
         }
       }
       frames.forEach((frame, i) => { frame.style.opacity = String(ease(clamp((p - 0.68 - i * 0.008) / 0.1))); });
-      let n = 10;
+      let n = MOMENTS;
       for (let i = 1; i < STOPS.length; i++) {
         if (p <= STOPS[i][0]) { const [a, va] = STOPS[i - 1], [b, vb] = STOPS[i]; n = Math.round(va + (vb - va) * ((p - a) / (b - a))); break; }
       }
       digNum.textContent = n.toLocaleString(lang);
-      digUnit.textContent = n <= 10 ? dig.unitMoments : dig.unitPhotos;
+      digUnit.textContent = n <= MOMENTS ? dig.unitMoments : dig.unitPhotos;
       const line = p < 0.12 ? 0 : p < 0.36 ? 1 : p < 0.58 ? 2 : p < 0.84 ? 3 : 4;
       digLines.forEach((li, i) => li.classList.toggle("on", i === line));
     }

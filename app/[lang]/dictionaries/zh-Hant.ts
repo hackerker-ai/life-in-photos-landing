@@ -46,11 +46,10 @@ const zhHant: Dictionary = {
     lede: "一款 iPhone App，幫你找出埋在相簿裡的回憶。",
     cta: "加入 Beta 測試",
     tagIn: "輸入 548 張照片",
-    tagOut: "找回十段回憶",
-    phoneLabel: "iPhone 上的 Life in Photos App，正一段一段瀏覽十段回憶：每段回憶連同照片和標題一起出現，然後被保留、留待稍後，或略過。",
+    tagOut: "找回值得記住的回憶",
+    phoneLabel: "iPhone 上的 Life in Photos App，正一段一段瀏覽回憶：每段回憶連同照片和標題一起出現，然後被保留、留待稍後，或略過。",
     session: {
       photos: "{n} 張照片",
-      count: "{n} / {total}",
       endKept: "段回憶已保留",
       endRest: "{later} 段稍後再看 · {skipped} 段已略過"
     }
@@ -70,13 +69,13 @@ const zhHant: Dictionary = {
   },
 
   dig: {
-    label: "相簿如何變成十段回憶",
+    label: "相簿如何變成五段回憶",
     lines: [
       "假設你的相簿裡有 548 張照片。",
       "Life in Photos 會自動略過截圖，和其他雜訊照片。",
       "同一個姿勢拍了十一張，它只留下一張。",
       "它把屬於同一段回憶的照片收在一起。",
-      "找回那十段回憶。"
+      "找回那五段回憶。"
     ],
     unitPhotos: "張照片",
     unitMoments: "段回憶",
@@ -102,7 +101,7 @@ const zhHant: Dictionary = {
     trayLabel: "保留的回憶",
     trayKept: "已保留",
     endTitle: "這就是每天的小儀式。",
-    endBody: "你{tally}。在 App 裡，會是你自己相簿裡的十段回憶，大約五分鐘就能看完。",
+    endBody: "你{tally}。在 App 裡，會是你自己相簿裡的五段回憶，大約三分鐘就能看完。",
     tallyKept: "保留了 {n} 段",
     tallyLater: "留了 {n} 段稍後再看",
     tallyJoin: "，",
@@ -113,10 +112,10 @@ const zhHant: Dictionary = {
 
   how: {
     title: "每次就回顧幾段回憶，完全沒有壓力。",
-    body: "只需要五分鐘空檔，回顧十段回憶，把你有感覺的留下來。",
+    body: "只需要五分鐘空檔，回顧五段回憶，把你有感覺的留下來。",
     stepsLabel: "App 裡的三個畫面",
     steps: [
-      { title: "打開「尋找」", body: "相簿裡的十段回憶已經準備好，大約五分鐘就能看完。" },
+      { title: "打開「尋找」", body: "相簿裡的五段回憶已經準備好，大約三分鐘就能看完。" },
       { title: "保留、稍後或略過", body: "每段回憶出現時，標題和故事都已經寫好了。" },
       { title: "回顧", body: "你保留的，會一週一週累積成你的「回憶」。" }
     ],
@@ -124,13 +123,13 @@ const zhHant: Dictionary = {
     find: {
       date: "10 月 6 日 星期二",
       card: "Kings Canyon lake",
-      ready: "下一批 10 段已經準備好",
-      sub: "大約 5 分鐘。你的照片圖庫完全不會被更動。",
-      start: "開始這 10 段",
+      ready: "下一批 5 段已經準備好",
+      sub: "大約 3 分鐘。你的照片圖庫完全不會被更動。",
+      start: "開始這 5 段",
       later: "稍後再看"
     },
     session: {
-      count: "4 / 10",
+      count: "4 / 5",
       title: "北門鹽田的夕陽",
       meta: "11 張照片 · 星期六 · 北門",
       notes: "我們在鹽田待到最後一道光。鹽堆被染成粉紅色，寶寶在揹巾裡睡過了整場夕陽。",
@@ -216,7 +215,7 @@ const zhHant: Dictionary = {
   },
 
   footer: {
-    about: "Life in Photos 是一款 iPhone App，幫你找出埋在相簿裡的回憶。它把照片集合成一段段回憶，為每一段寫上標題和短短的記錄，每次把十段回憶呈現給你，回顧只需要幾分鐘，而不是一整個週末。",
+    about: "Life in Photos 是一款 iPhone App，幫你找出埋在相簿裡的回憶。它把照片集合成一段段回憶，為每一段寫上標題和短短的記錄，每次把五段回憶呈現給你，回顧只需要幾分鐘，而不是一整個週末。",
     navLabel: "頁尾",
     appHeading: "關於 App",
     how: "運作方式",
@@ -252,12 +251,13 @@ const zhHant: Dictionary = {
     homeLabel: "Life in Photos 首頁",
     back: "回到首頁",
     title: "隱私權政策",
-    updated: "最後更新：2026 年 10 月 28 日",
+    updated: "最後更新：2026 年 11 月 12 日",
     shortTitle: "重點摘要",
     short: [
       "你的照片會留在你的手機和你自己的 iCloud 裡。我們不會保存你的照片在任何伺服器。",
       "App 不會未經使用者決定刪除、移動或更改你照片圖庫中的任何內容。保留、稍後和略過，只會改變 App 裡的內容。",
       "為了替每段回憶寫標題和記錄，會把幾張小預覽圖和一段簡短的描述傳送給 AI 模型，但不會用為模型訓練素材。",
+      "App 會以匿名方式統計使用情形，並把這些次數傳給 PostHog。這些統計一律開啟，App 裡沒有可以關閉的設定。它們不會連結到你是誰，也不包含照片或照片裡的內容。",
       "我們不會販售你的資訊、不放廣告，也不會在其他 App 和網站上追蹤你。"
     ],
     tocLabel: "本頁內容",
@@ -301,6 +301,14 @@ const zhHant: Dictionary = {
         ]
       },
       {
+        id: "usage",
+        title: "App 裡的使用統計",
+        blocks: [
+          { p: "App 會以匿名方式統計使用情形，並把這些次數傳給 PostHog。此功能一律開啟，App 裡沒有可以關閉它的設定。我們統計的是：打開 App、在「尋找」開始一次回顧並看完（你看過幾段、保留了幾段、花了多久）、在這次回顧裡第一次按下保留時花了多久，以及一次完成的分享。分享不會記錄分享到哪裡。如果 App 還開著，你只是切回來，並不會再算一次打開。" },
+          { p: "這些統計都是數字，不會連結到你的姓名、Email 或 Apple ID。手機會保存一組隨機 ID，用來分辨這次安裝和其他安裝，App 不會告訴 PostHog 你是誰。這些統計不包含你的照片，也不包含照片裡的內容：沒有標題、記錄、地點、日期、人名或檔名。我們不會錄製畫面，也不會記錄你點了哪些按鈕，並請 PostHog 不要從連線推算你在哪裡。" }
+        ]
+      },
+      {
         id: "website",
         title: "本網站與 Beta 測試",
         blocks: [
@@ -322,7 +330,7 @@ const zhHant: Dictionary = {
               { name: "Meta", job: "它的 Muse Spark 模型會根據上述的預覽圖和描述，撰寫每段回憶的標題和記錄。" },
               { name: "Apple", job: "將照片的大致位置轉換成地點名稱，並營運 TestFlight 和 iCloud。" },
               { name: "Resend", job: "寄送候補名單的歡迎信和 TestFlight 邀請，並儲存候補名單。" },
-              { name: "PostHog", job: "統計上述的網站事件。" }
+              { name: "PostHog", job: "統計本網站的造訪，以及 App 的匿名使用次數。" }
             ]
           },
           { p: "我們不會販售你的資訊，也不會為了廣告而分享。只有在法律要求時，我們才會與他人分享。" }
@@ -336,7 +344,7 @@ const zhHant: Dictionary = {
             ul: [
               "App 儲存的所有內容都會留在你的手機上，直到你刪除它們或刪除 App。",
               "我們會保留你的候補名單 Email，直到你要求我們刪除。",
-              "網站分析資料依 PostHog 的標準保存期限保留。"
+              "網站與 App 的分析資料依 PostHog 的標準保存期限保留。"
             ]
           }
         ]
