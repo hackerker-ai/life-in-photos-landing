@@ -303,7 +303,7 @@ const en = {
         id: "places",
         title: "Place names",
         blocks: [
-          { p: "To name where a moment happened, the app sends the approximate location of a group of photos to Apple’s location service and gets a place name back. The place names are saved inside the app on your phone." }
+          { p: "To name where a moment happened, the app sends the location of a group of photos to Apple’s location service and gets a place name back. The place names are saved inside the app on your phone." }
         ]
       },
       {
