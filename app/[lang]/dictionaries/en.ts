@@ -288,14 +288,15 @@ const en = {
         id: "titles",
         title: "Titles and notes",
         blocks: [
-          { p: "Each moment comes with a title and a short note, written by an AI model: Muse Spark, made by Meta. This is on by default. A setting to turn it off is coming in a later version." },
+          { p: "Each moment comes with a title and a short note, written by an AI model: Muse Spark, made by Meta. This is on by default. Titles and notes are on; there is no setting in this version to turn them off." },
           { p: "To write them, the app sends the AI model:" },
           {
             ul: [
               "<strong>Up to five small previews</strong> of the moment’s photos, with location and camera data removed.",
-              "<strong>A short description of the moment:</strong> the place name, the time of day, how many people appear, what seems to be happening, and the names of any people you’ve labelled in the Photos app."
+              "<strong>A short description of the moment:</strong> the place name (a city or venue, never coordinates), the time span (for example “2:10 to 4:30 pm”, or a date range for a mix), how many photos it has, roughly how many people are on the cover photo, a simple scene hint worked out on the phone (such as “beach”), and the draft title and note the phone wrote first."
             ]
           },
+          { p: "Names you’ve given people in the Photos app are not sent." },
           { p: "These requests go through our own account with Meta, so you don’t need an account of your own. The model sends back a title and a note, which you can change. We use the requests only to write that title and note, and Meta handles them under its terms for developers who use its models." }
         ]
       },
@@ -303,7 +304,7 @@ const en = {
         id: "places",
         title: "Place names",
         blocks: [
-          { p: "To name where a moment happened, the app sends the approximate location of a group of photos to Apple’s location service and gets a place name back. The place names are saved inside the app on your phone." }
+          { p: "To name where a moment happened, the app sends the location of a group of photos to Apple’s location service and gets a place name back. The place names are saved inside the app on your phone." }
         ]
       },
       {
