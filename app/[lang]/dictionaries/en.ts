@@ -288,7 +288,7 @@ const en = {
         id: "titles",
         title: "Titles and notes",
         blocks: [
-          { p: "Each moment comes with a title and a short note, written by an AI model: Muse Spark, made by Meta. This is on by default. A setting to turn it off is coming in a later version." },
+          { p: "Each moment comes with a title and a short note, written by an AI model: Muse Spark, made by Meta. This is on by default. Titles and notes are on; there is no setting in this version to turn them off." },
           { p: "To write them, the app sends the AI model:" },
           {
             ul: [
