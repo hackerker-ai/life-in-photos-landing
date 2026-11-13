@@ -46,11 +46,10 @@ const zhHant: Dictionary = {
     lede: "一款 iPhone App，幫你找出埋在相簿裡的回憶。",
     cta: "加入 Beta 測試",
     tagIn: "輸入 548 張照片",
-    tagOut: "找回五段回憶",
-    phoneLabel: "iPhone 上的 Life in Photos App，正一段一段瀏覽五段回憶：每段回憶連同照片和標題一起出現，然後被保留、留待稍後，或略過。",
+    tagOut: "找回值得記住的回憶",
+    phoneLabel: "iPhone 上的 Life in Photos App，正一段一段瀏覽回憶：每段回憶連同照片和標題一起出現，然後被保留、留待稍後，或略過。",
     session: {
       photos: "{n} 張照片",
-      count: "{n} / {total}",
       endKept: "段回憶已保留",
       endRest: "{later} 段稍後再看 · {skipped} 段已略過"
     }

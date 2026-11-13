@@ -222,7 +222,9 @@ h1 { max-width: 11.4em; font-size: clamp(2.3rem, 4.6vw + 1.15rem, 4.5rem); }
   #heroMomo { left: calc(var(--ox) + 86 * var(--u)); bottom: calc(4.5 * var(--u)); }
   .tag { display: block; font-size: clamp(1.2rem, calc(2.3 * var(--u)), 2.1rem); }
   #tagIn { left: calc(var(--ox) + 30 * var(--u)); top: calc(49 * var(--u)); }
-  #tagOut { right: calc(var(--ox) + 3.5 * var(--u)); top: calc(12.5 * var(--u)); }
+  /* The outgoing label is longer than the incoming one, so it sits in the open corner above the phone
+     instead of running into it. */
+  #tagOut { right: calc(var(--ox) + 1.2 * var(--u)); top: calc(2.4 * var(--u)); }
 }
 
 /* 2. The dig: a pinned scene that sorts the roll as you scroll */

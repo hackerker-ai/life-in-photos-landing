@@ -32,7 +32,7 @@ function fullMarkup(g: PhotoGroup, copy: Copy) {
 export function heroScreenMarkup(copy: Copy) {
   const ticks = Array.from({ length: SESSION }, (_, k) => (k ? "<b></b>" : '<b class="now"></b>')).join("");
   const acts = (["keep", "later", "skip"] as const).map((a) => `<span data-a="${a}">${esc(copy.acts[a])}<i class="tap"></i></span>`).join("");
-  return `<div class="s-top">${BACK}<div class="s-ticks">${ticks}</div><span class="s-count">${esc(fill(copy.session.count, { n: 1, total: SESSION }))}</span></div><div class="hm">${momentMarkup(GROUPS[0], copy)}</div><div class="s-acts">${acts}</div><div class="fs"></div><i class="finger"></i>`;
+  return `<div class="s-top">${BACK}<div class="s-ticks">${ticks}</div></div><div class="hm">${momentMarkup(GROUPS[0], copy)}</div><div class="s-acts">${acts}</div><div class="fs"></div><i class="finger"></i>`;
 }
 
 /** The scale (--z) that fits the 390 pt screen into the phone; also run inline before the first paint. */
@@ -56,7 +56,7 @@ export async function runHeroSession(screen: HTMLElement, copy: Copy, visible: (
     await sleep(ms);
     while (!visible() || document.hidden) await sleep(300);
   };
-  const fs = $(".fs"), finger = $(".finger"), ticks = $$(".s-ticks b"), count = $(".s-count"), acts = $(".s-acts");
+  const fs = $(".fs"), finger = $(".finger"), ticks = $$(".s-ticks b"), acts = $(".s-acts");
   // Where an element sits in the screen's own 390-point space.
   const at = (el: Element, fx = 0.5, fy = 0.5): [number, number] => {
     const z = Number(screen.style.getPropertyValue("--z")) || 1, s = screen.getBoundingClientRect(), r = el.getBoundingClientRect();
@@ -65,7 +65,6 @@ export async function runHeroSession(screen: HTMLElement, copy: Copy, visible: (
   const moveFinger = (x: number, y: number) => { finger.style.left = `${x}px`; finger.style.top = `${y}px`; };
   const heroAt = (i: number, results: Act[]) => {
     ticks.forEach((b, k) => { b.className = k < i ? { keep: "k", later: "l", skip: "s" }[results[k]] : k === i ? "now" : ""; });
-    count.textContent = fill(copy.session.count, { n: Math.min(i + 1, SESSION), total: SESSION });
   };
   const hm = () => $(".hm");
 

@@ -48,11 +48,10 @@ const en = {
     lede: "An iPhone app for the moments buried in your camera roll.",
     cta: "Join Beta",
     tagIn: "548 photos in",
-    tagOut: "five moments out",
-    phoneLabel: "The Life in Photos app on an iPhone, going through five moments one at a time: each comes up with its photos and title, and gets kept, saved for later or skipped.",
+    tagOut: "memorable moments out",
+    phoneLabel: "The Life in Photos app on an iPhone, going through moments one at a time: each comes up with its photos and title, and gets kept, saved for later or skipped.",
     session: {
       photos: "{n} photos",
-      count: "{n} of {total}",
       endKept: "moments kept",
       endRest: "{later} saved for later · {skipped} skipped"
     }
